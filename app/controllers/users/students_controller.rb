@@ -1,7 +1,4 @@
-class Users::StudentsController < ApplicationController
-  before_filter :require_user
-  append_before_filter :authorized?
-  include SortHelper
+class Users::StudentsController < Users::BaseController
 
   def index
     sort_init 'last_name'

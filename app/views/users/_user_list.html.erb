@@ -31,10 +31,6 @@
         <td><%= button_to 'Delete', u, :method => :delete,
             :confirm => "Are you sure you want to delete\n\n '" + u.full_name + "'?",
             :class => 'btn negative' %></td>
-        <td><%= button_to 'Imp.', { :action => "impersonate", :id => u.id },
-            :confirm => "Are you sure you want to impersonate\n\n '" + u.full_name + "'?",
-            :class => 'btn negative sml' %></td>
-
       </tr>
     <% end %>
   </tbody>
