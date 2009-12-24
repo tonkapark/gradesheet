@@ -39,7 +39,7 @@ class Users::TeachersController < ApplicationController
 
     respond_to do |format|
       if @teacher.save
-        flash[:notice] = "Teacher was '#{@teacher.full_name}' successfully created."
+        flash[:notice] = "Teacher #{@teacher.full_name}' was successfully created."
         format.html { redirect_to(teachers_url) }
       else
         format.html { render :action => "new" }
@@ -53,7 +53,7 @@ class Users::TeachersController < ApplicationController
 
     respond_to do |format|
       if @teacher.update_attributes(params[:teacher])
-        flash[:notice] = "Teacher was '#{@teacher.full_name}' successfully updated."
+        flash[:notice] = "Teacher '#{@teacher.full_name}' was successfully updated."
         format.html { redirect_to(teachers_url) }
       else
         format.html { render :action => "edit" }
