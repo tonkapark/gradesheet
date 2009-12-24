@@ -2,23 +2,17 @@
   <%= render :partial => 'settings/settings_list' %>
 <% end %>
 
-<div class='box span-13 prepend-5 last'>
-  <% form_for :site_default do |f| -%>
-    <label>Site Name:</label><br />
-    <input type='hidden' name='update_type' value='site_name' />
-    <%= f.text_field :new_value, :id => "site_name", :value => StaticData.site_name -%>
+<% form_for @defaults, :url => update_multiple_site_defaults_path, :html => { :method => :put } do |f| -%>
 
-    <%= submit_tag 'Change', :id => "change_site_name", :class => 'btn standard' -%>
-  <% end -%>
-</div>
-
-<div class='box span-13 prepend-5 last'>
-  <% form_for :site_default do |f| -%>
-    <label>Site Tag Line:</label><br />
-    <input type='hidden' name='update_type' value='tag_line' />
-    <%= f.text_field :new_value, :id => "tag_line", :value => StaticData.tag_line -%>
-
-    <%= submit_tag 'Change', :id => "change_tag_line", :class => 'btn standard' -%>
-  <% end -%>
-</div>
+  <% @defaults.each do |default| %>
+  <div class='box span-13 prepend-5 last'>
+      <%= f.hidden_field "default_ids[]", :value => default.id %>
+      <%= f.label :name, t(default.name.downcase) %><br />
+      <%= f.text_field :value, :value => default.value %>
+  </div>
+  <% end %>
+  <div class="span-13 last">
+  <%= f.submit 'Update', :disable_with => 'Please wait...' %>
+  </div>
+<% end -%>
 

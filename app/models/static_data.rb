@@ -2,10 +2,12 @@
 # efficiently use the same data in different parts of the application and persist
 # it to the database as needed.
 class StaticData < ActiveRecord::Base
-  # Rename the database table
-  def self.table_name() 'static_data' end
+  set_table_name  "static_data"
+
+  before_save :upcase_name
 
   validates_length_of :value, :in => 1..40
+  validates_uniqueness_of :name
 
 
   # SITE_NAME  
@@ -18,8 +20,13 @@ class StaticData < ActiveRecord::Base
     return lookup('TAG_LINE')
   end
 
+protected
+
+  def upcase_name
+    self.name = name.to_s.upcase
+  end
   
-  private
+private
   # Get the static value from the database
   def self.lookup(name)
     StaticData.find_by_name(name).value

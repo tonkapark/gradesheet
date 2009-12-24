@@ -1,0 +1,24 @@
+<% content_for :left do %>
+  <%= render :partial => 'settings/settings_list' %>
+<% end %>
+
+<div class='box span-13 prepend-5 last'>
+  <% form_for :site_default do |f| -%>
+    <label>Site Name:</label><br />
+    <input type='hidden' name='update_type' value='site_name' />
+    <%= f.text_field :new_value, :id => "site_name", :value => StaticData.site_name -%>
+
+    <%= submit_tag 'Change', :id => "change_site_name", :class => 'btn standard' -%>
+  <% end -%>
+</div>
+
+<div class='box span-13 prepend-5 last'>
+  <% form_for :site_default do |f| -%>
+    <label>Site Tag Line:</label><br />
+    <input type='hidden' name='update_type' value='tag_line' />
+    <%= f.text_field :new_value, :id => "tag_line", :value => StaticData.tag_line -%>
+
+    <%= submit_tag 'Change', :id => "change_tag_line", :class => 'btn standard' -%>
+  <% end -%>
+</div>
+

@@ -3,3 +3,5 @@
 
 en:
   hello: "Hello world"
+  site_name: Site Name
+  tag_line: Site Tag Line

@@ -1,15 +1,15 @@
 class Settings::SiteDefaultsController < ApplicationController
-  def create
-    @site_data = StaticData.find_by_name(params[:update_type].upcase)
-    @site_data.value = params[:site_default][:new_value]
+  def index
+    @defaults = StaticData.find(:all, :conditions => { :name => ['TAG_LINE','SITE_NAME']})
+  end
 
-    if @site_data.save
-      flash[:notice] = params[:update_type].humanize + " changed to '#{params[:site_default][:new_value]}'."
-      expire_fragment 'layout_header'
-    else
-      flash[:error] = "Failed to update #{params[:update_type].humanize.downcase} to '#{params[:site_default][:new_value]}'!"
+  def update_multiple
+    @defaults = StaticData.find(params[:default_ids])
+    @defaults.each do |default|
+      default.update_attributes!(params[:default].reject { |k,v| v.blank? })
     end
+    flash[:notice] = "Updated static defaults!"
+    redirect_to site_defaults_path    
 
-    redirect_to :action => "index"
   end
 end

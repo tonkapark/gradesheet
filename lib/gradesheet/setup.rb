@@ -22,9 +22,9 @@ module Gradesheet
         site = Site.create!(:name => 'Main Campus', :school_id => 1)
 
         # Administrator user
-        User.create!(:login => 'admin', :first_name => 'Admin', :last_name => 'Admin',
+        Teacher.create!(:login => 'admin', :first_name => 'Admin', :last_name => 'Admin',
                      :site => site, :is_admin => true, :password_salt => Authlogic::Random.hex_token,
-                     :password => 'admin', :password_confirmation => 'admin', :email => 'admin@example.com', :type => 'Admin' )
+                     :password => 'admin', :password_confirmation => 'admin', :email => 'admin@example.com')
       end
     end
 
