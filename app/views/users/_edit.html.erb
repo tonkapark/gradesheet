@@ -29,6 +29,10 @@
       <% end %>
       <%= f.password_field :password_confirmation, :class=>'input' %>
       <br />
+      <%= f.label :school_number %>
+      <%= f.text_field :school_number, :class => 'input' %>
+      <br />     
+      
       <%= f.label :site, {}, :class => 'req' %>
       <%= collection_select user.class.name.underscore, :site_id, Site.find(:all), :id, :name, {}, :class=>'input' %>
       <br />
