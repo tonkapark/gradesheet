@@ -1,5 +1,7 @@
 class Users::TeachersController < Users::BaseController
   
+  before_filter :find_teacher, :only => [:edit, :update, :destroy]
+  
   def index
     sort_init 'last_name'
     sort_update
@@ -12,24 +14,19 @@ class Users::TeachersController < Users::BaseController
     end
   end
 
-
   # We don't really want to show an individual person but rather the listing
   # of all people.
   def show
 		redirect_to :action => :index
   end
 
-
   def new
     @teacher = Teacher.new
     render :action => :edit
   end
 
-
   def edit
-    @teacher = Teacher.find(params[:id])
   end
-
 
   def create
     @teacher = Teacher.new(params[:teacher])
@@ -44,9 +41,7 @@ class Users::TeachersController < Users::BaseController
     end
   end
 
-
   def update
-    @teacher = Teacher.find(params[:id])
 
     respond_to do |format|
       if @teacher.update_attributes(params[:teacher])
@@ -58,9 +53,7 @@ class Users::TeachersController < Users::BaseController
     end
   end
 
-
   def destroy
-    @teacher = Teacher.find(params[:id])
     @teacher.destroy
 
     respond_to do |format|
@@ -68,4 +61,9 @@ class Users::TeachersController < Users::BaseController
       format.xml  { head :ok }
     end
   end
+  
+protected
+  def find_teacher
+    @teacher = Teacher.find(params[:id])
+  end  
 end

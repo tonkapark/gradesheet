@@ -1,5 +1,7 @@
 class Users::TeacherAssistantsController < Users::BaseController
   
+  before_filter :find_ta, :only => [:edit, :update, :destroy ]
+  
   def index
     sort_init 'last_name'
     sort_update
@@ -11,7 +13,6 @@ class Users::TeacherAssistantsController < Users::BaseController
       format.js { render :partial => "users/user_list", :locals => { :users => @teacher_assistants } }
     end
   end
-
 
   # We don't really want to show an individual person but rather the listing
   # of all people.
@@ -25,7 +26,6 @@ class Users::TeacherAssistantsController < Users::BaseController
   end
 
   def edit
-    @teacher_assistant = TeacherAssistant.find(params[:id])
   end
 
   def create
@@ -44,7 +44,6 @@ class Users::TeacherAssistantsController < Users::BaseController
   end
 
   def update
-    @teacher_assistant = TeacherAssistant.find(params[:id])
 
     respond_to do |format|
       if @teacher_assistant.update_attributes(params[:teacher_assistant])
@@ -59,7 +58,6 @@ class Users::TeacherAssistantsController < Users::BaseController
   end
 
   def destroy
-    @teacher_assistant = TeacherAssistant.find(params[:id])
     @teacher_assistant.destroy
 
     respond_to do |format|
@@ -67,4 +65,9 @@ class Users::TeacherAssistantsController < Users::BaseController
       format.xml  { head :ok }
     end
   end
+  
+protected
+  def find_ta
+    @teacher_assistant = TeacherAssistant.find(params[:id])
+  end  
 end

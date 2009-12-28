@@ -1,8 +1,9 @@
 <table id="users" class="master">
   <thead>
     <tr>
+      <%= sort_header_tag('type', :title => 'Type') %>    
       <%= sort_header_tag('login', :title => 'Login') %>
-      <% form_for users.class.to_s, :html => { :method => :get } do |s| %>
+      <% form_for users.class.to_s, :html => { :method => :get } do |s| %>        
         <%= sort_header_tag('first_name', :title => 'First Name') %>
         <%= sort_header_tag('last_name', :title => 'Last Name') %>
         <%= sort_header_tag('email', :title => 'Email Address') %>
@@ -19,6 +20,7 @@
   <tbody>
     <% for u in users %>
       <tr class="<%= cycle('odd', 'even') %>" onclick="location.href='<%= url_for(u)+'/edit' %>'">
+        <td><%= u.type %></td>
         <%= content_tag :td, u.login %>
         <td><%= link_to u.first_name, url_for(u)+'/edit' %></td>
         <td><%= link_to u.last_name, url_for(u)+'/edit' %></td>

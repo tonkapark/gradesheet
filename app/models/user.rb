@@ -10,17 +10,17 @@ class User < ActiveRecord::Base
     c.validate_email_field = false
   end
   
+  before_save :upcase_school_number
+  
   belongs_to	:site
-#	has_many		:comments
 
-	validates_length_of			:first_name, :in => 1..20
-	validates_length_of			:last_name, :in => 1..20
+	validates_length_of			:first_name, :in => 1..50
+	validates_length_of			:last_name, :in => 1..80
 	validates_existence_of 	:site
-
-  # Users should be unique, so don't allow a user with the same First & Last Name
-  # in the system.
-	validates_uniqueness_of	:first_name, :scope => :last_name
-
+  validates_format_of  :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i, :allow_nil => true
+  validates_uniqueness_of :school_number, :allow_blank => true
+   
+  
 	# Search for a user using the 'will_paginate' plugin
 	def self.search(params)
     search = params[:search]
@@ -52,5 +52,11 @@ class User < ActiveRecord::Base
 		self.first_name = split.first
 		self.last_name = split.last
 	end
+  
+protected
 
+  def upcase_school_number
+    self.school_number = school_number.to_s.upcase
+  end  
+  
 end
