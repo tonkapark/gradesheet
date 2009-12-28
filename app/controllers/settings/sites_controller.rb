@@ -1,5 +1,7 @@
 class Settings::SitesController < SettingsController
-
+  
+  before_filter :find_site, :only => [:show, :edit, :update, :destroy]
+  
   def index
     @sites = Site.all
     
@@ -9,8 +11,6 @@ class Settings::SitesController < SettingsController
   end
 
   def show
-    @site = Site.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -27,7 +27,6 @@ class Settings::SitesController < SettingsController
 
 
   def edit
-    @site = Site.find(params[:id])
   end
 
 
@@ -43,7 +42,6 @@ class Settings::SitesController < SettingsController
   end
 
   def update
-    @site = Site.find(params[:id])
 
     if @site.update_attributes(params[:site])
       flash[:notice] = "Campus '#{@site.name}' was successfully updated."
@@ -54,11 +52,15 @@ class Settings::SitesController < SettingsController
   end
 
   def destroy
-    @site = Site.find(params[:id])
 
     if @site.destroy
       flash[:notice] = "Campus '#{@site.name}' was successfully deleted."
       redirect_to :action => "index"
     end
+  end
+  
+protected
+  def find_site
+    @site = Site.find(params[:id])
   end
 end

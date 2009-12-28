@@ -1,6 +1,5 @@
-<% for category in @categories %>
+<% for category in categories %>
   <div class="bo span-15">
-    <% skills = SupportingSkill.find(:all, :conditions => {:supporting_skill_category_id => category.id}) %>
     <table class="master skills">
       <thead>
         <tr>

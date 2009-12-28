@@ -1,7 +1,5 @@
 # FIXME: Meld all the sub-controllers (Students, Teachers, TA) into this controller
-class UsersController < ApplicationController
-  before_filter :require_user
-  append_before_filter :authorized?
+class UsersController < GradesheetController
   include SortHelper
 
   def index

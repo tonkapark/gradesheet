@@ -1,5 +1,7 @@
 class Settings::TermsController < SettingsController
 
+  before_filter :find_term, :only => [:show, :edit, :update, :destroy]
+  
   def index
     @terms = Term.find(:all, :order => "begin_date DESC")
 
@@ -9,8 +11,6 @@ class Settings::TermsController < SettingsController
   end
 
   def show
-    @term = Term.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -27,7 +27,6 @@ class Settings::TermsController < SettingsController
 
 
   def edit
-    @term = Term.find(params[:id])
   end
 
 
@@ -46,7 +45,6 @@ class Settings::TermsController < SettingsController
 
 
   def update
-    @term = Term.find(params[:id])
 
     respond_to do |format|
       if @term.update_attributes(params[:term])
@@ -60,11 +58,15 @@ class Settings::TermsController < SettingsController
 
 
   def destroy
-    @term = Term.find(params[:id])
     @term.destroy
 
     respond_to do |format|
       format.html { redirect_to(terms_url) }
     end
+  end
+  
+protected
+  def find_term
+    @term = Term.find(params[:id])
   end
 end

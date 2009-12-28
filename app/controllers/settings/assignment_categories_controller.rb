@@ -1,5 +1,7 @@
 class Settings::AssignmentCategoriesController < SettingsController
 
+  before_filter :find_type, :only => [:show, :edit, :update, :destroy]
+
   def index
     @types = AssignmentCategory.all
     
@@ -9,8 +11,6 @@ class Settings::AssignmentCategoriesController < SettingsController
   end
 
   def show
-    @type = AssignmentCategory.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -25,7 +25,6 @@ class Settings::AssignmentCategoriesController < SettingsController
 
 
   def edit
-    @type = AssignmentCategory.find(params[:id])
   end
 
 
@@ -43,7 +42,6 @@ class Settings::AssignmentCategoriesController < SettingsController
   end
 
   def update
-    @type = AssignmentCategory.find(params[:id])
 
     respond_to do |format|
       if @type.update_attributes(params[:assignment_category])
@@ -55,8 +53,7 @@ class Settings::AssignmentCategoriesController < SettingsController
     end
   end
 
-  def destroy
-    @type = AssignmentCategory.find(params[:id])
+  def destroy    
     @type.destroy
 
     respond_to do |format|
@@ -64,4 +61,10 @@ class Settings::AssignmentCategoriesController < SettingsController
       format.html { redirect_to(assignment_categories_url) }
     end
   end
+  
+protected
+  def find_type
+    @type = AssignmentCategory.find(params[:id])
+  end
+  
 end

@@ -9,6 +9,8 @@ class StaticData < ActiveRecord::Base
   validates_length_of :value, :in => 1..40
   validates_uniqueness_of :name
 
+  named_scope :defaults, :conditions => { :name => ['TAG_LINE','SITE_NAME']}
+
 
   # SITE_NAME  
   def self.site_name

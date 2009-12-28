@@ -1,5 +1,6 @@
 class Settings::SupportingSkillCodesController < SettingsController
-  before_filter :authorized?
+  
+  before_filter :find_skill_code, :only => [ :edit, :update, :destroy]
 
   def index
     @skill_codes = SupportingSkillCode.all(:order => :description)
@@ -14,7 +15,6 @@ class Settings::SupportingSkillCodesController < SettingsController
 
 
   def edit
-    @skill_code = SupportingSkillCode.find(params[:id])
     @valid_codes = SupportingSkillCode.valid_codes
   end
 
@@ -33,8 +33,6 @@ class Settings::SupportingSkillCodesController < SettingsController
 
 
   def update
-    @skill_code = SupportingSkillCode.find(params[:id])
-
 		## If an alternate CODE is provided then use it instead
 		if !params[:code1].empty?
 			params[:supporting_skill_code][:code] = params[:code1]
@@ -50,7 +48,6 @@ class Settings::SupportingSkillCodesController < SettingsController
 
 
   def destroy
-    @skill_code = SupportingSkillCode.find(params[:id])
     if @skill_code.destroy
       flash[:notice] = "Supporting skill code was successfully deleted."
     else
@@ -58,6 +55,11 @@ class Settings::SupportingSkillCodesController < SettingsController
     end
     
     redirect_to( supporting_skill_codes_url )
+  end
+
+protected
+  def find_skill_code
+    @skill_code = SupportingSkillCode.find(params[:id])
   end
   
 end

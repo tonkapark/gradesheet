@@ -1,6 +1,6 @@
 class Settings::SiteDefaultsController < ApplicationController
   def index
-    @defaults = StaticData.find(:all, :conditions => { :name => ['TAG_LINE','SITE_NAME']})
+    @defaults = StaticData.defaults
   end
 
   def update_multiple

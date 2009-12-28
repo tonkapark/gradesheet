@@ -1,6 +1,6 @@
-class AssignmentsController < ApplicationController
-  before_filter :require_user
-  append_before_filter :authorized?
+class AssignmentsController < GradesheetController
+  
+  before_filter :find_assigment, :only => [:edit, :update, :destroy]
   
   def show
     @course_term = CourseTerm.find(params[:id])
@@ -21,8 +21,7 @@ class AssignmentsController < ApplicationController
   end
 
 
-  def edit
-    @assignment = Assignment.find(params[:id])
+  def edit    
 	  @course_term = CourseTerm.find(@assignment.course_term_id)
   end
 
@@ -44,7 +43,6 @@ class AssignmentsController < ApplicationController
   end
 
   def update
-    @assignment = Assignment.find(params[:id])
 
     if @assignment.update_attributes(params[:assignment])
       flash[:notice] = "Assignment '#{@assignment.name}' was updated successfully."
@@ -60,7 +58,6 @@ class AssignmentsController < ApplicationController
   end
 
   def destroy
-    @assignment = Assignment.find(params[:id])
     
     if @assignment.destroy
       flash[:notice] = "Assignment '#{@assignment.name}' was deleted successfully."
@@ -72,6 +69,11 @@ class AssignmentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :action => 'show', :id => @assignment.course_term.id }
     end
+  end
+  
+protected
+  def find_assignment
+    @assignment = Assignment.find(params[:id])
   end
   
 end

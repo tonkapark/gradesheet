@@ -1,13 +1,13 @@
 class Settings::SupportingSkillCategoriesController < SettingsController
-  before_filter :authorized?
-
+  
+  before_filter :find_supporting_skills_and_category,:only => [:show, :edit]
+  before_filter :find_skill_category, :only => [ :update, :destroy]
+  
   def index
     @skill_categories = SupportingSkillCategory.all
   end
 
-  def show
-    @skill_category = SupportingSkillCategory.find(params[:id])
-    @skills = SupportingSkill.find(:all, :conditions => {:supporting_skill_category_id => params[:id]})
+  def show    
   end
 
 
@@ -18,9 +18,7 @@ class Settings::SupportingSkillCategoriesController < SettingsController
   end
 
 
-  def edit
-    @skill_category = SupportingSkillCategory.find(params[:id])
-    @skills = SupportingSkill.find(:all, :conditions => {:supporting_skill_category_id => params[:id]})
+  def edit    
   end
 
 
@@ -39,8 +37,6 @@ class Settings::SupportingSkillCategoriesController < SettingsController
 
 
   def update
-    @skill_category = SupportingSkillCategory.find(params[:id])
-
     if @skill_category.update_attributes(params[:supporting_skill_category])
       flash[:notice] = "Supporting skill category '#{@skill_category.name}' was successfully updated."
       redirect_to :action => :index
@@ -51,7 +47,6 @@ class Settings::SupportingSkillCategoriesController < SettingsController
 
 
   def destroy
-    @skill_category = SupportingSkillCategory.find(params[:id])
     if @skill_category.destroy
       flash[:notice] = "Supporting skill category '#{@skill_category.name}' was successfully deleted."
     else
@@ -59,6 +54,16 @@ class Settings::SupportingSkillCategoriesController < SettingsController
     end
     
     redirect_to :action => :index
+  end
+  
+protected
+  def find_skill_category
+    @skill_category = SupportingSkillCategory.find(params[:id])
+  end
+  
+  def find_supporting_skills_and_category
+    find_skill_category
+    @skills = SupportingSkill.by_category_id(params[:id])
   end
   
 end

@@ -1,12 +1,12 @@
 class Settings::GradingScalesController < SettingsController
-  before_filter :authorized?
+ 
+  before_filter :find_scale, :only => [:show, :edit, :update, :destroy]
 
   def index
     @scales = GradingScale.find(:all)
   end
 
   def show
-    @scale = GradingScale.find(params[:id])
   end
 
 
@@ -19,7 +19,6 @@ class Settings::GradingScalesController < SettingsController
 
 
   def edit
-    @scale = GradingScale.find(params[:id])
   end
 
 
@@ -36,7 +35,6 @@ class Settings::GradingScalesController < SettingsController
 
   def update
     params[:grading_scale][:existing_range_attributes] ||= {}
-    @scale = GradingScale.find(params[:id])
 
     if @scale.update_attributes(params[:grading_scale])
       flash[:notice] = "Grading scale '#{@scale.name}' was successfully updated."
@@ -47,7 +45,6 @@ class Settings::GradingScalesController < SettingsController
   end
 
   def destroy
-    @scale = GradingScale.find(params[:id])
     if @scale.destroy
       flash[:notice] = "Grading scale '#{@scale.name}' was successfully deleted."    
     else
@@ -58,4 +55,10 @@ class Settings::GradingScalesController < SettingsController
       format.html { redirect_to( grading_scales_url ) }
     end
   end
+
+protected
+  def find_scale
+    @scale = GradingScale.find(params[:id])
+  end
+  
 end

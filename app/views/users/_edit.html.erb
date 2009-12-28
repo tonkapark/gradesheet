@@ -34,7 +34,7 @@
       <br />               
       
       <%= f.label :site, {}, :class => 'req' %>
-      <%= collection_select user.class.name.underscore, :site_id, Site.find(:all), :id, :name, {}, :class=>'input' %>
+      <%= collection_select user.class.name.underscore, :site_id, sites, :id, :name, {}, :class=>'input' %>
       <br />
 
       <% if user.class.name == 'Student' %>
@@ -44,7 +44,7 @@
 
         <%= f.label :homeroom %>
         <%= text_field_tag :homeroom1, {}, :maxlength => 20 %>
-        <%= f.select :homeroom, @homerooms, :include_blank => true %>
+        <%= f.select :homeroom, homerooms, :include_blank => true %>
       <% end %>
       
       <% if user.class.name == 'Administrator' %>

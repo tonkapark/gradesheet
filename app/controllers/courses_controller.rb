@@ -1,6 +1,7 @@
-class CoursesController < ApplicationController
-  before_filter :require_user
-  append_before_filter :authorized?
+class CoursesController < GradesheetController
+
+  before_filter :find_course, :only => [:edit, :remove_student, :add_student]
+  before_filter :find_grade_scales, :only => [:edit, :new]
   after_filter :expire_cache, :only => [:create, :update, :destroy]
 
   def new
@@ -9,10 +10,10 @@ class CoursesController < ApplicationController
     @school_years = SchoolYear.active
   end
 
-  def edit
-    @course = Course.find(params[:id])
+  def edit    
     @homerooms = Student.find_homerooms()
     @skill_cats = SupportingSkillCategory.active
+    
     
 		respond_to do |format|
 			format.html
@@ -81,8 +82,8 @@ class CoursesController < ApplicationController
   end
 
 
-  def destroy
-    @course = Course.find(params[:id]).destroy
+  def destroy  
+    @course.destroy
 
     flash[:notice] = "Course '#{@course.name}' was successfully deleted."
     redirect_to :action => :index
@@ -90,7 +91,6 @@ class CoursesController < ApplicationController
 
  	# Add student(s) to a course  
   def add_student
-		@course = Course.find(params[:id])
 
     # Are we adding one student or an array of students?
     if params[:students]
@@ -120,7 +120,6 @@ class CoursesController < ApplicationController
 
   # Remove a student from a course
   def remove_student
- 		@course = Course.find(params[:id])
  		@student = Student.find(params[:student_id])
  		@add = false
  		
@@ -140,6 +139,15 @@ class CoursesController < ApplicationController
     render :nothing => true
   end
 
+protected
+  def find_assignment
+    @course = Course.find(params[:id])
+  end
+  
+  def find_grade_scales
+    @grade_scales = GradingScale.find(:all)
+  end
+    
   private
 
   def expire_cache

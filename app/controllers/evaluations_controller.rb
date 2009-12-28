@@ -1,6 +1,4 @@
-class EvaluationsController < ApplicationController
-  before_filter :require_user
-  append_before_filter :authorized?
+class EvaluationsController < GradesheetController
 
   def show
     @course_term  = CourseTerm.find(params[:id])

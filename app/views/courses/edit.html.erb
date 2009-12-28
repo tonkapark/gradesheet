@@ -12,7 +12,7 @@
       <%= f.text_field :name %>
       <br />
       <%= f.label :grading_scale_id, {}, :class => 'req' %>
-      <%= collection_select :course, :grading_scale_id, GradingScale.find(:all), :id, :name %>
+      <%= collection_select :course, :grading_scale_id, @grade_scales, :id, :name %>
     <% end %>
 
     <div class="spacer">

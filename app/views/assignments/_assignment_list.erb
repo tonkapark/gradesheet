@@ -1,7 +1,7 @@
 <table class='master sortable'>
   <thead>
     <tr>
-      <th>Assignment Name <%= h '(' + @assignments.size.to_s + ')'%></th>
+      <th>Assignment Name <%= h '(' + assignments.size.to_s + ')'%></th>
       <th>Possible points</th>
       <th>Type</th>
       <th>Due Date</th>
@@ -17,10 +17,10 @@
       </td>
     </tr>
 
-    <% if @assignments.blank? %>
+    <% if assignments.blank? %>
       <tr><td colspan='0'>No Assignments Found</td></tr>
     <% else %>
-      <% for assignment in @assignments %>
+      <% for assignment in assignments %>
       <% evaluations = assignment.assignment_evaluations.empty? %>
         <tr class="<%= cycle('odd', 'even') %>" onclick="location.href='<%= url_for( :action => :edit, :id => assignment.id ) %>'">
           <%= content_tag :td, assignment.name %>

@@ -5,5 +5,5 @@
 <%= error_messages_for :skill, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
 
 <div id="skill_categories">
-  <%= render :partial => 'skill_categories' %>
+  <%= render :partial => 'skill_categories', :locals => {:skills => @skills} %>
 </div>

@@ -1,11 +1,13 @@
 class Settings::QuickCommentsController < SettingsController
-
+  
+  before_filter :find_qc, :only => [:show, :edit, :update, :destroy]
+  
   def index
     @quick_comments = QuickComment.all
   end
 
   def show
-    @quick_comment = QuickComment.find(params[:id])
+    
   end
 
 
@@ -17,7 +19,7 @@ class Settings::QuickCommentsController < SettingsController
 
 
   def edit
-    @quick_comment = QuickComment.find(params[:id])
+    
   end
 
 
@@ -33,7 +35,6 @@ class Settings::QuickCommentsController < SettingsController
   end
 
   def update
-    @quick_comment = QuickComment.find(params[:id])
 
     if @quick_comment.update_attributes(params[:quick_comment])
       flash[:notice] = "Quick comment was successfully updated."
@@ -44,11 +45,15 @@ class Settings::QuickCommentsController < SettingsController
   end
 
   def destroy
-    @quick_comment = QuickComment.find(params[:id])
 
     if @quick_comment.destroy
       flash[:notice] = "Quick comment was successfully deleted."
       redirect_to :action => "index"
     end
+  end
+  
+protected
+  def find_qc
+    @quick_comment = QuickComment.find(params[:id])
   end
 end

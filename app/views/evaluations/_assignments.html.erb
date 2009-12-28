@@ -13,7 +13,7 @@
 </form>
 
 <span class="paginate" id="assignments_pagination" name="assignments">
-  <%= will_paginate @assignments,
+  <%= will_paginate assignments,
     :renderer       => 'RemoteLinkRenderer',
     :remote         => {:update => 'assignments', :loading => "show_message('assignments');"},
     :previous_label => '« Newer',

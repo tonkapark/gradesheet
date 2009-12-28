@@ -8,4 +8,5 @@ class SupportingSkill < ActiveRecord::Base
   validates_presence_of   :supporting_skill_category
 
   named_scope :active, :conditions => { :active => true }
+  named_scope :by_category_id, lambda { |*args| {:conditions => {:supporting_skill_category_id => args.first} } }
 end

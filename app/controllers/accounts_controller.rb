@@ -2,6 +2,8 @@ class AccountsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => :destroy
 
+  before_filter :find_user, :only => [:edit, :update]
+
   def new
     @user = User.new
   end
@@ -21,11 +23,9 @@ class AccountsController < ApplicationController
   end
 
   def edit
-    @user = current_user
   end
 
   def update
-    @user = current_user # makes our views "cleaner" and more consistent
 
     # Since we have different types of users (Student, Teacher, etc.)
     # we have to grab the correct parms to update.
@@ -44,5 +44,11 @@ class AccountsController < ApplicationController
       render :action => :edit
     end
   end
+  
+protected
+  def find_user
+    @user = current_user
+  end
+  
 end
 

@@ -1,5 +1,7 @@
 class Settings::SchoolYearsController < SettingsController
-  after_filter :expire_cache, :only => [:create, :update, :destroy]
+  
+  before_filter :find_year, :only => [:edit, :update, :destroy]
+  after_filter :expire_cache, :only => [:create, :update, :destroy]  
 
   def index
     @years = SchoolYear.all(:order => "end_date DESC", :include => :terms)
@@ -17,7 +19,6 @@ class Settings::SchoolYearsController < SettingsController
 
 
   def edit
-    @year = SchoolYear.find(params[:id])
   end
 
 
@@ -35,8 +36,6 @@ class Settings::SchoolYearsController < SettingsController
 
   def update
     params[:school_year][:existing_term_attributes] ||= {}
-
-    @year = SchoolYear.find(params[:id])
     
     if @year.update_attributes(params[:school_year])
       flash[:notice] = "School year '#{@year.name}' was successfully updated."
@@ -48,7 +47,6 @@ class Settings::SchoolYearsController < SettingsController
 
 
   def destroy
-    @year = SchoolYear.find(params[:id])
     if @year.destroy
       flash[:notice] = "School year '#{@year.name}' was successfully deleted."
     else
@@ -57,7 +55,12 @@ class Settings::SchoolYearsController < SettingsController
     redirect_to :action => :index
   end
 
-  private
+protected
+  def find_year
+    @year = SchoolYear.find(params[:id])
+  end
+  
+private
 
   def expire_cache
     expire_fragment %r{course_list_*}   # Expire all the course caches
