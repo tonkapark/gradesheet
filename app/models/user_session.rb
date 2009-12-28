@@ -18,6 +18,7 @@ class UserSession < Authlogic::Session::Base
       controller.session[:authorize] = [
         ['Home', 'dashboard'],
         ['Users', 'users'],
+        ['', 'administrators'],
         ['', 'students'],
         ['', 'teachers'],
         ['', 'teacher_assistants'],
@@ -39,6 +40,10 @@ class UserSession < Authlogic::Session::Base
       ]
     else
       case record[:type].downcase
+      when 'administrator'
+        controller.session[:authorize] = [
+          ['Home', 'dashboard'],
+          ['Reports', 'reports']]        
       when 'teacher'
         controller.session[:authorize] = [
           ['Home', 'dashboard'],
@@ -46,6 +51,12 @@ class UserSession < Authlogic::Session::Base
           ['Assignments', 'assignments'],
           ['Evaluations', 'evaluations'],
           ['Reports', 'reports']]
+      when 'teacher_assistant'
+        controller.session[:authorize] = [
+          ['Home', 'dashboard'],
+          ['Assignments', 'assignments'],
+          ['Evaluations', 'evaluations']
+          ]          
       when 'student'
         controller.session[:authorize] = [
           ['Home', 'dashboard'],

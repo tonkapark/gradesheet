@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class StudentTest < ActiveSupport::TestCase
-	fixtures :users
+	#fixtures :users
 	
 	def setup
     @student = Student.first

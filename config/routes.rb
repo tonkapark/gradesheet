@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
     u.resources :students
     u.resources :teachers
     u.resources :teacher_assistants
+    u.resources :administrators
   end
 	
   # Settings consists of many different, often unrelated, things.  The most

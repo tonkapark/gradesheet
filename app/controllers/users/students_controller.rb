@@ -1,7 +1,7 @@
 class Users::StudentsController < Users::BaseController
 
   before_filter :find_student, :only => [:edit, :update, :destroy ]
-  before_filter :load_homerooms, :only => [:new, :edit]
+  before_filter :load_homerooms, :only => [:new, :edit, :create]
   
   def index
     sort_init 'last_name'

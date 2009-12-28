@@ -38,7 +38,8 @@ class User < ActiveRecord::Base
 		    'ALL'       => Users, 
 		    'Teachers'  => Teacher, 
 		    'Students'  => Student, 
-		    'Teacher Assistants' => TeacherAssistant}
+		    'Teacher Assistants' => TeacherAssistant,
+        'Administrators' => Administrator}
 	end
 
 	# Convienience method to display the users full name.

@@ -31,7 +31,7 @@
       <br />
       <%= f.label :school_number %>
       <%= f.text_field :school_number, :class => 'input' %>
-      <br />     
+      <br />               
       
       <%= f.label :site, {}, :class => 'req' %>
       <%= collection_select user.class.name.underscore, :site_id, Site.find(:all), :id, :name, {}, :class=>'input' %>
@@ -46,6 +46,12 @@
         <%= text_field_tag :homeroom1, {}, :maxlength => 20 %>
         <%= f.select :homeroom, @homerooms, :include_blank => true %>
       <% end %>
+      
+      <% if user.class.name == 'Administrator' %>
+        <%= f.label :is_admin, "System Admin" %>
+        <%= f.check_box :is_admin, :class => 'input' %>
+        <br class="clear" />     
+      <% end %>      
 
       <div class="spacer">
         <%= submit_tag 'Save', :class => 'btn positive' %>

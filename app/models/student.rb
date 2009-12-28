@@ -10,7 +10,8 @@ class Student < User
   has_one    :comment, :as => :commentable
 
 	validates_length_of	:homeroom, :maximum => 20
-	
+	validate :is_not_admin
+  
 	from_year = Time.now.year - 1
 	to_year = from_year + 10
 	validates_inclusion_of :class_of, 
@@ -35,5 +36,10 @@ class Student < User
       :conditions => "class_of is not null",
       :order      => "class_of"
       )
-  end
+    end
+    
+  def is_not_admin
+    errors.add_to_base("Student cannot be given admin priveleges") if is_admin? 
+  end  
+    
 end
