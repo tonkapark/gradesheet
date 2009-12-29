@@ -34,10 +34,11 @@ it should run on any system that runs Rails.
 2. Add the dependencies noted in the Requirements section
 3. Modify <tt>database.yml</tt> to point to your database
 4. Run <tt>rake db:migrate</tt> to create the database schema
-5. Run <tt>rake gradesheet:setup</tt> to create admin user and site defaults.
-5. Run <tt>rake db:fixtures:load</tt> to load the text/fixtures data. (safe only for dev/test)
-6. Run <tt>./script/server</tt> to start the development web server
-7. Fire up your web browser and point it to http://localhost:3000
+5. Run <tt>rake gradesheet:setup</tt> to create admin user
+6  Edit config/gradesheet.yml with SiteName and TagLine to be displayed in App
+7. Run <tt>rake db:fixtures:load</tt> to load the text/fixtures data. (safe only for dev/test)
+8. Run <tt>./script/server</tt> to start the development web server
+9. Fire up your web browser and point it to http://localhost:3000
 
 == Building Documentation
 Gradesheet is documented using the standard, built-in RDoc system.  To build 
