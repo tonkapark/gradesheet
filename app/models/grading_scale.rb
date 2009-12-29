@@ -5,6 +5,7 @@ class GradingScale < ActiveRecord::Base
   
 	has_many	:courses
 	has_many  :scale_ranges, :dependent => :destroy
+  accepts_nested_attributes_for :scale_ranges, :allow_destroy => true, :reject_if => proc { |a| a['max_score'].blank? }
 	
 	validates_length_of     :name, :within => 1..20
 	validates_uniqueness_of :name, :case_sensitive => false
@@ -21,29 +22,6 @@ class GradingScale < ActiveRecord::Base
 
     return letter_grade
   end
-
-  # Save new grade ranges
-  def new_range_attributes=(range_attributes)
-    # Remove invalid ranges
-    range_attributes.reject!{|i| i[:letter_grade].blank? || i[:min_score].blank?}
-    
-    range_attributes.each do |attributes|
-      scale_ranges.build(attributes)
-    end
-  end
-
-  # Save changes to existing grade ranges
-  def existing_range_attributes=(range_attributes)
-    scale_ranges.reject(&:new_record?).each do |range|
-      attributes = range_attributes[range.id.to_s]
-      if attributes
-        range.attributes = attributes
-      else
-        scale_ranges.delete(range)
-      end
-    end
-  end
-
 
 private		
 

@@ -1,12 +1,11 @@
 class CoursesController < GradesheetController
 
   before_filter :find_course, :only => [:edit, :remove_student, :add_student]
-  before_filter :find_grade_scales, :only => [:edit, :new]
+  before_filter :find_grade_scales_and_teachers, :only => [:edit, :new]
   after_filter :expire_cache, :only => [:create, :update, :destroy]
 
   def new
     @course = Course.new
-    @teacher = Teacher.find(current_user)
     @school_years = SchoolYear.active
   end
 
@@ -36,11 +35,10 @@ class CoursesController < GradesheetController
 		end  end
 
   def create
-    @course       = Course.new(params[:course])
-    @school_years = SchoolYear.active
+    @course       = Course.new(params[:course])    
     
     # Force the course to be created by the current user
-		@course.teacher = current_user
+		#@course.teacher = current_user
 
     # Insert the grading terms
     @course.terms << SchoolYear.find(params[:school_year][:id]).terms
@@ -49,6 +47,8 @@ class CoursesController < GradesheetController
       flash[:notice] = "Course '#{@course.name}' was successfully created."
       redirect_to(courses_url)
     else
+      find_grade_scales_and_teachers      
+      @school_years = SchoolYear.active
       render :action => "new"
     end
    
@@ -144,8 +144,9 @@ protected
     @course = Course.find(params[:id])
   end
   
-  def find_grade_scales
+  def find_grade_scales_and_teachers
     @grade_scales = GradingScale.find(:all)
+    @teachers = Teacher.find(:all)
   end
     
   private

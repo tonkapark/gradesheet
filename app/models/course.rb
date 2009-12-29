@@ -1,5 +1,8 @@
 # Contains the information about each course for each teacher.
 class Course < ActiveRecord::Base
+  
+  attr_accessible :name, :code, :grading_scale_id, :teacher_id
+  
   before_destroy 	:ensure_no_children
   
   belongs_to	:teacher
@@ -10,6 +13,7 @@ class Course < ActiveRecord::Base
   has_many    :terms,     :through => :course_terms
   has_many		:students,  :through => :enrollments
 
+  validates_presence_of :code, :name
   validates_existence_of :teacher, :message => "isn't a known teacher."
   validates_existence_of :grading_scale
   
