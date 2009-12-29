@@ -1,3 +1,11 @@
+<% javascript 'prototype', 'scriptaculous', 'livepipe', 'tabs', 'scal', 'tablekit', 'event.simulate', 'application' %>
+<% content_for :head  do %>
+  <% javascript_tag do %>
+    TableKit.options.rowEvenClass = 'even';
+    TableKit.options.rowOddClass = 'odd';
+  <% end %>
+<% end %>
+
 <% content_for :left do %>
   <%= show_course_list %>
 <% end %>
@@ -30,7 +38,7 @@
 <%#= observe_form "edit_course_#{@course.id}", :url => {:action => :update} %>
 </div>
 
-<div id="students"><%= render :partial => "students_tab" %></div>
+<div id="students"><%= render :partial => "students_tab", :locals => { :course => @course } %></div>
 
 <% @course.course_terms.sort!{ |a,b| a.term.end_date <=> b.term.end_date } %>
 

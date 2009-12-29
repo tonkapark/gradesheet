@@ -140,7 +140,7 @@ class CoursesController < GradesheetController
   end
 
 protected
-  def find_assignment
+  def find_course
     @course = Course.find(params[:id])
   end
   

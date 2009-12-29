@@ -27,11 +27,11 @@
 
 
     <div id='student_list' class='span-6'>
-      <%= render :partial => 'student_list', :locals => { :students => @students.sort_by &:last_name} %>
+      <%= render :partial => 'student_list', :locals => { :students => @students} %>
     </div>
 
     <div id='enrolled_students' class='span-7 last'>
-      <%= render :partial => 'enrolled_students', :locals => {:enrollments => @course.enrollments, :students = @course.students.sort_by &:last_name} %>
+      <%= render :partial => 'enrolled_students', :locals => {:enrollments => course.enrollments, :students => course.students} %>
     </div>
   </div>
 </div>

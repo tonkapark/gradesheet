@@ -6,23 +6,13 @@
 
     <%= stylesheet_link_tag 'screen', 'menu', 'tabs', 'local', :cache => false -%>
 
-    <% javascript_include_tag "http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.3/prototype" -%>
-    <% javascript_include_tag "http://ajax.googleapis.com/ajax/libs/scriptaculous/1.8.2/scriptaculous" -%>
-
-    <% javascript_include_tag 'livepipe', 'tabs', 'scal', 'tablekit', 'event.simulate', 'application', :cache => false -%>
-    <% javascript_tag do %>
-      TableKit.options.rowEvenClass = 'even';
-      TableKit.options.rowOddClass = 'odd';
-    <% end %>
-    
     <%= yield(:head) %>
-    <%= @content_for_page_header -%>
-    
+    <%= @content_for_page_header -%>    
     
   </head>
 
   <body>
-    <div class='container showgri'>
+    <div class='container'>
       <div id='header' class='span-25 last'>
 
         <div class='span-2'>
