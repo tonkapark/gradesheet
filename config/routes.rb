@@ -25,7 +25,6 @@ ActionController::Routing::Routes.draw do |map|
     s.resources :supporting_skill_codes,:name_prefix => nil
     s.resources :supporting_skill_categories,:name_prefix => nil
     s.resources :sites,                 :name_prefix => nil
-    s.resources :site_defaults,         :name_prefix => nil, :collection => {:update_multiple => :put}
     s.resources :imports,               :name_prefix => nil
     s.resources :assignment_categories, :name_prefix => nil
   end

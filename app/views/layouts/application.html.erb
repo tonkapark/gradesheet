@@ -2,7 +2,7 @@
 <html lang='en'>
   <head>
     <meta charset='UTF-8'>
-    <title><%= StaticData.site_name %> - <%= controller.controller_name.humanize %></title>
+    <title><%= Gradesheet[:site_name]  %> - <%= controller.controller_name.humanize %></title>
 
     <%= stylesheet_link_tag 'screen', 'menu', 'tabs', 'local', :cache => false -%>
 
@@ -20,7 +20,6 @@
   </head>
 
   <body>
-
     <div class='container showgri'>
       <div id='header' class='span-25 last'>
 
@@ -30,8 +29,8 @@
 
         <% cache 'layout_header' do %>
         <div class='span-12'>
-          <span class='title last'><%= StaticData.site_name %></span>
-          <span class='tagline column span-12'><%= StaticData.tag_line %></span>
+          <span class='title last'><%= Gradesheet[:site_name] %></span>
+          <span class='tagline column span-12'><%= Gradesheet[:tag_line] %></span>
         </div>
         <% end %>
 

@@ -1,0 +1,15 @@
+DEFAULTS: &DEFAULTS
+  site_name: GradeSheet App
+  tag_line: Grading and reporting online
+
+development:
+  domain: localhost
+  <<: *DEFAULTS
+
+test:
+  domain: gradesheet.com
+  <<: *DEFAULTS
+
+production:
+  domain: gradesheet.com
+  <<: *DEFAULTS
