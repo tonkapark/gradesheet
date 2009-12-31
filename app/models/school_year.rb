@@ -2,8 +2,10 @@ class SchoolYear < DateRange
   after_update :save_terms
 
   has_many  :terms, :dependent => :destroy
-
+  accepts_nested_attributes_for :terms, :allow_destroy => true, :reject_if => proc { |a| a['name'].blank? }
+  
   validates_length_of		:name, :within => 1..20
+  validates_uniqueness_of :name, :case_sensitive => false
   validates_associated  :terms, :message => "are not correct."
 
   # Find the current school year
@@ -34,28 +36,6 @@ class SchoolYear < DateRange
     self.terms.sort{|a,b| a.end_date <=> b.end_date}.last.end_date
   end
   
-  # Create new terms for this school year
-  def new_term_attributes=(term_attributes)
-    # FIXME - Remove all "bad" attributes (empty active? checkboxes)
-    term_attributes.reject!{|i| i[:name].blank?}
-
-    term_attributes.each do |attributes|
-      terms.build(attributes)
-    end
-  end
-
-  # Update the existing terms for this school year
-  def existing_term_attributes=(term_attributes)
-    terms.reject(&:new_record?).each do |term|
-      attributes = term_attributes[term.id.to_s]
-      if attributes
-        term.attributes = attributes
-      else
-        terms.delete(term)
-      end
-    end
-  end
-
   # Make sure the terms save without validation
   def save_terms
     terms.each do |term|

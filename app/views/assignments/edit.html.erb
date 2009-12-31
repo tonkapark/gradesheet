@@ -1,54 +1,9 @@
-<% content_for :page_header do %>
-  <%= stylesheet_link_tag 'mycal' -%>
-<% end %>
-
-<% content_for :left do %>
-  <%= show_course_term_list %>
-<% end %>
+<h2>Section <%= @course_term.code %></h2>
 
 <%= error_messages_for :assignment, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
 
 <div class='box span-13 last'>
-  <% form_for(@assignment) do |f| %>
-    <fieldset>
-      <% header = @assignment.name? ? "Editing: #{@assignment.name}" : "New Assignment" %>
-      <%= content_tag :legend, header %>
-      <%= f.hidden_field :course_term_id, :value => @course_term.id %>
-
-      <%= f.label :name, {}, :class => 'req' %>
-      <%= f.text_field :name, :class => "focus" %>
-      <br />
-      <%= f.label :possible_points, {}, :class => 'req' %>
-      <%= f.text_field :possible_points %>
-      <br />
-      <%= f.label :assignment_category_id, 'Type', :class => 'req' %>
-      <%= collection_select :assignment, :assignment_category_id, AssignmentCategory.find(:all), :id, :name %>
-      <br />
-
-      <%= f.label :due_date %>
-      <%= f.hidden_field :due_date %>
-      <span id='due_date' class='scal tinyscal'></span>
-      <input id='default_due_date' type='hidden'
-             value='<%= @assignment.due_date? ? @assignment.due_date.to_s(:long) : DateTime.now.to_s(:long) %>' />
-
-      <div class='spacer'>
-        <%= submit_tag "Save", :name => "assignments", :class=> 'btn positive' %>
-        <%= link_to 'Cancel', assignment_path(@course_term), :class => 'btn standard' %>
-        <%= submit_tag "Evaluate", :name => "evaluations", :class=> "btn standard" %>
-      </div>
-    </fieldset>
+  <% form_for @assignment do |f| %>
+    <%= render :partial => 'form', :locals => {:f => f, :assignment => @assignment } %>
   <% end %>
-</div>
-
-<% content_for :page_footer do %>
-  <% javascript_tag do %>
-    function updateDueDate(d) {
-      // Convert this date to a valid timestamp and push it into the assignment due date
-      $('assignment_due_date').value = d.format('yyyy-mm-dd 00:00:01');
-    }
-    due_date = new scal('due_date', updateDueDate, {closebutton: ''});
-    default_due_date = new Date ($('default_due_date').readAttribute('value'));
-    due_date.setCurrentDate(default_due_date);
-  <% end %>
-<% end %>
-
+</div>    

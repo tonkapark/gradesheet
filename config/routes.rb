@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   # logical way to group them together is to build individual controllers
   # and house them under the Settings "master" controller.
   map.namespace :settings do |s|
-    s.resources :grading_periods,       :name_prefix => nil, :controller => "school_years"
+    s.resources :school_years,       :name_prefix => nil, :controller => "school_years", :as => "grading_periods"
     s.resources :events,                :name_prefix => nil
     s.resources :grading_scales,        :name_prefix => nil
     s.resources :supporting_skills,     :name_prefix => nil
@@ -32,7 +32,7 @@ ActionController::Routing::Routes.draw do |map|
 	# Build the standard routes
   map.resources :user_sessions
   map.resources :dashboard
-  map.resources :assignments
+  
   map.resources :reports
   map.resources :settings
   map.resources :grades
@@ -41,6 +41,11 @@ ActionController::Routing::Routes.draw do |map|
   # do with AJAX updating and things like that.
   map.resources :evaluations, :member => { :update_grade => :post, :update_skill => :post }
   map.resources :courses, :member => { :add_student => :post, :remove_student => :delete, :toggle_accommodation => :post }
+  
+  map.resources :course_terms, :as => 'course_offerings', :has_many => { :assignments => :assignment_evaluations}, :shallow => true
+  map.resources :assignments, :only => [:index], :member => { :evaluate => :put }
+  #map.resources :assignments, :only => [:index]
+  map.resources :enrollments, :only => [:create]
 
   # By default, we want the user to see the "dashboard" page.
   map.root :controller => "dashboard"

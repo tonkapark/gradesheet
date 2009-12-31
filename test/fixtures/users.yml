@@ -1,5 +1,6 @@
 studenta:
   type: Student
+  school_code: STA001
   site: campus1
   login: studenta
   first_name: Student
@@ -15,6 +16,7 @@ studenta:
   
 studentb:
   type: Student
+  school_code: STB001  
   site: campus1
   login: studentb
   first_name: Student
@@ -30,6 +32,7 @@ studentb:
 
 teachera:
   type: Teacher
+  school_code: TE001  
   site: campus2
   login: teachera
   first_name: Teacher
@@ -43,6 +46,7 @@ teachera:
   
 teacherb:
   type: Teacher
+  school_code: TE002
   site: campus1
   login: teacherb
   first_name: Teacher
@@ -56,6 +60,7 @@ teacherb:
 
 teacherass:
   type: TeacherAssistant
+  school_code: TA001  
   site: campus1
   login: taa
   first_name: T.A.
@@ -69,6 +74,7 @@ teacherass:
 
 admin:
   type: Teacher
+  school_code: TE003-AD
   site: campus1
   login: admin
   first_name: Mr.
@@ -83,6 +89,7 @@ admin:
 
 s1:
   type: Student
+  school_code: ST00134
   site: campus1
   login: ls1
   first_name: Steve
@@ -98,6 +105,7 @@ s1:
 
 s2:
   type: Student
+  school_code: ST23f134
   site: campus1
   login: ls2
   first_name: Jane
@@ -113,6 +121,7 @@ s2:
 
 s3:
   type: Student
+  school_code: ST0Er430134  
   site: campus1
   login: ls3
   first_name: John
@@ -127,6 +136,7 @@ s3:
 
 s4:
   type: Student
+  school_code: ST0453tref 
   site: campus1
   login: ls4
   first_name: Robert
@@ -142,6 +152,7 @@ s4:
 
 s5:
   type: Student
+  school_code: ST0E987654 
   site: campus1
   login: ls5
   first_name: Billy
@@ -157,6 +168,7 @@ s5:
 
 s6:
   type: Student
+  school_code: ST23regfg5
   site: campus1
   login: ls6
   first_name: Stephen
@@ -170,30 +182,14 @@ s6:
   single_access_token: <%= Authlogic::Random.friendly_token %>
   perishable_token: <%= Authlogic::Random.friendly_token %>
 
-<%
-  @@words = File.open("/usr/share/dict/words").collect do |line|
-    line.strip
-  end
-
-# provide a string with num random words in it.
-  def self.random_words(num = 1)
-    w = []
-    num.times do
-      w << @@words[rand(@@words.size)]
-    end
-    w.join(" ")
-  end
-
-%>
-
 <% for t in 1..30 %>
 user_<%= t %>:
-  <% first_name = random_words(1).downcase %> 
   type: Teacher
   site: campus1
-  login: <%= t * t %>
-  first_name: <%= first_name.capitalize %> 
-  last_name: <%= random_words(1).capitalize %>
+  school_code: <% "TE#{rand(1-999999999)}" %>
+  login: <%= Faker::Internet.user_name("user_#{t}") %>
+  first_name: <%= Faker::Name.first_name %> 
+  last_name: <%=  Faker::Name.last_name %>
   password_salt: <%= salt = Authlogic::Random.hex_token %>
   crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt(first_name + salt) %>
   persistence_token: <%= Authlogic::Random.friendly_token %>
@@ -203,12 +199,12 @@ user_<%= t %>:
 
 <% for i in 100..125 %>
 user_<%= i %>:
-  <% first_name = random_words(1).downcase %> 
   type: Student
+  school_code: <% "ST#{rand(1-999999999)}" %>  
   site: campus1
-  login: <%= i * i %>
-  first_name: <%= first_name.capitalize %> 
-  last_name: <%= random_words(1).capitalize %>
+  login: <%= Faker::Internet.user_name("user_#{i}") %>
+  first_name: <%= Faker::Name.first_name %> 
+  last_name: <%=  Faker::Name.last_name %>
   class_of: <%= 2000 + rand(2018-2000) %>
   homeroom: 8P
   password_salt: <%= salt = Authlogic::Random.hex_token %>
@@ -220,12 +216,12 @@ user_<%= i %>:
 
 <% for i in 126..150 %>
 user_<%= i %>:
-  <% first_name = random_words(1).downcase %> 
   type: Student
+  school_code: <% "TE#{rand(1-999999999)}" %>  
   site: campus1
-  login: <%= i * i %>
-  first_name: <%= first_name.capitalize %> 
-  last_name: <%= random_words(1).capitalize %>
+  login: <%= Faker::Internet.user_name("user_#{i}") %>
+  first_name: <%= Faker::Name.first_name %> 
+  last_name: <%=  Faker::Name.last_name %>
   class_of: <%= 2000 + rand(2018-2000) %>
   homeroom: 7S
   password_salt: <%= salt = Authlogic::Random.hex_token %>

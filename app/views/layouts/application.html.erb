@@ -13,7 +13,7 @@
 
   <body>
     <div class='container'>
-      <div id='header' class='span-25 last'>
+      <div id='header' class='span-24 last'>
 
         <div class='span-2'>
           <a href='/'><img class='top' src='/images/logo.png' alt="logo" width='60px' height='60px' /></a>
@@ -43,9 +43,15 @@
       </div>
 
       <div id='flash' class='span-24 last'><%= show_flash %></div>
+      <% if @content_for_left %>
+        <div class='span-4 colborder'><%= yield :left  %></div>
+        <div class='span-19 last'><%= yield  %></div>      
+      <% else %>        
+        <div class='span-24 last'><%= yield  %></div>      
 
-      <div class='span-4 colborder'><%= yield :left  %></div>
-      <div class='span-19 last'><%= yield  %></div>
+      <% end %>
+      
+
 
       <div class='span-24 last' id='footer'>
         &copy; 2005 - 2009 <a href='http://www.kangaroobox.com'>KangarooBox</a>, LLC.  All rights reserved.

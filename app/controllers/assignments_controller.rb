@@ -1,78 +1,68 @@
 class AssignmentsController < GradesheetController
+
+  before_filter :load_course_term, :only => [:new, :create]
+  before_filter :load_assignment, :except => [:index, :new, :create]
   
-  before_filter :find_assigment, :only => [:edit, :update, :destroy]
+  def index
+    @assignments = Assignment.paginate :page => params[:page]
+  end
   
   def show
-    @course_term = CourseTerm.find(params[:id])
-    @assignments = @course_term.assignments.sort{|a,b| a.due_date <=> b.due_date}.reverse
-
-	  respond_to do |format|
-			format.html
-	    format.js		{ render :partial => "assignment_list" }	# Render the list of assignments for a course
-	  end
+    AssignmentEvaluation.gradebook(@assignment.id).each do |sa|
+      @assignment.assignment_evaluations.build(:enrollment_id => sa.enrollment_id) if sa.id.blank?
+    end    
   end
-
-
+  
+    
   def new
-    @assignment = Assignment.new
-    @course_term = CourseTerm.find(params[:course_term_id])
-
-    render :action => :edit
+    @assignment = @course_term.assignments.build
   end
-
-
-  def edit    
-	  @course_term = CourseTerm.find(@assignment.course_term_id)
-  end
-
-
+  
   def create
-    @assignment = Assignment.new(params[:assignment])
-
+    @assignment = @course_term.assignments.build(params[:assignment])
     if @assignment.save
-      flash[:notice] = "Assignment '#{@assignment.name}' was created successfully."
-      if params["evaluations"]
-        redirect_to :action => "show", :id => @assignment.course_term.id, :controller => "evaluations"
-      else
-        redirect_to :action => "show", :id => @assignment.course_term.id
-      end
+      flash[:notice] = "Successfully created assignment."
+      redirect_to @course_term
     else
-      @course_term = CourseTerm.find(@assignment.course_term_id)
-      render :action => "edit"
-    end
-  end
-
-  def update
-
-    if @assignment.update_attributes(params[:assignment])
-      flash[:notice] = "Assignment '#{@assignment.name}' was updated successfully."
-      if params["evaluations"]
-        redirect_to :action => "show", :id => @assignment.course_term.id, :controller => "evaluations"
-      else
-        redirect_to :action => "show", :id => @assignment.course_term.id
-      end
-    else
-      @course_term = CourseTerm.find(params[:assignment][:course_term_id])
-      render :action => "edit"
-    end
-  end
-
-  def destroy
-    
-    if @assignment.destroy
-      flash[:notice] = "Assignment '#{@assignment.name}' was deleted successfully."
-    else
-      flash[:error] = "Assignment '#{@assignment.name}' was not deleted successfully.
-                        Are there assigned grades?"
-    end
-    
-    respond_to do |format|
-      format.html { redirect_to :action => 'show', :id => @assignment.course_term.id }
+      render :action => 'new'
     end
   end
   
+  def edit
+    @course_term = @assignment.course_term
+  end
+  
+  def update
+    if @assignment.update_attributes(params[:assignment])
+      flash[:notice] = "Successfully updated assignment."
+      redirect_to @assignment.course_term
+    else
+      render :action => 'edit'
+    end
+  end
+  
+  def destroy    
+    @assignment.destroy
+    flash[:notice] = "Successfully destroyed assignment."
+    redirect_to course_term_url(@course_term)
+  end
+  
+  def evaluate
+    if @assignment.update_attributes(params[:assignment])
+      flash[:notice] = "Successfully posted assignment results."
+      redirect_to @assignment
+    else
+      render :action => 'show'
+    end    
+  end
+  
+  
 protected
-  def find_assignment
+  def load_course_term
+    @course_term = CourseTerm.find(params[:course_term_id])
+  end
+  
+  def load_assignment
     @assignment = Assignment.find(params[:id])
   end
   

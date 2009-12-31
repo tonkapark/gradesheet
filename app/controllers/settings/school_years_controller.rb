@@ -14,7 +14,6 @@ class Settings::SchoolYearsController < SettingsController
 
   def new
     @year = SchoolYear.new
-    @year.terms.build
   end
 
 
@@ -27,16 +26,14 @@ class Settings::SchoolYearsController < SettingsController
 
     if @year.save
       flash[:notice] = "School year '#{@year.name}' was successfully created."
-      redirect_to grading_periods_path
+      redirect_to school_years_path
     else
       flash[:error] = "Failed to create school year."
       render :action => "new"
     end
   end
 
-  def update
-    params[:school_year][:existing_term_attributes] ||= {}
-    
+  def update    
     if @year.update_attributes(params[:school_year])
       flash[:notice] = "School year '#{@year.name}' was successfully updated."
       redirect_to :action => :index 

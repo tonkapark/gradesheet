@@ -8,4 +8,14 @@ namespace :gradesheet do
     Gradesheet::Setup.bootstrap 
   end
   
+  desc "load sample data"
+  task :sample => :environment do
+    require 'authlogic'   
+    require 'faker'
+    require 'populator'
+    
+    Gradesheet::Setup.load_sample_data
+    
+  end
+    
 end

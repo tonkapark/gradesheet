@@ -1,0 +1,67 @@
+<div class="span-14">
+  <div>
+    <h3>Section Details</h3>
+    <ul>
+      <li><strong>Section ID:</strong> <%= @course_term.code %> <%= link_to "Edit", [:edit, @course_term] %></li>
+      <li><strong>Course Name:</strong> <%= @course_term.course.name %></li>
+      <li><strong>Term:</strong> <%= @course_term.term.name %> (<%= @course_term.term.begin_date.strftime("%A, %B %d, %Y") %> to <%= @course_term.term.end_date.strftime("%A, %B %d, %Y") %>)</li>
+    </ul>
+    
+  </div>
+  
+<div id="assignments">  
+  <h3>Assignments</h3>
+  <p><%= link_to "New Assignment", new_course_term_assignment_path(@course_term) %></p>
+    <div id='assignment_list'>
+      <table id='assignments' class='master'>
+        <thead>
+          <tr>
+            <th>Assignment</th>
+            <th>Type</th>
+            <th>Due Date</th>
+            <th>Points</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @course_term.assignments.each do |a| %>
+          <tr onclick="location.href='<%= assignment_url(a) %>'">
+            <td><%= a.name %></td>
+            <td><%= a.assignment_category.name %></td>
+            <td><%= a.due_date_formatted %></td>
+            <td><%= a.possible_points %></td>          
+            <td><%= link_to "Gradebook", a %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+</div>
+
+
+<div class="span-10 last">
+
+  
+  <div>
+    <h3><%= pluralize @course_term.enrollments.size, 'Enrolled Student' %></h3>
+    <ul>
+    <% @course_term.enrollments.each do |sco| %>
+      <li><%= sco.student.full_name %></li>
+    <% end %>
+    </ul>
+  
+  
+    <% form_for Enrollment.new(:course_term_id => @course_term.id) do |f| %>
+      <%= f.error_messages %>
+      <%= f.hidden_field :course_term_id, :value => @course_term.id %>
+      <%= f.hidden_field :course_id, :value => @course_term.course_id %>  
+      <%= f.label :student, "Enroll Student" %>
+      <%= f.collection_select(:student_id, Student.available_for_course_term(@course_term), :id, :full_name, {:include_blank => true})  %>
+      <%= f.submit "Submit", :name => nil %>
+    <% end %>  
+  </div>  
+
+</div>
+

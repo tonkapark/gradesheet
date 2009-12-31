@@ -2,19 +2,18 @@
 # the students "grade" for an assignment, if you will.
 class AssignmentEvaluation < ActiveRecord::Base
   before_validation :massage_points_earned
-
-	belongs_to :student
+  
+	belongs_to :enrollment
 	belongs_to :assignment
 
-	validates_existence_of :student
+	validates_existence_of :enrollment
 	validates_existence_of :assignment
-
+  validates_uniqueness_of :enrollment_id, :scope => :assignment_id
   # TODO: make sure there can only be one grade per student/assignment
   #	validates_uniqueness_of :student_id, :scope => [:assignment_id]
   #	validates_uniqueness_of :assignment_id, :scope => [:student_id]
 
-	validates_numericality_of	:points_earned, :allow_nil => :true, 
-    :greater_than_or_equal_to => 0.0, :unless => :valid_points?
+	validates_numericality_of	:points_earned, :allow_nil => :true, :greater_than_or_equal_to => 0.0, :unless => :valid_points?, :message => 'must be 0 or greater, or (E)xcused or (M)issed.'
 
   # Calculate the points earned based on the presence of 'magic' characters
   def points_earned_as_number
@@ -43,7 +42,21 @@ class AssignmentEvaluation < ActiveRecord::Base
     return description
   end
   
-  private
+  
+  def self.gradebook(assignment_id)
+    find_by_sql ["
+    SELECT
+      sa.id,
+      sco.id as enrollment_id
+    FROM
+      assignments a LEFT JOIN enrollments sco ON a.course_term_id = sco.course_term_id
+      LEFT JOIN assignment_evaluations sa ON sco.id = sa.enrollment_id AND a.id = sa.assignment_id
+    WHERE
+      a.id = ?" , assignment_id]
+  end  
+  
+  
+private
   
 	# There are certain 'magic' characters that can be substituted for a number
 	# grade.  This method makes sure that the user only enters valid ones.

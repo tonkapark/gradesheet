@@ -13,7 +13,7 @@ class Student < User
 	validate :is_not_admin
   
 	from_year = Time.now.year - 1
-	to_year = from_year + 10
+	to_year = from_year + 12
 	validates_inclusion_of :class_of, 
     :in => from_year..to_year,
     :message => "must be in the range of #{from_year} to #{to_year}"
@@ -37,6 +37,29 @@ class Student < User
       :order      => "class_of"
       )
     end
+    
+    
+  
+  def self.available_for_course_term(course_term)
+    find_by_sql ["
+        SELECT
+          * 
+        FROM
+          users s 
+        WHERE
+          s.type = 'Student'
+          and
+          s.id not in (
+                      SELECT
+                        sco.student_id 
+                      FROM
+                        enrollments sco
+                      WHERE 
+                        sco.course_term_id = ?);
+            ", course_term.id]
+  end
+  
+  
     
   def is_not_admin
     errors.add_to_base("Student cannot be given admin priveleges") if is_admin? 

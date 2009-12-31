@@ -1,20 +1,17 @@
 <div class="term box">
-  <% fields_for_term(term) do |t| %>
-    <% @term = term %>
     <%= error_messages_for :term %>
 
-    <%= t.label :name, "Grading Period Name" %>
-    <%= t.text_field :name %>
+    <%= f.label :name, "Grading Period Name" %>
+    <%= f.text_field :name %>
     <br />
-    <%= t.label :begin_date %>
-    <%= t.date_select :begin_date, :index => term.id || "" %>
+    <%= f.label :begin_date %>
+    <%= f.date_select :begin_date %>
     <br />
-    <%= t.label :end_date %>
-    <%= t.date_select :end_date, :index => term.id || "" %>
+    <%= f.label :end_date %>
+    <%= f.date_select :end_date %>
     <br />
-    <%= t.label :active %>
-    <%= t.check_box :active %>
+    <%= f.label :active %>
+    <%= f.check_box :active %>
     <br />
-    <%= link_to_function "remove", "this.up('.term').remove()", :class => 'btn standard right' %>
-<% end %>
+    <%= remove_link_unless_new_record(f) -%>
 </div>

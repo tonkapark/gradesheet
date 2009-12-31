@@ -1,0 +1,23 @@
+
+<h2>Section: <%= @assignment.course_term.code %></h2>
+<table id='assignment' class='master'>
+  <thead>
+    <tr>
+      <th>Assignment Type</th>
+      <th>Due Date</th>
+      <th>Points</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @assignment.assignment_category.name %></td>
+      <td><%= @assignment.due_date_formatted %></td>
+      <td><%= @assignment.possible_points %></td>  
+      <td><%= link_to 'edit', [:edit, @course_term, @assignment] %></td>        
+    </tr> 
+  </tbody>
+</table>
+
+
+

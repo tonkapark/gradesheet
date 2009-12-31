@@ -23,7 +23,12 @@ class UserSession < Authlogic::Session::Base
         ['', 'teachers'],
         ['', 'teacher_assistants'],
         ['Courses', 'courses'],
+        ['', 'course_terms'],
+        ['', 'enrollments'],
+        ['Course Sections', 'course_offerings'],
         ['Assignments', 'assignments'],
+        ['', 'assignment'],
+        ['', 'assignment_evaluations'],
         ['Evaluations', 'evaluations'],
         ['Reports', 'reports'],
         ['Admin', 'settings'],
@@ -48,6 +53,7 @@ class UserSession < Authlogic::Session::Base
         controller.session[:authorize] = [
           ['Home', 'dashboard'],
           ['Courses', 'courses'],
+          ['', 'course_terms'],
           ['Assignments', 'assignments'],
           ['Evaluations', 'evaluations'],
           ['Reports', 'reports']]

@@ -5,6 +5,7 @@ class Assignment < ActiveRecord::Base
   belongs_to	:course_term
   belongs_to	:assignment_category
   has_many		:assignment_evaluations
+  accepts_nested_attributes_for :assignment_evaluations, :allow_destroy => true, :reject_if => proc { |a| a['points_earned'].blank? }
   
   validates_length_of       :name, :within => 1..20
   validates_numericality_of :possible_points
@@ -14,14 +15,15 @@ class Assignment < ActiveRecord::Base
   validates_existence_of    :assignment_category
 
   delegate :grading_scale, :to => :course_term
+    
   
   # Return a date formated for display as an assignment due date.
-  def due_date_formated
-  	due_date.strftime("%a %b %e, %Y") if due_date?
+  def due_date_formatted
+  	due_date.strftime("%A, %B %d, %Y")if due_date?
   end
   
   # Return a date
-  def due_date_formated=(due_at_str)
+  def due_date_formatted=(due_at_str)
     # Is this still needed?
     self.due_date = Date.parse(due_at_str) if due_date?
   rescue ArgumentError

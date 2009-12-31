@@ -6,7 +6,7 @@
     <tbody>
       <tr>
         <td colspan='0'>
-          <%= link_to "Add Period", new_grading_period_path(), :class => 'btn positive' %>
+          <%= link_to "Add Period", new_school_year_path, :class => 'btn positive' %>
         </td>
       </tr>
     </tbody>
@@ -19,7 +19,7 @@
         :method   => :delete,
         :class    => "btn negative",
         :confirm => "Are you sure you want to delete the '#{year.name}' school year?" %></span>
-      <%= link_to year.name, edit_grading_period_path(year) %>
+      <%= link_to year.name, [:edit, year] %>
   </h2>
 
   <table class="master">
@@ -33,8 +33,8 @@
     </thead>
     <tbody>
       <% for term in year.terms.sort {|a,b| a.end_date <=> b.end_date} %>
-        <tr class="<%= cycle('odd', 'even')%>" onclick="location.href='<%= edit_grading_period_path(year) %>'">
-          <%= content_tag :td, link_to(term.name, edit_grading_period_path(year)) %>
+        <tr class="<%= cycle('odd', 'even')%>" onclick="location.href='<%= edit_school_year_path(year) %>'">
+          <%= content_tag :td, link_to(term.name, edit_school_year_path(year)) %>
           <%= content_tag :td, term.begin_date %>
           <%= content_tag :td, term.end_date %>
           <%= content_tag :td, ( check_box_tag :active, term.active, term.active, :disabled => true ) %>

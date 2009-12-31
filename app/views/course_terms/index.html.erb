@@ -1,0 +1,24 @@
+<div class="span-24">
+  <h2>Course Sections</h2>
+  <table>
+    <thead>
+      <th>Section ID</th>
+      <th>Course</th>
+      <th>Instructor</th>
+      <th>Grading Period</th>
+      <th>Enrollments</th>
+    </thead>
+    <tbody>  
+    <% @course_terms.each do |co| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= link_to co.code, co %></td>
+        <td><%= "#{co.course.name} (#{co.course.code})" %> </td>
+        <td><%= "#{co.teacher.full_name} (#{co.teacher.school_number})" %></td>
+        <td><%= co.term.name %> <%= "(#{co.term.begin_date} to #{co.term.end_date})" %></td>      
+        <td><%= co.enrollments.size %></td>            
+      </tr>
+    <% end %>
+  
+  </tbody>
+  </table>
+</div>

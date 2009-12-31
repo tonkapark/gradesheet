@@ -1,7 +1,7 @@
 class Users::TeachersController < Users::BaseController
   
   before_filter :find_teacher, :only => [:edit, :update, :destroy]
-  before_filter :load_sites, :only => [:new, :edit]
+  
   
   def index
     sort_init 'last_name'
@@ -67,7 +67,5 @@ protected
     @teacher = Teacher.find(params[:id])
   end  
   
-  def load_sites
-    @sites = Site.find(:all)
-  end  
+
 end

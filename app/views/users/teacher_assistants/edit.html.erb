@@ -4,4 +4,4 @@
 
 <%= error_messages_for :teacher_assistant, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
 
-<%= render :partial => "users/edit", :locals => { :user => @teacher_assistant } %>
+<%= render :partial => "users/edit", :locals => { :user => @teacher_assistant, :sites => @sites } %>

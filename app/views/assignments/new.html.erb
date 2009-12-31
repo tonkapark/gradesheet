@@ -1,0 +1,10 @@
+
+<h2>Section <%= @course_term.code %></h2>
+
+<%= error_messages_for :assignment, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
+
+<div class='box span-13 last'>
+  <% form_for [@course_term, @assignment] do |f| %>
+    <%= render :partial => 'form', :locals => {:f => f, :assignment => @assignment } %>
+  <% end %>
+</div>    

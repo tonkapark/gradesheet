@@ -1,15 +1,30 @@
-<% content_for :left do %>
-	<%= show_course_list %>
-<% end %>
 
 
-<div id='details' class='course_list'>
-	<table class='master'>
-		<thead>
-			<tr><th>Enrolled Students</th></tr>
-		</thead>
-		<tbody>
-			<tr class='help'><td><--&nbsp; Choose a course from the list at the left or add a new one</td></tr>
-		</tbody>
-	</table>
+<h2>Courses <small><%= link_to 'Add New Course', new_course_path %></small></h2>
+
+<div id='course_list'>
+  <table>
+    <thead>
+      <th>Course Name (ID)</th>
+      <th>Grading Scale</th>
+    </thead>
+    <tbody>    
+    <% @courses.each do |course| %> 
+      <tr class="even">
+        <td><strong><%= course.name %> (<%= course.code %>)</strong> <small><%= link_to "Edit", [:edit, course] %></small></td>
+        <td><%= course.grading_scale.name  %></td>
+      </tr>
+      <tr>
+        <td colspan="2">     
+          <h3>Sections <small><%= link_to "Create New Section", new_course_term_path %></small></h3>
+          <ul>
+          <% course.course_terms.each do |co| %>
+            <li><%= link_to co.code, co %> (<%= " #{co.school_year.name}/#{co.term.name}" %>)</li>
+          <% end %>
+          </ul>
+         </td>
+      </tr>
+    <% end %>
+  </tbody>
+  </table>
 </div>

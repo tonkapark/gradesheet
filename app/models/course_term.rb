@@ -1,6 +1,10 @@
 # Links the course with each of its terms or grading periods.
 class CourseTerm < ActiveRecord::Base
-	belongs_to  :term
+	
+  attr_accessible :course_id, :code, :term_id, :enrollments_count, :teacher_id
+  
+  belongs_to :teacher
+  belongs_to  :term
 	belongs_to  :course
   has_many    :course_term_skills
   has_many    :supporting_skills,       :through => :course_term_skills
@@ -11,12 +15,22 @@ class CourseTerm < ActiveRecord::Base
   
 	validates_existence_of	:term
 	validates_existence_of	:course
-	validates_uniqueness_of :course_id, :scope =>  :term_id
+  validates_existence_of	:teacher
+	#validates_uniqueness_of :course_id, :scope =>  :term_id
+
+  before_save :upcase_code
+  validates_length_of :code, :in => 3..35
+  validates_format_of :code, :with => /^[\w\/\-\.]+$/,
+                              :message => "cannot contain certain special characters or spaces. Valid(a-z, 0-9, / . -)"
 
   delegate :school_year,    :to => :term
   delegate :active,         :to => :term
   delegate :grading_scale,  :to => :course
-  delegate :students,       :to => :course
+#  delegate :students,       :to => :course
+  
+  has_many :enrollments
+
+  
 
   # Calculate a students current grade for a particular course & term.
   def calculate_grade(student_id)
@@ -46,6 +60,12 @@ class CourseTerm < ActiveRecord::Base
   def comments(student_id)
     comment = Comment.find_by_user_id_and_commentable_id(student_id, self.id.to_s)
     return comment ? comment.content : ''
+  end
+  
+  
+protected
+  def upcase_code
+    self.code = code.to_s.upcase
   end
   
 end

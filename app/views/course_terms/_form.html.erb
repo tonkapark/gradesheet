@@ -1,0 +1,30 @@
+<%= error_messages_for :course_term, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
+
+<div class="box span-14">
+  <% form_for course_term do |f| %>
+    <fieldset>
+      <legend><%= course_term.new_record? ? 'New Course Section' : 'Edit Course Section' %></legend>
+      <%= f.label :code, "Section ID", :class => "req" %>
+      <% if course_term.new_record? %>
+        <%= f.text_field :code, {:class => "focus" } %>
+      <% else %>
+          <%= f.text_field :code, {:class => "focus", :disabled => 'disabled' } %>
+      <% end %>      
+      <br />
+      <%= f.label :course, "Course Name", :class => "req" %>
+      <%= f.select(:course_id, Course.all.collect {|r| [ r.name + ' (' + r.code + ')', r.id]}, {:include_blank => true}) %>
+      <br />
+      <%= f.label :term, "Grading Term", :class => "req" %>
+      <%= f.select(:term_id, Term.all.collect {|r| [ r.name + ' (' + r.begin_date.to_s + ' - ' + r.end_date.to_s + ')', r.id]}, {:include_blank => true}) %>            
+      <br />
+      <%= f.label :teacher_id, "Teacher Name", :class => "req" %>
+      <%= f.select(:teacher_id, Teacher.all.collect {|r| [ r.full_name , r.id]}, {:include_blank => true}) %>
+      <br />
+
+
+      <div class="spacer">
+        <%= f.submit 'Save', :class=> 'btn positive' %> | <%= link_to 'Cancel', courses_url %>
+      </div>
+    </fieldset>
+  <% end %>
+</div>

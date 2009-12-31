@@ -19,7 +19,7 @@ module CourseHelper
     else
       @courses = Course.active.find_all_by_teacher_id(current_user)
     end
-		render :partial => 'course_list', :object => @courses
+		render :partial => 'courses/course_list', :object => @courses
 	end
 
 end

@@ -1,10 +1,47 @@
-<% content_for :left do %>
-	<%= show_course_term_list %>
-<% end %>
+<div class="span-12">
+  <h2>Section: <%= @assignment.course_term.code %></h2>
+  <table id='assignment'>
+    <thead>
+      <tr>
+        <th>Assignment Type</th>
+        <th>Due Date</th>
+        <th>Points</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @assignment.assignment_category.name %></td>
+        <td><%= @assignment.due_date_formatted %></td>
+        <td><%= @assignment.possible_points %></td>  
+        <td><%= link_to 'change', [:edit, @course_term, @assignment] %></td>        
+      </tr> 
+    </tbody>
+  </table>
+  
 
-<%= error_messages_for :assignment, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
-
-<div id='assignment_list'>
-	<%= render :partial => 'assignment_list', :locals => { :assignments => @assignments } %>
+  <% form_for @assignment, :url => evaluate_assignment_path(@assignment) do |f| %>
+    <%= f.error_messages %>
+    <table id='evaluations'>
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Points Earned - <small>(E)xcused, (M)issed</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% f.fields_for :assignment_evaluations do |e| %>
+          <%= e.hidden_field :enrollment_id %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td><%= e.object.enrollment.student.full_name %></td>
+            <td><%= e.text_field :points_earned, {:size => 3} %></td>  
+          </tr>
+        <% end %>
+        <tr>
+          <td></td>
+          <td><%= f.submit "Submit" %></td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
 </div>
-

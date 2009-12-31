@@ -2,32 +2,4 @@
   <%= render :partial => 'settings/settings_list' %>
 <% end %>
 
-<%= error_messages_for :grading_period, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
-
-<div class='box span-13'>
-  <% form_for @year, :url => { :action => "update", :controller => "school_years" } do |f| %>
-    <%= f.error_messages  %>
-
-    <fieldset>
-      <legend>School Year</legend>
-
-      <%= f.label :name, "School Year Name", :class => 'req' %>
-      <%= f.text_field :name %>
-      <br />
-
-      <div id="terms">
-        <%= render :partial => "term", :collection => @year.terms.sort {|a,b| a.end_date <=> b.end_date} %>
-      </div>
-
-      <%= link_to_function "Add a grading period" do |page|
-        page.insert_html :bottom, :terms, :partial => "term", :object => Term.new
-      end %>
-    </fieldset>
-
-    <div class="spacer">
-      <%= submit_tag 'Save Year', :class => 'btn positive' %>
-      <%= link_to 'Cancel', grading_periods_path(), :class => 'btn standard' %>
-    </div>
-
-  <% end %>
-</div>
+<%= render :partial => "form", :locals => { :year => @year, :button_name => 'Save Changes' } %>

@@ -1,5 +1,4 @@
 class SupportingSkill < ActiveRecord::Base
-  belongs_to  :supporting_skill_code
   belongs_to  :supporting_skill_category
   has_many    :course_term_skills
   has_many    :course_terms,  :through => :course_term_skills

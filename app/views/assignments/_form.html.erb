@@ -1,0 +1,43 @@
+<% stylesheet 'mycal' %>
+<% javascript 'prototype', 'scal' %>
+
+
+<fieldset>
+  <% header = assignment.name? ? "Editing: #{assignment.name}" : "New Assignment" %>
+  <%= content_tag :legend, header %>
+  <%= f.hidden_field :course_term_id, :value => @course_term.id %>
+
+  <%= f.label :name, {}, :class => 'req' %>
+  <%= f.text_field :name, :class => "focus" %>
+  <br />
+  <%= f.label :possible_points, {}, :class => 'req' %>
+  <%= f.text_field :possible_points %>
+  <br />
+  <%= f.label :assignment_category_id, 'Type', :class => 'req' %>
+  <%= collection_select :assignment, :assignment_category_id, AssignmentCategory.find(:all), :id, :name %>
+  <br />
+
+  <%= f.label :due_date %>
+  <%= f.hidden_field :due_date %>
+  <span id='due_date' class='scal tinyscal'></span>
+  <input id='default_due_date' type='hidden'
+         value='<%= assignment.due_date? ? assignment.due_date.to_s(:long) : DateTime.now.to_s(:long) %>' />
+
+  <div class='spacer'>
+    <%= submit_tag "Save", :name => "assignments", :class=> 'btn positive' %>
+    <%= link_to 'Cancel', @course_term, :class => 'btn standard' %>
+  </div>
+</fieldset>
+
+
+<% content_for :page_footer do %>
+  <% javascript_tag do %>
+    function updateDueDate(d) {
+      // Convert this date to a valid timestamp and push it into the assignment due date
+      $('assignment_due_date').value = d.format('yyyy-mm-dd 00:00:01');
+    }
+    due_date = new scal('due_date', updateDueDate, {closebutton: ''});
+    default_due_date = new Date ($('default_due_date').readAttribute('value'));
+    due_date.setCurrentDate(default_due_date);
+  <% end %>
+<% end %>

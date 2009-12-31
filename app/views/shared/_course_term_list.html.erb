@@ -1,6 +1,12 @@
 <% cache "course_list_#{current_user.id}_#{controller.controller_name}" do -%>
-  <% courses = Course.active.find_all_by_teacher_id(current_user) -%>
-
+  <%# courses = Course.active.find_all_by_teacher_id(current_user) -%>
+  <%
+    if current_user.type == 'Administrator' || current_user.is_admin?
+      courses = Course.find(:all)
+    else
+      courses = Course.active.find_all_by_teacher_id(current_user)
+    end
+  %>
   <div id='course_list'>
     <table id='courses' class='master'>
       <thead>

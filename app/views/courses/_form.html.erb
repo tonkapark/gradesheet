@@ -1,0 +1,23 @@
+<%= error_messages_for :course, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
+
+<div class="box span-14">
+  <% form_for course do |f| %>
+    <fieldset>
+      <legend><%= course.new_record? ? 'New Course' : 'Edit Course' %></legend>
+
+      <%= f.label :code, "Course ID", :class => "req" %>
+      <%= f.text_field :code, :class => "focus" %>
+      <br />      
+      <%= f.label :name, "Course Name", :class => "req" %>
+      <%= f.text_field :name %>
+      <br />
+      <%= f.label :grading_scale_id, {}, :class => 'req' %>
+      <%= collection_select :course, :grading_scale_id, grading_scales, :id, :name %>
+
+      <div class="spacer">
+        <%= f.submit 'Create', :class=> 'btn positive' %>
+        <%= link_to 'Cancel', {:action=> 'index', :controller=> 'courses'}, :class => 'btn positive' %>
+      </div>
+    </fieldset>
+  <% end %>
+</div>

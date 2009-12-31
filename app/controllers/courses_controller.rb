@@ -4,6 +4,14 @@ class CoursesController < GradesheetController
   before_filter :find_grade_scales_and_teachers, :only => [:edit, :new]
   after_filter :expire_cache, :only => [:create, :update, :destroy]
 
+  def index
+    if current_user.type == 'Administrator' || current_user.is_admin?
+      @courses = Course.find(:all)
+    else
+      @courses = Course.active.find_all_by_teacher_id(current_user)
+    end
+  end
+  
   def new
     @course = Course.new
     @school_years = SchoolYear.active
@@ -41,7 +49,7 @@ class CoursesController < GradesheetController
 		#@course.teacher = current_user
 
     # Insert the grading terms
-    @course.terms << SchoolYear.find(params[:school_year][:id]).terms
+    #@course.terms << SchoolYear.find(params[:school_year][:id]).terms
 
     if @course.save
       flash[:notice] = "Course '#{@course.name}' was successfully created."
@@ -145,7 +153,7 @@ protected
   end
   
   def find_grade_scales_and_teachers
-    @grade_scales = GradingScale.find(:all)
+    @grading_scales = GradingScale.find(:all)
     @teachers = Teacher.find(:all)
   end
     
