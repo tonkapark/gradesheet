@@ -1,16 +1,22 @@
 class CourseTermsController < GradesheetController
    
-  def index
-    @course_terms = CourseTerm.paginate :page => params[:page]
+   before_filter :find_course_term, :except => [:index]
+   
+  def index    
+    @course_terms = current_user.course_terms.paginate :page => params[:page] unless current_user.type == 'Administrator'
+    
+    if current_user.type == 'Administrator' || current_user.is_admin?
+      @all_course_terms = CourseTerm.paginate :page => params[:page]
+    end    
   end
   
   def show
-    @course_term = CourseTerm.find(params[:id])
+    
   end
   
   def new
     @course_term = CourseTerm.new
-    @course_term.course_id = params[:course_id]
+    @course_term.course_id = params[:course_id] if params [:course_id]
   end
   
   def create
@@ -24,11 +30,11 @@ class CourseTermsController < GradesheetController
   end
   
   def edit
-    @course_term = CourseTerm.find(params[:id])
+    
   end
   
   def update
-    @course_term = CourseTerm.find(params[:id])
+    
     if @course_term.update_attributes(params[:course_term])
       flash[:notice] = "Successfully updated course offering."
       redirect_to @course_term
@@ -38,14 +44,28 @@ class CourseTermsController < GradesheetController
   end
   
   def destroy
-    @course_term = CourseTerm.find(params[:id])
+    
     @course_term.destroy
     flash[:notice] = "Successfully destroyed course offering."
     redirect_to course_terms_url
   end
 
   def grades
-    @course_term = CourseTerm.find(params[:id])
+    
   end
   
+  def post_grades
+    
+    if @course_term.update_attributes(params[:course_term])
+      flash[:notice] = "Successfully posted grades."
+      redirect_to grades_course_term_path(@course_term)
+    else
+      render :action => 'grades'
+    end
+  end  
+  
+protected
+  def find_course_term
+    @course_term = CourseTerm.find(params[:id])
+  end
 end

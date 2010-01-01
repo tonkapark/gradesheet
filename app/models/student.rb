@@ -1,9 +1,9 @@
 # Subclass of User that handles the Student users
 class Student < User  
 	has_many		:enrollments
-  has_many		:courses,             :through => :enrollments
-	has_many		:assignment_evaluations
-	has_many		:assignments,         :through => :assignment_evaluations
+  has_many		:course_terms, :through => :enrollments
+	has_many		:assignment_evaluations, :through => :enrollments
+	has_many		:assignments, :through => :assignment_evaluations
   has_many    :supporting_skill_evaluations
   has_many    :course_term_skills,  :through => :supporting_skill_evaluations
 

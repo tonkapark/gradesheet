@@ -2,6 +2,7 @@
 # the students "grade" for an assignment, if you will.
 class AssignmentEvaluation < ActiveRecord::Base
   before_validation :massage_points_earned
+  after_save :update_enrollment_points_earned
   
 	belongs_to :enrollment
 	belongs_to :assignment
@@ -26,7 +27,7 @@ class AssignmentEvaluation < ActiveRecord::Base
       points = self[:points_earned]
     end
   
-    return points
+    return points.to_f
   end
 
   def points_desc
@@ -55,6 +56,12 @@ class AssignmentEvaluation < ActiveRecord::Base
       a.id = ?" , assignment_id]
   end  
   
+protected
+  
+  def update_enrollment_points_earned
+    self.enrollment.total_points_earned!
+  end
+      
   
 private
   
@@ -72,5 +79,7 @@ private
     self.points_earned = self.points_earned.to_f.abs  if points_earned.is_a?(Numeric)
     self.points_earned = self.points_earned.upcase    if points_earned.is_a?(String)
   end
+  
+
   
 end

@@ -1,0 +1,27 @@
+<h2>Final Grades</h2>
+<h3>Course Section: <%= link_to @course_term.code, @course_term %></h3>
+<% form_for @course_term, :url => post_grades_course_term_path(@course_term) do |f| %>
+  <%= f.error_messages %>
+  <table>
+    <thead>
+      <th>Student</th>
+      <th>Total Points Earned</th>      
+      <th>Final Grade</th>
+    </thead>
+    <tbody>
+      <% f.fields_for :enrollments do |e| %>
+        <%= e.hidden_field :student_id %>     
+        <%= e.hidden_field :course_id %>        
+        <tr>
+          <td><%= e.object.student.full_name %></td>
+          <td><%= e.object.total_points_earned %></td>
+          <td><%= e.text_field :grade, {:size => 3} %></td>        
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan="2"></td>
+        <td><%= f.submit "Submit" %> | <%= link_to 'Cancel', @course_term %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

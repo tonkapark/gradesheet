@@ -42,9 +42,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :evaluations, :member => { :update_grade => :post, :update_skill => :post }
   map.resources :courses, :member => { :add_student => :post, :remove_student => :delete, :toggle_accommodation => :post }
   
-  map.resources :course_terms, :as => 'course_offerings', :has_many => { :assignments => :assignment_evaluations}, :shallow => true
+  map.resources :course_terms, :as => 'course_offerings', :member => { :grades => :get, :post_grades => :put }, :has_many => :assignments, :shallow => true
   map.resources :assignments, :only => [:index], :member => { :evaluate => :put }
-  #map.resources :assignments, :only => [:index]
+  
   map.resources :enrollments, :only => [:create]
 
   # By default, we want the user to see the "dashboard" page.

@@ -23,13 +23,9 @@ class UserSession < Authlogic::Session::Base
         ['', 'teachers'],
         ['', 'teacher_assistants'],
         ['Courses', 'courses'],
-        ['', 'course_terms'],
         ['', 'enrollments'],
         ['Course Sections', 'course_offerings'],
         ['Assignments', 'assignments'],
-        ['', 'assignment'],
-        ['', 'assignment_evaluations'],
-        ['Evaluations', 'evaluations'],
         ['Reports', 'reports'],
         ['Admin', 'settings'],
         ['', 'assignment_categories'],
@@ -37,9 +33,7 @@ class UserSession < Authlogic::Session::Base
         ['', 'imports'],
         ['', 'school_years'],
         ['', 'sites'],
-        ['', 'site_settings'],
         ['', 'supporting_skills'],
-        ['', 'supporting_skill_codes'],
         ['', 'supporting_skill_categories'],
         ['', 'terms'],
       ]
@@ -52,16 +46,15 @@ class UserSession < Authlogic::Session::Base
       when 'teacher'
         controller.session[:authorize] = [
           ['Home', 'dashboard'],
-          ['Courses', 'courses'],
+          ['Courses', 'course_offerings'],          
           ['', 'course_terms'],
-          ['Assignments', 'assignments'],
-          ['Evaluations', 'evaluations'],
+          ['', 'assignments'],
           ['Reports', 'reports']]
       when 'teacher_assistant'
         controller.session[:authorize] = [
           ['Home', 'dashboard'],
-          ['Assignments', 'assignments'],
-          ['Evaluations', 'evaluations']
+          ['Courses', 'course_offerings'],          
+          ['', 'assignments'],
           ]          
       when 'student'
         controller.session[:authorize] = [

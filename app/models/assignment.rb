@@ -50,6 +50,8 @@ class Assignment < ActiveRecord::Base
     return {:letter => letter_grade, :score => final_score, :desc => points_desc }
   end
   
+    
+  
   private
   
   # We don't want the user to delete an assignment without first cleaning up

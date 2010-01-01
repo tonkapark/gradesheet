@@ -1,5 +1,7 @@
 <div class="span-12">
-  <h2>Section: <%= @assignment.course_term.code %></h2>
+  <h2>Assignment Scores</h2>
+  <h3>Section: <%= link_to @assignment.course_term.code, @assignment.course_term %>   <small><%= link_to "Gradebook", grades_course_term_path(@assignment.course_term) %></small></h3>
+
   <table id='assignment'>
     <thead>
       <tr>

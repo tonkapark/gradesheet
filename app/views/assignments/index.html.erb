@@ -1,29 +1,46 @@
 
 <div class="span-14">
-  <h2>All Assignments</h2>
+ 
   <div id='assignment_list'>
-    <table id='assignments' class='master'>
-      <thead>
-        <tr>
-          <th>Assignment</th>
-          <th>Type</th>
-          <th>Due Date</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-      <tbody>
-      <% @assignments.each do |a| %>
-        <tr onclick="location.href='<%= assignment_url(a) %>'">
-          <td><%= link_to a.name, a %></td>        
-          <td><%= a.assignment_category.name %></td>
-          <td><%= a.due_date_formatted %></td>
-          <td><%= a.possible_points %></td>          
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <% unless @assignments.blank? %>
+      <h2>My Assignments</h2>    
+      <table id='assignments' class='master'>
+        <thead>
+          <tr>
+            <th>Assignment</th>
+            <th>Type</th>
+            <th>Due Date</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render :partial => @assignments %>
+        </tbody>
+      </table>
+      <% will_paginate @assignments %>
+    <% end %>
+    
+    <% unless @all_assignments.blank? %>
+      <h2>All Assignments</h2>
+      <table id='assignments' class='master'>
+        <thead>
+          <tr>
+            <th>Assignment</th>
+            <th>Type</th>
+            <th>Due Date</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render :partial => @all_assignments %>
+        </tbody>
+      </table>   
+      
+      <% will_paginate @all_assignments %>
+    <% end %>
+       
   </div>
 
-  <% will_paginate @assignments %>
+  
 </div>
 

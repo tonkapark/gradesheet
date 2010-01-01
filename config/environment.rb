@@ -14,9 +14,6 @@ Rails::Initializer.run do |config|
 
   # Add additional load paths for your own custom dirs
   config.load_paths += %W( #{RAILS_ROOT}/lib/reports )
-
-  config.gem 'haml'
-
   config.time_zone = 'UTC'
 end
 
