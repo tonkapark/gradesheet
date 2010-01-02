@@ -1,0 +1,13 @@
+<% form_for [@building,@room] do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :seats %><br />
+    <%= f.text_field :seats %>
+  </p>
+  
+  <p><%= f.submit "Submit" %> | <%= link_to 'Cancel', buildings_url %></p>
+<% end %>

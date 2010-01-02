@@ -1,6 +1,7 @@
 <div class="span-24">
+  
   <% unless @course_terms.blank? %>
-    <h2>My Courses</h2>
+    <h2>My Courses <small><%= link_to "New Course Section", new_course_term_path %></small></h2>
     <table>
       <thead>
         <th>Section ID</th>
@@ -17,7 +18,7 @@
   <% end %>
   
   <% unless @all_course_terms.blank? %>
-    <h2>All Course Sections</h2>
+    <h2>All Course Sections <small><%= link_to "New Course Section", new_course_term_path %></small></h2>
     <table>
       <thead>
         <th>Section ID</th>

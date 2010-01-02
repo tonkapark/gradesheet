@@ -1,11 +1,12 @@
 # Links the course with each of its terms or grading periods.
 class CourseTerm < ActiveRecord::Base
 	
-  attr_accessible :course_id, :code, :term_id, :enrollments_count, :teacher_id, :enrollments_attributes
+  attr_accessible :course_id, :code, :term_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
   
   belongs_to :teacher
   belongs_to  :term
 	belongs_to  :course
+  belongs_to :room
   has_many    :course_term_skills
   has_many    :supporting_skills,       :through => :course_term_skills
   has_many    :assignments
@@ -24,6 +25,9 @@ class CourseTerm < ActiveRecord::Base
   validates_length_of :code, :in => 3..35
   validates_format_of :code, :with => /^[\w\/\-\.]+$/,
                               :message => "cannot contain certain special characters or spaces. Valid(a-z, 0-9, / . -)"
+
+  validates_numericality_of :seats, :greater_than => 0
+  validate :student_limit
 
   delegate :school_year,    :to => :term
   delegate :active,         :to => :term
@@ -62,6 +66,13 @@ class CourseTerm < ActiveRecord::Base
   
   
 protected
+
+  def student_limit
+    unless self.room.blank?
+      errors.add_to_base("Course section seat count must be equal to or less than the selected room's seat count")  unless self.room.seats >= self.seats
+    end
+  end
+
   def upcase_code
     self.code = code.to_s.upcase
   end

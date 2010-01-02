@@ -1,0 +1,20 @@
+<% title "Room" %>
+
+<p>
+  <strong>Building:</strong>
+  <%=h @room.building.name %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%=h @room.name %>
+</p>
+<p>
+  <strong>Capacity:</strong>
+  <%=h @room.capacity %>
+</p>
+
+<p>
+  <%= link_to "Edit", [:edit, @building, @room] %> |
+  <%= link_to "Destroy", [@building, @room], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", building_rooms_path(@building) %>
+</p>

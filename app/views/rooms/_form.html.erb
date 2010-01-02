@@ -1,0 +1,16 @@
+<% form_for @room do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :building_id %><br />
+    <%= f.text_field :building_id %>
+  </p>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :seats %><br />
+    <%= f.text_field :seats %>
+  </p>
+  <p><%= f.submit "Submit" %></p>
+<% end %>

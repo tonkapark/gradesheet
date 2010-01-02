@@ -2,6 +2,7 @@ class Site < ActiveRecord::Base
   before_destroy  :ensure_no_children
 
 	belongs_to :school
+  has_many :buildings
 	has_many :users
 	
 	validates_size_of        :name, :within => 1..40

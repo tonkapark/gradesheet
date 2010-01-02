@@ -1,0 +1,21 @@
+<% title "Rooms" %>
+
+<table>
+  <tr>
+    <th>Building</th>
+    <th>Name</th>
+    <th>Capacity</th>
+  </tr>
+  <% for room in @rooms %>
+    <tr>
+      <td><%=h room.building.name %></td>
+      <td><%=h room.name %></td>
+      <td><%=h room.capacity %></td>
+      <td><%= link_to "Show", [@building,room] %></td>
+      <td><%= link_to "Edit", [:edit, @building, room] %></td>
+      <td><%= link_to "Destroy", [@building,room], :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Room", new_building_room_path(@building) %></p>

@@ -1,6 +1,6 @@
 class CourseTermsController < GradesheetController
    
-   before_filter :find_course_term, :except => [:index]
+   before_filter :find_course_term, :except => [:index, :new, :create]
    
   def index    
     @course_terms = current_user.course_terms.paginate :page => params[:page] unless current_user.type == 'Administrator'
@@ -16,7 +16,7 @@ class CourseTermsController < GradesheetController
   
   def new
     @course_term = CourseTerm.new
-    @course_term.course_id = params[:course_id] if params [:course_id]
+    @course_term.course_id = params[:course_id] #if params [:course_id]
   end
   
   def create

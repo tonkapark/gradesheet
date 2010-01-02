@@ -16,7 +16,7 @@
       </tr>
       <tr>
         <td colspan="2">     
-          <h3>Sections <small><%= link_to "Create New Section", new_course_term_path %></small></h3>
+          <h3>Sections <small><%= link_to "Create New Section", new_course_term_path(:course_id => course) %></small></h3>
           <ul>
           <% course.course_terms.each do |co| %>
             <li><%= link_to co.code, co %> (<%= " #{co.school_year.name}/#{co.term.name}" %>)</li>

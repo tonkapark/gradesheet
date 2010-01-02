@@ -1,0 +1,20 @@
+<% title "Building" %>
+
+<p>
+  <strong>Site:</strong>
+  <%=h @building.site_id %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%=h @building.name %>
+</p>
+<p>
+  <strong>Rooms Count:</strong>
+  <%=h @building.rooms_count %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_building_path(@building) %> |
+  <%= link_to "Destroy", @building, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", buildings_path %>
+</p>

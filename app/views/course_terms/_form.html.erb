@@ -20,8 +20,12 @@
       <%= f.label :teacher_id, "Teacher Name", :class => "req" %>
       <%= f.select(:teacher_id, Teacher.all.collect {|r| [ r.full_name , r.id]}, {:include_blank => true}) %>
       <br />
-
-
+      <%= f.label :seats, "Seats", :class => "req" %> 
+      <%= f.text_field :seats, {:size => 3} %>
+      <br />
+      <%= f.label :room_id, "Room", :class => "req" %>      
+      <%= f.select(:room_id, Room.all(:include => :building).collect {|r| [ r.building.name + '/' + r.name + ' (' + r.seats.to_s + ')', r.id]}, {:include_blank => true})  %>
+      <br />
       <div class="spacer">
         <%= f.submit 'Save', :class=> 'btn positive' %> | <%= link_to 'Cancel', courses_url %>
       </div>
