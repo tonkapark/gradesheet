@@ -1,13 +1,13 @@
 class Settings::BuildingsController < SettingsController
 
+  before_filter :find_building, :except => [:index, :new, :create]
   before_filter :load_sites, :only => [:new, :edit]
 
   def index
     @buildings = Building.all
   end
   
-  def show
-    @building = Building.find(params[:id])
+  def show    
   end
   
   def new
@@ -26,11 +26,11 @@ class Settings::BuildingsController < SettingsController
   end
   
   def edit
-    @building = Building.find(params[:id])
+
   end
   
   def update
-    @building = Building.find(params[:id])
+
     if @building.update_attributes(params[:building])
       flash[:notice] = "Successfully updated building."
       redirect_to @building
@@ -40,15 +40,20 @@ class Settings::BuildingsController < SettingsController
   end
   
   def destroy
-    @building = Building.find(params[:id])
+
     @building.destroy
     flash[:notice] = "Successfully destroyed building."
     redirect_to buildings_url
   end
   
 protected 
+  def find_building
+    @building = Building.find(params[:id])
+  end
+  
   def load_sites
     @sites = Site.find(:all)
   end
+  
   
 end

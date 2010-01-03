@@ -64,6 +64,13 @@ class CourseTerm < ActiveRecord::Base
     return comment ? comment.content : ''
   end
   
+  def total_possible_points
+    total_possible_points = 0
+    self.assignments.each do |a|
+     total_possible_points += a.possible_points
+   end
+   return total_possible_points
+  end    
   
 protected
 

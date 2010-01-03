@@ -1,0 +1,4 @@
+<h2><%= @student.full_name %></h2>
+
+<h3>Assignments</h3>
+<%= render :partial => 'assignments', :locals => { :student_assignments => @assignment_evaluations } %>

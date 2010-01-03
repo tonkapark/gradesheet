@@ -19,11 +19,11 @@
   </thead>
   <tbody>
     <% for u in users %>
-      <tr class="<%= cycle('odd', 'even') %>" onclick="location.href='<%= url_for(u)+'/edit' %>'">
+      <tr class="<%= cycle('odd', 'even') %>" onclick="location.href='<%= url_for(u) %>'">
         <td><%= u.type %></td>
         <%= content_tag :td, u.login %>
-        <td><%= link_to u.first_name, url_for(u)+'/edit' %></td>
-        <td><%= link_to u.last_name, url_for(u)+'/edit' %></td>
+        <td><%= link_to u.first_name, url_for(u) %></td>
+        <td><%= link_to u.last_name, url_for(u) %></td>
         <%= content_tag :td, u.email %>
         <%= content_tag :td, u.site.name %>
         <% if controller.controller_name == 'students' %>

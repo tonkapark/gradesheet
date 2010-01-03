@@ -1,6 +1,6 @@
 class Users::StudentsController < Users::BaseController
 
-  before_filter :find_student, :only => [:edit, :update, :destroy ]
+  before_filter :find_student, :only => [:show, :edit, :update, :destroy ]
   before_filter :load_homerooms, :only => [:new, :edit, :create]
 
   def index
@@ -15,10 +15,8 @@ class Users::StudentsController < Users::BaseController
     end
   end
 
-  # We don't really want to show an individual person but rather the listing
-  # of all people.
   def show
-		redirect_to :action => :index
+		
   end
 
   def new

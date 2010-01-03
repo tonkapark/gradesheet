@@ -1,0 +1,25 @@
+<% if student_assignments.empty? %>
+  <p class="error"> No assignments have been graded at this time.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Assignment</th>
+        <th>Due Date</th>
+        <th>Points Earned / Possible</th>
+        <th>Percentage</th>
+      </tr>
+    </thead> 
+    <tbody> 
+   
+      <% student_assignments.each do |student_assignment| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= link_to student_assignment.assignment.name, student_assignment.assignment %> (<%= student_assignment.assignment.assignment_category.name %>)</td>        
+        <td><%= student_assignment.assignment.due_date_formatted %></td>
+        <td><%= "#{student_assignment.points_earned} / #{student_assignment.assignment.possible_points}" %></td>       
+        <td><%= "#{(student_assignment.points_earned_as_number / student_assignment.assignment.possible_points).round(2)*100} %" %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

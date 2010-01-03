@@ -1,12 +1,13 @@
 class Settings::RoomsController < SettingsController
-  before_filter :load_building
+  
+  before_filter :load_building, :only => [:index, :new, :create]
+  before_filter :find_room_and_building, :except => [:index, :new, :create]
   
   def index
     @rooms = @building.rooms.all
   end
   
   def show
-    @room = @building.rooms.find(params[:id])
   end
   
   def new
@@ -24,11 +25,11 @@ class Settings::RoomsController < SettingsController
   end
   
   def edit
-    @room = @building.rooms.find(params[:id])
+
   end
   
   def update
-    @room = @building.rooms.find(params[:id])
+
     if @room.update_attributes(params[:room])
       flash[:notice] = "Successfully updated room."
       redirect_to buildings_url
@@ -37,8 +38,7 @@ class Settings::RoomsController < SettingsController
     end
   end
   
-  def destroy
-    @room = @building.rooms.find(params[:id])
+  def destroy    
     @room.destroy
     flash[:notice] = "Successfully destroyed room."
     redirect_to rooms_url
@@ -46,6 +46,11 @@ class Settings::RoomsController < SettingsController
   
   
   protected
+  def find_room_and_building
+    load_building
+    @room = @building.rooms.find(params[:id])
+  end
+  
   def load_building
     @building = Building.find(params[:building_id])
   end

@@ -1,0 +1,5 @@
+
+<h2>Student Schedule</h2>
+<h3><%= @student.full_name %></h3>
+
+<%= render :partial => 'schedule', :locals => { :enrollments => @enrollments } %>

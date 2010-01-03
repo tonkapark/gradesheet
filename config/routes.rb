@@ -12,7 +12,13 @@ ActionController::Routing::Routes.draw do |map|
   # we need to build routes for them.
   map.resources	:users, :member => { :impersonate => :post }
   map.namespace :users, :path_prefix => nil, :name_prefix => nil do |u|
-    u.resources :students
+    u.resources :students do |student|
+      student.resources :enrollments, :as => 'courses', :member => {:confirm_drop => :get} do |sco|
+        sco.resources :assignment_evaluations, :name_prefix => 'sco_', :only => [:index], :as => 'assignments'
+      end
+      
+    end
+    
     u.resources :teachers
     u.resources :teacher_assistants
     u.resources :administrators
