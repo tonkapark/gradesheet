@@ -5,7 +5,8 @@
   <table>
     <thead>
       <th>Student</th>
-      <th>Total Points Earned</th>      
+      <th>Total Points Earned</th>   
+      <th>Percentage</th>
       <th>Final Grade</th>
     </thead>
     <tbody>
@@ -14,12 +15,13 @@
         <%= e.hidden_field :course_id %>        
         <tr>
           <td><%= e.object.student.full_name %></td>
-          <td><%= e.object.total_points_earned %></td>
+          <td><%= "#{e.object.total_points_earned} / #{ e.object.course_term.total_possible_points}" %></td>
+          <td><%= e.object.course_term.total_possible_points == 0 ? "0" : "#{(e.object.total_points_earned/e.object.course_term.total_possible_points).round(2)*100} %" %></td>
           <td><%= e.text_field :grade, {:size => 3} %></td>        
         </tr>
       <% end %>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="3"></td>
         <td><%= f.submit "Submit" %> | <%= link_to 'Cancel', @course_term %></td>
       </tr>
     </tbody>

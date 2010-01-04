@@ -1,5 +1,11 @@
+  <% unless current_user.type == 'Student' %>
   <tr class="<%= cycle('odd', 'even') %>" onclick="location.href='<%= assignment_url(assignment) %>'">
-    <td><%= link_to assignment.name, assignment %></td>        
+  <% else %>
+  <tr class="<%= cycle('odd', 'even') %>">
+  <% end %>
+    <td><%= assignment.course_term.code %></td>
+    <%= content_tag :td, assignment.course_term.teacher.full_name unless role == 'Teacher' %>
+    <td><%= link_to_unless current_user.type == 'Student', assignment.name, assignment %></td>        
     <td><%= assignment.assignment_category.name %></td>
     <td><%= assignment.due_date_formatted %></td>
     <td><%= assignment.possible_points %></td>          

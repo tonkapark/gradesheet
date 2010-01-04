@@ -19,7 +19,7 @@ Rails::Initializer.run do |config|
     :version => '~> 2.3.11', 
     :lib => 'will_paginate',
     :source  => 'http://gemcutter.org'    
-  
+
   config.time_zone = 'UTC'
 end
 

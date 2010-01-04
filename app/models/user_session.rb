@@ -49,17 +49,22 @@ class UserSession < Authlogic::Session::Base
         controller.session[:authorize] = [
           ['Home', 'dashboard'],
           ['Courses', 'course_sections'],          
+          ['', 'course_terms'],          
           ['', 'assignments'],
           ['Reports', 'reports']]
       when 'teacher_assistant'
         controller.session[:authorize] = [
           ['Home', 'dashboard'],
-          ['Courses', 'course_sections'],          
+          ['Courses', 'course_sections'],    
+          ['', 'course_terms'],              
           ['', 'assignments'],
           ]          
       when 'student'
         controller.session[:authorize] = [
           ['Home', 'dashboard'],
+          ['Courses', 'course_sections'],    
+          ['', 'course_terms'],             
+          ['', 'assignments'],          
           ['My Grades', 'grades']]
       else
         # unknown type of user

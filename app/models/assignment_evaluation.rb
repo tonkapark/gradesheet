@@ -48,7 +48,8 @@ class AssignmentEvaluation < ActiveRecord::Base
     find_by_sql ["
     SELECT
       sa.id,
-      sco.id as enrollment_id
+      sco.id as enrollment_id,
+      sco.student_id as student_id
     FROM
       assignments a LEFT JOIN enrollments sco ON a.course_term_id = sco.course_term_id
       LEFT JOIN assignment_evaluations sa ON sco.id = sa.enrollment_id AND a.id = sa.assignment_id

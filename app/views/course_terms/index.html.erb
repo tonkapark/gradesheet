@@ -6,12 +6,12 @@
       <thead>
         <th>Section ID</th>
         <th>Course</th>
-        <th>Instructor</th>
+        <%= content_tag :th, "Instructor" unless current_user.type == 'Teacher' || current_user.type == 'TeacherAssistant' %>
         <th>Grading Period</th>
         <th>Enrollments</th>
       </thead>
       <tbody>  
-        <%= render :partial => @course_terms %>      
+        <%= render :partial => @course_terms, :locals => {:role => current_user.type} %>      
       </tbody>
     </table>
     <% will_paginate @course_terms %>
@@ -28,7 +28,7 @@
         <th>Enrollments</th>
       </thead>
       <tbody>  
-        <%= render :partial => @all_course_terms %>      
+        <%= render :partial => @all_course_terms, :locals => {:role => current_user.type} %>      
       </tbody>
     </table>
     <% will_paginate @all_course_terms %>

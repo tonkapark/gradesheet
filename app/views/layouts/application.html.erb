@@ -38,7 +38,16 @@
         </div>
 
         <div class='span-23'>
-          <%= menu_builder(request.path_parameters['controller'].split('/')[0]) %>
+          <%#= menu_builder(request.path_parameters['controller'].split('/')[0]) %>
+          <ul id="menu">
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "People", users_path %></li>
+            <li><%= link_to "Courses", courses_path %></li>
+            <li><%= link_to "Course Sections", course_terms_path %></li>
+            <li><%= link_to "Assignments", assignments_path %></li>            
+            <li><%= link_to "Reports", reports_path %></li>
+            <li><%= link_to "Settings", settings_path %></li>
+          </ul>
         </div>
       </div>
 

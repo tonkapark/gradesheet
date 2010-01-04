@@ -4,7 +4,8 @@ class AssignmentsController < GradesheetController
   before_filter :load_assignment, :except => [:index, :new, :create]
   
   def index  
-    @assignments = current_user.assignments.paginate :page => params[:page] unless current_user.type == 'Administrator'
+    @assignments = current_user.assignments.paginate :page => params[:page] unless current_user.type == 'Administrator'  
+
     if current_user.type == 'Administrator' || current_user.is_admin?      
       @all_assignments = Assignment.paginate :page => params[:page]
     end    
@@ -12,7 +13,7 @@ class AssignmentsController < GradesheetController
   
   def show
     AssignmentEvaluation.gradebook(@assignment.id).each do |sa|
-      @assignment.assignment_evaluations.build(:enrollment_id => sa.enrollment_id) if sa.id.blank?
+      @assignment.assignment_evaluations.build(:enrollment_id => sa.enrollment_id, :student_id => sa.student_id) if sa.id.blank?
     end    
   end
   

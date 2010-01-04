@@ -5,6 +5,8 @@ class Assignment < ActiveRecord::Base
   belongs_to	:course_term
   belongs_to	:assignment_category
   has_many		:assignment_evaluations
+  has_many :enrollments, :through => :assignment_evaluations
+  
   accepts_nested_attributes_for :assignment_evaluations, :allow_destroy => true, :reject_if => proc { |a| a['points_earned'].blank? }
   
   validates_length_of       :name, :within => 1..20
@@ -14,8 +16,7 @@ class Assignment < ActiveRecord::Base
   validates_existence_of    :course_term
   validates_existence_of    :assignment_category
 
-  delegate :grading_scale, :to => :course_term
-    
+  delegate :grading_scale, :to => :course_term  
   
   # Return a date formated for display as an assignment due date.
   def due_date_formatted

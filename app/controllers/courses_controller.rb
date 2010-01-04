@@ -5,11 +5,7 @@ class CoursesController < GradesheetController
   after_filter :expire_cache, :only => [:create, :update, :destroy]
 
   def index
-    if current_user.type == 'Administrator' || current_user.is_admin?
-      @courses = Course.find(:all)
-    else
-      @courses = Course.active.find_all_by_teacher_id(current_user)
-    end
+    @courses = Course.find(:all)
   end
   
   def new

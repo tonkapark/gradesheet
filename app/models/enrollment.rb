@@ -3,6 +3,7 @@ class Enrollment < ActiveRecord::Base
 	belongs_to :student	
 	belongs_to :course_term, :counter_cache => true
   has_many :assignment_evaluations
+  has_many :assignments, :through => :assignment_evaluations
   
 	validates_existence_of	:student
 	#validates_existence_of	:course
@@ -15,8 +16,8 @@ class Enrollment < ActiveRecord::Base
     self.total_points_earned = 0
     self.assignment_evaluations.each do |a|
      self.total_points_earned += a.points_earned_as_number
-   end
-   self.save!
- end
- 
+    end
+    self.save!
+  end
+   
 end
