@@ -1,6 +1,6 @@
 class Users::TeachersController < Users::BaseController
   
-  before_filter :find_teacher, :only => [:edit, :update, :destroy]
+  before_filter :find_teacher, :only => [:show, :edit, :update, :destroy]
   
   
   def index
@@ -15,10 +15,8 @@ class Users::TeachersController < Users::BaseController
     end
   end
 
-  # We don't really want to show an individual person but rather the listing
-  # of all people.
   def show
-		redirect_to :action => :index
+
   end
 
   def new

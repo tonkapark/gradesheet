@@ -4,6 +4,7 @@ class Room < ActiveRecord::Base
   belongs_to :building, :counter_cache =>true
   has_many :course_terms
   
-  validates_presence_of :name
+  validates_presence_of :name, :seats
+  validates_numericality_of	:seats, :greater_than_or_equal_to => 0
     
 end

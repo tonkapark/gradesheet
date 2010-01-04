@@ -1,7 +1,8 @@
+
 <div class="span-14">
-  <div>
+  <div >
     <h3>Section Details</h3>
-    <ul>
+    <ul id="<%= dom_id @course_term %>">
       <li><strong>Section ID:</strong> <%= @course_term.code %> <%= link_to "Edit", [:edit, @course_term] %></li>
       <li><strong>Course Name:</strong> <%= @course_term.course.name %></li>
       <li><strong>Term:</strong> <%= @course_term.term.name %> (<%= @course_term.term.begin_date.strftime("%A, %B %d, %Y") %> to <%= @course_term.term.end_date.strftime("%A, %B %d, %Y") %>)</li>

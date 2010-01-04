@@ -11,7 +11,9 @@ class CourseTermsController < GradesheetController
   end
   
   def show
-    
+    respond_to do |wants|
+      wants.html
+    end
   end
   
   def new
@@ -35,11 +37,15 @@ class CourseTermsController < GradesheetController
   
   def update
     
-    if @course_term.update_attributes(params[:course_term])
-      flash[:notice] = "Successfully updated course offering."
-      redirect_to @course_term
-    else
-      render :action => 'edit'
+    respond_to do |wants|
+      if @course_term.update_attributes(params[:course_term])
+        wants.html {
+        flash[:notice] = "Successfully updated course offering."
+        redirect_to @course_term
+        }
+      else
+        wants.html { render :action => 'edit' }
+   end
     end
   end
   
@@ -68,4 +74,5 @@ protected
   def find_course_term
     @course_term = CourseTerm.find(params[:id])
   end
+
 end

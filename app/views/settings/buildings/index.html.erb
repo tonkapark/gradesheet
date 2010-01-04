@@ -20,7 +20,7 @@
         <small><%= link_to "Add Room", new_building_room_path(building) %></small>
         <ul>
         <% building.rooms.each do |room| %>
-          <li><%= link_to room.name, room %> (<%= room.seats %>)</li>
+          <li><%= link_to room.name, [building, room] %> (<%= room.seats %>)</li>
         <% end %>
         </ul>      
       </td>
