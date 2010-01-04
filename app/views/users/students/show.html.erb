@@ -2,6 +2,8 @@
 <h2><%= @student.full_name %> <small><%= link_to 'edit', edit_student_path(@student) %></small></h2>
 
 <ul>
+<li>Login: <%= @student.login %></li>
+<li>email: <%= @student.email %></li>
 <li><strong>School ID:</strong> <%= @student.school_number unless @student.school_number.blank? %></li>
 <li><strong>Site:</strong> <%= @student.site.name unless @student.site.blank? %></li>
 <li><strong>Projected Graduation:</strong> <%= @student.class_of unless @student.class_of.blank? %></li>
