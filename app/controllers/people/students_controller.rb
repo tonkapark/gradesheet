@@ -1,17 +1,21 @@
-class Users::StudentsController < Users::BaseController
+class People::StudentsController < People::BaseController
 
   before_filter :find_student, :only => [:show, :edit, :update, :destroy ]
-  before_filter :load_homerooms, :only => [:new, :edit, :create]
 
   def index
-    sort_init 'last_name'
+    sort_init 'lastname'
     sort_update
     params[:sort_clause] = sort_clause
-    @students = Student.search(params)
+        
+    if params[:search]
+      @students = Student.code_or_firstname_or_lastname_like_any(params[:search].to_s.split).paginate  :order => params[:sort_clause], :page => params[:page]
+    else
+      @students = Student.paginate :order => params[:sort_clause], :page => params[:page]
+    end        
 
     respond_to do |format|
       format.html
-      format.js { render :partial => "users/user_list", :locals => { :users => @students }}
+      format.js { render :partial => "people/user_list", :locals => { :people => @students }}
     end
   end
 
@@ -42,16 +46,11 @@ class Users::StudentsController < Users::BaseController
   end
 
   def update    
-		## If an alternate HOMEROOM is provided then use it instead
-		if !params[:homeroom1].empty?
-			params[:student][:homeroom] = params[:homeroom1]
-		end
 
     if @student.update_attributes(params[:student])
       flash[:notice] = "Student  '" + @student.full_name + "'  was successfully updated."
-      redirect_to students_url
+      redirect_to @student
     else
-      @homerooms = Student.find_homerooms()
       render :action => "edit"
     end
   end
@@ -65,11 +64,7 @@ class Users::StudentsController < Users::BaseController
   
 protected
   def find_student
-    @student = Student.find(params[:id])
-  end
-  
-  def load_homerooms
-    @homerooms = Student.find_homerooms() 
+    @student = Student.find_by_code!(params[:id])
   end
     
 end

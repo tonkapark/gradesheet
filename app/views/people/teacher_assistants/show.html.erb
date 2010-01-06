@@ -1,0 +1,33 @@
+
+<h2><%= @teacher_assistant.full_name %> <small><%= link_to 'edit', edit_teacher_assistant_path(@teacher_assistant) %></small></h2>
+
+<h3>Details</h3>
+<ul>
+  <li><strong>School ID:</strong> <%= @teacher_assistant.code %></li>
+  <li><strong>gender:</strong> <%= @teacher_assistant.gender %></li>  
+  <li><strong>dob:</strong> <%= @teacher_assistant.date_of_birth %></li>    
+  <li><strong>email:</strong> <%= @teacher_assistant.email %></li>
+  <li><strong>phone:</strong> <%= @teacher_assistant.primary_phone %></li>
+  <li><strong>phone2:</strong> <%= @teacher_assistant.secondary_phone %></li>
+</ul>
+
+<% unless @teacher_assistant.user.blank? %>
+<h3>User</h3>
+<ul>
+  <li>Login: <%= @teacher_assistant.user.login %></li>
+  <li>Last Login: <%= @teacher_assistant.user.last_login_at %></li>
+</ul>
+<% end %>
+
+<% unless @teacher_assistant.course_terms.empty? %>
+  <h3>Teaching:</h3>
+  <% @teacher_assistant.course_terms.each do |co| %>
+    <h3><%= link_to co.code, co %> <small>(<%= co.term.name %>)</small></h3>
+    <% if co.enrollments.empty? %>  
+      <p class="error">No enrolled students</p>  
+    <% else %>
+      <%= render :partial => 'people/enrollments/roster', :locals => { :enrollments => co.enrollments } %>
+    <% end %>  
+    
+  <% end %>
+<% end %>

@@ -1,23 +1,25 @@
-class Users::TeacherAssistantsController < Users::BaseController
+class People::TeacherAssistantsController < People::BaseController
   
-  before_filter :find_ta, :only => [:edit, :update, :destroy ]
+  before_filter :find_ta, :only => [:show, :edit, :update, :destroy ]
   
   def index
-    sort_init 'last_name'
+    sort_init 'lastname'
     sort_update
     params[:sort_clause] = sort_clause
-    @teacher_assistants = TeacherAssistant.search(params)
+    
+    if params[:search]
+      @teacher_assistants = TeacherAssistant.code_or_firstname_or_lastname_like_any(params[:search].to_s.split).paginate  :order => params[:sort_clause], :page => params[:page]
+    else
+      @teacher_assistants = TeacherAssistant.paginate :order => params[:sort_clause], :page => params[:page]
+    end       
 
     respond_to do |format|
       format.html # index.html.erb
-      format.js { render :partial => "users/user_list", :locals => { :users => @teacher_assistants } }
+      format.js { render :partial => "people/user_list", :locals => { :people => @teacher_assistants } }
     end
   end
 
-  # We don't really want to show an individual person but rather the listing
-  # of all people.
   def show
-		redirect_to :action => :index
   end
 
   def new
@@ -68,6 +70,6 @@ class Users::TeacherAssistantsController < Users::BaseController
   
 protected
   def find_ta
-    @teacher_assistant = TeacherAssistant.find(params[:id])
+    @teacher_assistant = TeacherAssistant.find_by_code!(params[:id])
   end  
 end

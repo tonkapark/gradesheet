@@ -1,29 +1,23 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :rooms
-
-  
 
   # Authlogic support
   map.resource :account #, :controller => "users"
   map.login "login", :controller => "user_sessions", :action => "new"
   map.logout "logout", :controller => "user_sessions", :action => "destroy"
 
-  # Since we subclass the Users into different types,
-  # we need to build routes for them.
-  map.resources	:users
-  map.resources	:people
+  
   map.namespace :people, :path_prefix => nil, :name_prefix => nil do |u|
     u.resources :students do |student|
       student.resources :enrollments, :as => 'courses', :member => {:confirm_drop => :get} do |sco|
         sco.resources :assignment_evaluations, :name_prefix => 'sco_', :only => [:index], :as => 'assignments'
-      end
-      
-    end
-    
-    u.resources :teachers
-    u.resources :teacher_assistants
+      end      
+    end    
     u.resources :administrators
+    u.resources :teachers
+    u.resources :teacher_assistants    
   end
+  
+  map.resources	:people
 	
   # Settings consists of many different, often unrelated, things.  The most
   # logical way to group them together is to build individual controllers

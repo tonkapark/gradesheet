@@ -30,6 +30,12 @@
       <%= f.password_field :password_confirmation %>
 
 
+      <% if current_user.is_admin? %>
+        <%= f.label :is_admin, "System Admin" %>
+        <%= f.check_box :is_admin, :class => 'input' %>
+        <br class="clear" />     
+      <% end %>  
+
       <div class='spacer'>
         <%= f.submit 'Save', :class=> 'btn positive' %>
         <%= link_to 'Cancel', '/', :class => 'btn standard' %>

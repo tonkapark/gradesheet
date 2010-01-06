@@ -1,4 +1,4 @@
-class Users::EnrollmentsController < Users::BaseController
+class People::EnrollmentsController < People::BaseController
   
   before_filter :load_student
   

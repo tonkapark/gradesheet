@@ -1,0 +1,11 @@
+<% content_for :left do %>
+	<%= render :partial => 'people/user_types' %>
+<% end %>
+
+<div id="users">
+	<%= render :partial => "people/user_list", :locals => { :people => @administrators }  %>
+</div>
+
+<br />
+
+<%#= link_to 'New Administrator', new_administrator_path %>

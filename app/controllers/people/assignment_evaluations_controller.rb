@@ -1,4 +1,4 @@
-class Users::AssignmentEvaluationsController < Users::BaseController
+class People::AssignmentEvaluationsController < People::BaseController
   
   before_filter :load_student_and_course_term, :only => [:index]
   

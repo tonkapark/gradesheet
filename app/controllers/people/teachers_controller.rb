@@ -1,17 +1,22 @@
-class Users::TeachersController < Users::BaseController
+class People::TeachersController < People::BaseController
   
   before_filter :find_teacher, :only => [:show, :edit, :update, :destroy]
   
   
   def index
-    sort_init 'last_name'
+    sort_init 'lastname'
     sort_update
     params[:sort_clause] = sort_clause
-    @teachers = Teacher.search(params)
 
+    if params[:search]
+      @teachers = Teacher.code_or_firstname_or_lastname_like_any(params[:search].to_s.split).paginate  :order => params[:sort_clause], :page => params[:page]
+    else
+      @teachers = Teacher.paginate :order => params[:sort_clause], :page => params[:page]
+    end        
+    
     respond_to do |format|
       format.html
-      format.js { render :partial => "users/user_list", :locals => { :users => @teachers } }
+      format.js { render :partial => "people/user_list", :locals => { :people => @teachers } }
     end
   end
 
@@ -32,7 +37,7 @@ class Users::TeachersController < Users::BaseController
     respond_to do |format|
       if @teacher.save
         flash[:notice] = "Teacher #{@teacher.full_name}' was successfully created."
-        format.html { redirect_to(teachers_url) }
+        format.html { redirect_to(@teacher) }
       else
         format.html { render :action => "new" }
       end
@@ -44,7 +49,7 @@ class Users::TeachersController < Users::BaseController
     respond_to do |format|
       if @teacher.update_attributes(params[:teacher])
         flash[:notice] = "Teacher '#{@teacher.full_name}' was successfully updated."
-        format.html { redirect_to(teachers_url) }
+        format.html { redirect_to(@teacher) }
       else
         format.html { render :action => "edit" }
       end
@@ -62,7 +67,7 @@ class Users::TeachersController < Users::BaseController
   
 protected
   def find_teacher
-    @teacher = Teacher.find(params[:id])
+    @teacher = Teacher.find_by_code!(params[:id])
   end  
   
 

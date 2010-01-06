@@ -1,0 +1,8 @@
+<% content_for :left do %>
+	<%= render :partial => 'user_types' %>
+<% end %>
+
+<div id="users">
+	<%= render :partial => "user_list", :locals => { :people => @people }  %>
+</div>
+

@@ -4,7 +4,7 @@ class Person < ActiveRecord::Base
   ValidatesDateTime.us_date_format = true
   
   belongs_to :school
-  belongs_to :user
+  has_one :user
   
   before_save :upcase_code
   

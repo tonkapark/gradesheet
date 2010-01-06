@@ -3,9 +3,9 @@ class CourseTermsController < GradesheetController
    before_filter :find_course_term, :except => [:index, :new, :create]
    
   def index    
-    @course_terms = current_user.course_terms.paginate :page => params[:page] unless current_user.type == 'Administrator'
+    @course_terms = current_user.person.course_terms.paginate :page => params[:page] unless current_user.person.class.name == 'Administrator'
     
-    if current_user.type == 'Administrator' || current_user.is_admin?
+    if current_user.person.class.name == 'Administrator' || current_user.is_admin?
       @all_course_terms = CourseTerm.paginate :page => params[:page]
     end    
   end

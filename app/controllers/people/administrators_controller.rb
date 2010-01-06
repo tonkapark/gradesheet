@@ -1,16 +1,21 @@
-class Users::AdministratorsController < Users::BaseController
+class People::AdministratorsController < People::BaseController
   
   before_filter :find_administrator, :only => [:edit, :update, :destroy]
   
   def index
-    sort_init 'last_name'
+    sort_init 'lastname'
     sort_update
     params[:sort_clause] = sort_clause
-    @administrators = Administrator.search(params)
+
+    if params[:search]
+      @administrators = Administrator.code_or_firstname_or_lastname_like_any(params[:search].to_s.split).paginate  :order => params[:sort_clause], :page => params[:page]
+    else
+      @administrators = Administrator.paginate :order => params[:sort_clause], :page => params[:page]
+    end       
 
     respond_to do |format|
       format.html
-      format.js { render :partial => "users/user_list", :locals => { :users => @administrators } }
+      format.js { render :partial => "people/user_list", :locals => { :people => @administrators } }
     end
   end
 
@@ -62,6 +67,6 @@ class Users::AdministratorsController < Users::BaseController
   
 protected
   def find_administrator
-    @administrator = Administrator.find(params[:id])
+    @administrator = Administrator.find_by_code!(params[:id])
   end  
 end

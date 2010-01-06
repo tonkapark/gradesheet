@@ -45,7 +45,7 @@ class Student < Person
         SELECT
           * 
         FROM
-          users s 
+          people s 
         WHERE
           s.type = 'Student'
           and
