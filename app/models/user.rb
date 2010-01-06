@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
     c.validate_email_field = false
   end
   
+  validates_uniqueness_of :login, :email
   validates_format_of  :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i, :allow_nil => true
 
   

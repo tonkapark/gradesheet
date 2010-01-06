@@ -9,7 +9,7 @@ class Assignment < ActiveRecord::Base
   
   accepts_nested_attributes_for :assignment_evaluations, :allow_destroy => true, :reject_if => proc { |a| a['points_earned'].blank? }
   
-  validates_length_of       :name, :within => 1..20
+  validates_length_of       :name, :within => 1..40
   validates_numericality_of :possible_points
   validates_presence_of     :possible_points
   validates_date            :due_date

@@ -15,7 +15,7 @@
           </tr>
         </thead>
         <tbody>
-          <%= render :partial => @assignments, :locals => { :role => current_user.type } %>
+          <%= render :partial => @assignments %>
         </tbody>
       </table>
       <% will_paginate @assignments %>
@@ -35,7 +35,9 @@
           </tr>
         </thead>
         <tbody>
-          <%= render :partial => @all_assignments, :locals => { :role => current_user.type } %>
+          <% @all_assignments.each do |assignment| %>
+            <%= render :partial => 'assignment', :locals => {:assignment => assignment} %>
+          <% end %>
         </tbody>
       </table>   
       

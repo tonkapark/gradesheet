@@ -6,7 +6,6 @@ class Enrollment < ActiveRecord::Base
   has_many :assignments, :through => :assignment_evaluations
   
 	validates_existence_of	:student
-	#validates_existence_of	:course
   validates_existence_of	:course_term
 
 	validates_uniqueness_of :student_id, :scope =>  :course_term_id

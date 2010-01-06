@@ -33,7 +33,7 @@ it should run on any system that runs Rails.
 2. Add the dependencies noted in the Requirements section
 3. Modify <tt>database.yml</tt> to point to your database
 4. Run <tt>rake db:migrate</tt> to create the database schema
-5. Run <tt>rake gradesheet:setup</tt> to create admin user
+5. Run <tt>rake gradesheet:admin</tt> to create admin super user
 6  Edit config/gradesheet.yml with SiteName and TagLine to be displayed in App
 7a. Run <tt>rake db:fixtures:load</tt> to load the text/fixtures data. (safe only for dev/test)
 7b. Alternately Load Sample Data rake gradesheet:sample (does not use fixtures)

@@ -15,24 +15,43 @@ module Gradesheet
     
     # Loads the default data
     # Raises a RecordNotSaved exception if something goes wrong
-    def bootstrap
-          
-      Site.transaction do
-        # Site Data
-        site = Site.create!(:name => 'Default Campus', :school_id => 1)
-
+    def admin_user          
+      User.transaction do
+        school = School.create!(:name => 'School Name')
+        admin = Administrator.create!(
+            :school_id => school.id,
+            :code => "ADMIN",
+            :firstname => 'Super',
+            :lastname => 'User'
+        )               
         # Administrator user
-        Administrator.create!(:login => 'admin', :first_name => 'Admin', :last_name => 'Admin',
-                     :site => site, :is_admin => true, :password_salt => Authlogic::Random.hex_token,
-                     :password => 'admin', :password_confirmation => 'admin', :email => 'admin@example.com')
+        User.create!(:login => 'admin', 
+                     :is_admin => true, 
+                     :password_salt => Authlogic::Random.hex_token,
+                     :password => 'admin', 
+                     :password_confirmation => 'admin', 
+                     :email => 'admin@example.com',
+                     :person_id => admin.id)
       end
     end
 
     def load_sample_data
       
-      [Course, AssignmentCategory, SupportingSkill, SupportingSkillCategory, ScaleRange, GradingScale, Term, SchoolYear, Student, Site].each(&:delete_all)
+      [Assignment, AssignmentEvaluation, Course, AssignmentCategory, SupportingSkill, SupportingSkillCategory, ScaleRange, GradingScale, Term, SchoolYear, Person, Site, School, Enrollment, CourseTerm, User].each(&:delete_all)
       
-      site = Site.create!(:name => Populator.words(1..3).titleize, :school_id => 1)
+      admin_user
+      
+      school = School.find(:first)
+      #create sites/buildings/rooms
+      3.times do
+        site = Site.create!(:name => Populator.words(1..3).titleize, :school_id => school.id)
+         2.times do
+           building = Building.create!(:name => Populator.words(1..2).titleize, :site_id => site.id)
+            10.times do
+              Room.create!(:building_id => building.id, :name => Populator.words(1..3).titleize, :seats => Populator.value_in_range(10..35))
+            end            
+         end         
+      end
       
       AssignmentCategory.create!(:name => 'Homework')
       AssignmentCategory.create!(:name => 'Quiz')
@@ -64,56 +83,76 @@ module Gradesheet
       first_semester = Term.create!(:school_year => year, :name => 'First Semester', :begin_date => Date.parse('2009-08-01'), :end_date => Date.parse('2009-12-21'), :active => true)
       second_semester = Term.create!(:school_year => year, :name => 'Second Semester', :begin_date => Date.parse('2010-01-10'), :end_date => Date.parse('2010-06-15'))
       
-      course = Course.create!(:code => 'MTH/100', :name => 'Introduction to Math', :grading_scale_id => scale.id)
-      teach = Teacher.create!(
-          :site_id => site.id,
-          :school_number => "T-#{Populator.value_in_range(1..99999999)}",
-          :login => Faker::Internet.user_name,
-          :first_name => Faker::Name.first_name,
-          :last_name => Faker::Name.last_name,
-          :email => Faker::Internet.email,
+      25.times do
+        teach = Teacher.create!(
+            :school_id => school.id,
+            :code => "T-#{Populator.value_in_range(1..99999999)}",
+            :firstname => Faker::Name.first_name,
+            :lastname => Faker::Name.last_name,
+            :primary_phone => Faker::PhoneNumber.phone_number,
+            :email => Faker::Internet.email
+        )           
+        User.create!(
+          :person_id => teach.id,
+          :login => Faker::Internet.user_name(teach.full_name),
+          :email => teach.email,
           :password => 'password',
           :password_confirmation => 'password',
-          :password_salt => Authlogic::Random.hex_token
-          )      
-      CourseTerm.create!( :code => "#{course.code}-001", :course_id => course.id, :term_id => first_semester.id, :teacher_id => teach.id)
-      CourseTerm.create!( :code => "#{course.code}-002" , :course_id => course.id, :term_id => second_semester.id, :teacher_id => teach.id)
-      
-      course = Course.create!(:code => '1STGRADE', :name => 'The First Grade', :grading_scale_id => scale.id)
-      teach = Teacher.create!(
-          :site_id => site.id,
-          :school_number => "T-#{Populator.value_in_range(1..99999999)}",
-          :login => Faker::Internet.user_name,
-          :first_name => Faker::Name.first_name,
-          :last_name => Faker::Name.last_name,
-          :email => Faker::Internet.email,
-          :password => 'password',
-          :password_confirmation => 'password',
-          :password_salt => Authlogic::Random.hex_token
-          )           
-      CourseTerm.create!( :code => "#{course.code}-001", :course_id => course.id, :term_id => first_semester.id, :teacher_id => teach.id)
-      CourseTerm.create!( :code => "#{course.code}-002", :course_id => course.id, :term_id => second_semester.id, :teacher_id => teach.id)
-
-      3.times do
-        site = Site.create!(:name => Populator.words(1..3).titleize, :school_id => 1)
-                
-        20.times do
-          Student.create!(
-          :site_id => site.id,
-          :school_number => "ST#{Populator.value_in_range(1..99999999)}",
-          :login => Faker::Internet.user_name,
-          :first_name => Faker::Name.first_name,
-          :last_name => Faker::Name.last_name,
-          :email => Faker::Internet.email,
-          :class_of => Populator.value_in_range(2008..2018),
-          :homeroom => '',
-          :password => 'password',
-          :password_confirmation => 'password',
-          :password_salt => Authlogic::Random.hex_token
-          )
-          
-        end
+          :password_salt => Authlogic::Random.hex_token          
+        )
       end
+
+      create_user = true
+      100.times do
+        firstname = Faker::Name.first_name
+        lastname = Faker::Name.last_name      
+        fullname = "#{firstname} #{lastname}"
+        
+        st = Student.create!(
+        :school_id => school.id,
+        :code => "ST-#{lastname[0,1]}#{rand(9999999999)}#{rand(999)}",          
+        :firstname => firstname,
+        :lastname => lastname,
+        :primary_phone => Faker::PhoneNumber.phone_number,
+        :email => Faker::Internet.email (fullname)        
+        )
+        
+        if create_user
+          User.create!(
+          :person_id => st.id,
+          :login => Faker::Internet.user_name(fullname),
+          :email => st.email,
+          :password => 'password',
+          :password_confirmation => 'password',
+          :password_salt => Authlogic::Random.hex_token          
+          )
+        end
+        create_user = create_user ? false : true
+      end
+        
+      10.times do
+        course = Course.create!(:code => "#{Populator.words(1)}/#{Populator.value_in_range(100..500)}", :name => Populator.words(1..4).titleize, :grading_scale_id => scale.id)      
+        1.times do
+          room = Room.find(:first, :order => rand())
+          teacher = Teacher.find(:first, :order => rand())
+          course_offering = CourseTerm.create!( :code => "#{course.code}-001", :course_id => course.id, :term_id => first_semester.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room => room) 
+          2.times do
+            Assignment.create!(:course_term_id => course_offering.id, :name => Populator.words(1..3).titleize, :assignment_category => AssignmentCategory.find(:first, :order => rand()), :possible_points => rand(100), :due_date => Date.today + rand(100))
+          end
+
+          course_offering2 = CourseTerm.create!( :code => "#{course.code}-001", :course_id => course.id, :term_id => second_semester.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room => room)                      
+          2.times do
+            Assignment.create!(:course_term_id => course_offering2.id, :name => Populator.words(1..3).titleize, :assignment_category => AssignmentCategory.find(:first, :order => rand()), :possible_points => rand(100), :due_date => Date.today + rand(200))
+          end
+          
+          students = Student.find(:all, :limit => course_offering.seats, :order => rand())
+          students.each do |student|
+            Enrollment.create!(:course_term_id => course_offering.id, :student_id => student.id) 
+            Enrollment.create!(:course_term_id => course_offering2.id, :student_id => student.id) 
+          end           
+        end        
+      end 
+      
     end
   
 

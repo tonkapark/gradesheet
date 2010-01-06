@@ -4,8 +4,10 @@ class AssignmentsController < GradesheetController
   before_filter :load_assignment, :except => [:index, :new, :create]
   
   def index  
-    @assignments = current_user.person.assignments.paginate :page => params[:page] unless current_user.person.class.name == 'Administrator'  
-
+    unless current_user.person.blank?
+      @assignments = current_user.person.assignments.paginate :page => params[:page] unless current_user.person.class.name == 'Administrator'  
+    end
+    
     if current_user.person.class.name== 'Administrator' || current_user.is_admin?      
       @all_assignments = Assignment.paginate :page => params[:page]
     end    
