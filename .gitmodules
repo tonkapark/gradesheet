@@ -1,3 +1,3 @@
 [submodule "vendor/plugins/clearance-invite"]
 	path = vendor/plugins/clearance-invite
-	url = git@github.com:tonkapark/clearance-invite.git
+	url = git://github.com/tonkapark/clearance-invite.git
