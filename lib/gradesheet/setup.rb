@@ -2,8 +2,8 @@ module Gradesheet
   class Setup
     class << self
  
-      def bootstrap
-        new.bootstrap
+      def admin_user
+        new.admin_user
       end 
       
       def load_sample_data
@@ -25,12 +25,11 @@ module Gradesheet
             :lastname => 'User'
         )               
         # Administrator user
-        User.create!(:login => 'admin', 
-                     :is_admin => true, 
-                     :password_salt => Authlogic::Random.hex_token,
+        User.create!(:email => 'admin@localhost.com',
+                     :admin => true, 
                      :password => 'admin', 
-                     :password_confirmation => 'admin', 
-                     :email => 'admin@example.com',
+                     :password_confirmation => 'admin',                      
+                     :email_confirmed => true,
                      :person_id => admin.id)
       end
     end
@@ -94,11 +93,9 @@ module Gradesheet
         )           
         User.create!(
           :person_id => teach.id,
-          :login => Faker::Internet.user_name(teach.full_name),
           :email => teach.email,
           :password => 'password',
-          :password_confirmation => 'password',
-          :password_salt => Authlogic::Random.hex_token          
+          :password_confirmation => 'password'      
         )
       end
 
@@ -120,11 +117,9 @@ module Gradesheet
         if create_user
           User.create!(
           :person_id => st.id,
-          :login => Faker::Internet.user_name(fullname),
           :email => st.email,
           :password => 'password',
-          :password_confirmation => 'password',
-          :password_salt => Authlogic::Random.hex_token          
+          :password_confirmation => 'password'     
           )
         end
         create_user = create_user ? false : true

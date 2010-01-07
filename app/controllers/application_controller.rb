@@ -2,6 +2,8 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base  
+  include Clearance::Authentication
+  
   # FIXME: I don't think we want to include ALL helpers here, just possibly the application-helper
   helper :all # include all helpers, all the time
  
@@ -22,71 +24,8 @@ class ApplicationController < ActionController::Base
     flash[:warning] = 'Record could not be found.  Please try again.'
     redirect_to :action => :index
   end
+  
   def show_error(exception); render :text => exception.message; end
  
- 
- 
-  #######################
-  # Private methods
-  private
- 
-  # Get the session object for the current user  
-  def current_user_session
-    return @current_user_session if defined?(@current_user_session)
-    @current_user_session = UserSession.find
-  end
-  
-  # Get the current user
-  def current_user
-    return @current_user if defined?(@current_user)
-    @current_user = current_user_session && current_user_session.user
-  end
- 
-  # Make sure that there is a current user.  If not, redirect the user to the
-  # login page.
-  def require_user
-    unless current_user
-      store_location
-      flash[:notice] = "You must be logged in to access this page"
-      redirect_to new_user_session_url
-      return false
-    end
-  end
- 
-  # Make sure there is not a current user.
-  def require_no_user
-    if current_user
-      store_location
-      flash[:notice] = "You must be logged out to access this page"
-      redirect_to dashboard_index_url
-      return false
-    end
-  end
- 
-  # Keep the location that the user was trying to get to in-case we need to
-  # redirect them
-  def store_location
-    session[:return_to] = request.request_uri
-  end
- 
-  # Send the user to the page they were trying to get to before they were forced
-  # to log in.
-  def redirect_back_or_default(default)
-    redirect_to(session[:return_to] || default)
-    session[:return_to] = nil
-  end
-  
-  # Check to make sure the user is supposed to access this page
-  def authorized?
-    unless current_user.is_admin?
-      unless session[:authorize].detect{ |menu_name, controller| controller == controller_name }
-        flash[:error] = "You don't have the authority to access that page"
-        redirect_to dashboard_index_path
-        return false
-      end
-    end
-  end  
-  
-  
   
 end

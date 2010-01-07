@@ -1,11 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
 
-  # Authlogic support
-  map.resource :account #, :controller => "users"
-  map.login "login", :controller => "user_sessions", :action => "new"
-  map.logout "logout", :controller => "user_sessions", :action => "destroy"
-
-  
   map.namespace :people, :path_prefix => nil, :name_prefix => nil do |u|
     u.resources :students do |student|
       student.resources :enrollments, :as => 'courses', :member => {:confirm_drop => :get} do |sco|
@@ -37,7 +31,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :settings, :only => [:index]
 
 	# Build the standard routes
-  map.resources :user_sessions
   map.resources :dashboard
   
   map.resources :reports  
@@ -55,4 +48,5 @@ ActionController::Routing::Routes.draw do |map|
 
   # By default, we want the user to see the "dashboard" page.
   map.root :controller => "dashboard"
+  
 end

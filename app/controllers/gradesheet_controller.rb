@@ -1,4 +1,3 @@
 class GradesheetController < ApplicationController
-  before_filter :require_user
-  #append_before_filter :authorized?
+  before_filter :authenticate  
 end
