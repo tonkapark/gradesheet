@@ -25,12 +25,14 @@ module Gradesheet
             :lastname => 'User'
         )               
         # Administrator user
-        User.create!(:email => 'admin@localhost.com',
+        user = User.create!(:email => 'admin@localhost.com',
                      :admin => true, 
                      :password => 'admin', 
-                     :password_confirmation => 'admin',                      
-                     :email_confirmed => true,
+                     :password_confirmation => 'admin',        
                      :person_id => admin.id)
+        
+        user.confirm_email!
+        user.save
       end
     end
 

@@ -15,6 +15,11 @@ Rails::Initializer.run do |config|
   # Add additional load paths for your own custom dirs
   config.load_paths += %W( #{RAILS_ROOT}/lib/reports )
   
+  config.gem "clearance", 
+    :lib     => 'clearance', 
+    :source  => 'http://gemcutter.org', 
+    :version => '0.8.4'
+  
   config.gem "will_paginate", 
     :version => '~> 2.3.11', 
     :lib => 'will_paginate',

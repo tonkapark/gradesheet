@@ -49,4 +49,15 @@ ActionController::Routing::Routes.draw do |map|
   # By default, we want the user to see the "dashboard" page.
   map.root :controller => "dashboard"
   
+  #allow controller override of clearance user
+  map.resources :users do |users|
+    users.resource :password,
+      :controller => 'clearance/passwords',
+      :only => [:create, :edit, :update]
+
+    users.resource :confirmation,
+      :controller => 'clearance/confirmations',
+      :only => [:new, :create]
+    end    
+  
 end

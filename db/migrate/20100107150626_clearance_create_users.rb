@@ -9,7 +9,6 @@ class ClearanceCreateUsers < ActiveRecord::Migration
       t.boolean  :email_confirmed, :default => false, :null => false
       t.boolean  :admin, :default => false, :null => false
       t.integer :person_id
-      t.integer :invite_id
       t.timestamps
     end
 
