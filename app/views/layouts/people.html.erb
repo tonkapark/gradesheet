@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><%= Gradesheet[:site_name]  %> - <%= controller.controller_name.humanize %></title>
+
+    <%= stylesheet_link_tag 'screen', 'menu', 'tabs', 'local', :cache => false -%>
+
+    <%= yield(:head) %>
+    <%= @content_for_page_header -%>    
+    
+  </head>
+
+  <body>
+    <div class='container'>
+      <div id='header' class='span-24 last'>
+
+        <div class='span-2'>
+          <a href='/'><img class='top' src='/images/logo.png' alt="logo" width='60px' height='60px' /></a>
+        </div>
+
+        <% cache 'layout_header' do %>
+        <div class='span-12'>
+          <span class='title last'><%= Gradesheet[:site_name] %></span>
+          <span class='tagline column span-12'><%= Gradesheet[:tag_line] %></span>
+        </div>
+        <% end %>
+
+        <div id='account-info' class='span-9 last'>
+          <% if !current_user %>
+            <span>Welcome</span> | 
+            <span><%= link_to "Sign in ", sign_in_path %></span>
+          <% else %>
+            <span><%= current_user.full_name %></span> | 
+            <span><%= link_to 'My Account', [:edit,current_user] %></span> | 
+            <span><%= link_to "Sign out", sign_out_path, :method => :delete %></span>
+          <% end %>
+        </div>
+
+        <div class='span-23'>
+          <%#= menu_builder(request.path_parameters['controller'].split('/')[0]) %>
+          <ul id="menu">
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "People", people_path %></li>
+            <li><%= link_to "Courses", courses_path %></li>
+            <li><%= link_to "Course Sections", course_terms_path %></li>
+            <li><%= link_to "Assignments", assignments_path %></li>            
+            <li><%= link_to "Reports", reports_path %></li>
+            <li><%= link_to "Settings", settings_path %></li>
+          </ul>
+          <ul id="submenu" style="clear:both">                        
+            <li><%= link_to 'Administrators', administrators_path %></li>
+            <li><%= link_to 'Teachers', teachers_path %></li>
+            <li><%= link_to 'Students', students_path %></li>
+          </ul>
+        </div>
+      </div>
+
+      <div id='flash' class='span-24 last'><%= show_flash %></div>
+      <% if @content_for_left %>
+        <div class='span-4 colborder'><%= yield :left  %></div>
+        <div class='span-19 last'><%= yield  %></div>      
+      <% else %>        
+        <div class='span-24 last'><%= yield  %></div>      
+
+      <% end %>
+      
+
+
+      <div class='span-24 last' id='footer'>
+        &copy; 2005 - 2009 <a href='http://www.kangaroobox.com'>KangarooBox</a>, LLC.  All rights reserved.
+      </div>
+    </div>
+
+    <%= @content_for_page_footer -%>
+    <%= render :file => 'layouts/analytics.inc' if File.exist?(RAILS_ROOT + '/app/views/layouts/analytics.inc') %>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>    
+      <th>LastName, Firstname</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => people  %>
+  </tbody>
+</table>
+
+<span class="paginate">
+  <%= will_paginate people %>
+</span>

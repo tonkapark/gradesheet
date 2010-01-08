@@ -1,8 +1,6 @@
-<% content_for :left do %>
-	<%= render :partial => 'user_types' %>
-<% end %>
 
-<div id="users">
-	<%= render :partial => "user_list", :locals => { :people => @people }  %>
+<h2>Listing <%= params[:role].nil? ? "All People" : params[:role].pluralize %></h2>
+<div id="people">
+	<%= render :partial => "person_list", :locals => { :people => @people }  %>
 </div>
 

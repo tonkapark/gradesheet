@@ -1,10 +1,12 @@
 class Person < ActiveRecord::Base
   attr_accessible :school, :code, :firstname, :middlename, :lastname, :generation, :gender, :date_of_birth, :primary_phone, :secondary_phone, :email
-    
+  attr_accessor :permalink
+  
   ValidatesDateTime.us_date_format = true
   
   belongs_to :school
   has_one :user
+  has_many :roles, :class_name => 'PersonRole'
   
   before_save :upcase_code    
   
@@ -21,6 +23,12 @@ class Person < ActiveRecord::Base
                               :message => "cannot contain certain special characters or spaces. Valid(a-z, 0-9, -)",
                               :allow_blank => true
                               
+  
+                              
+  def to_param
+    code.blank? ? "#{id}" : code
+  end
+      
   def date_of_birth
     dob.to_s
   end
