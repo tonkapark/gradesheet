@@ -3,7 +3,7 @@ class Settings::SitesController < SettingsController
   before_filter :find_site, :only => [:show, :edit, :update, :destroy]
   
   def index
-    @sites = Site.all
+    @sites = current_user.school.sites.all
     
     respond_to do |format|
       format.html # index.html.erb
@@ -18,7 +18,7 @@ class Settings::SitesController < SettingsController
 
 
   def new
-    @site = Site.new
+    @site = current_user.school.sites.new
 
     respond_to do |format|
       format.html { render :action => :edit }
@@ -31,7 +31,7 @@ class Settings::SitesController < SettingsController
 
 
   def create
-    @site = Site.new(params[:site])
+    @site = current_user.school.sites.new(params[:site])
 
     if @site.save
       flash[:notice] = "Campus '#{@site.name}' was successfully created."
@@ -61,6 +61,6 @@ class Settings::SitesController < SettingsController
   
 protected
   def find_site
-    @site = Site.find(params[:id])
+    @site = current_user.school.sites.find(params[:id])
   end
 end

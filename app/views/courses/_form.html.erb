@@ -6,17 +6,21 @@
       <legend><%= course.new_record? ? 'New Course' : 'Edit Course' %></legend>
 
       <%= f.label :code, "Course ID", :class => "req" %>
-      <%= f.text_field :code, :class => "focus" %>
+      <% if f.object.new_record? %>
+        <%= f.text_field :code, :class => "focus" %>
+      <% else %>
+        <%= f.text_field :code, { :disabled => 'disabled' }%>
+      <% end %>
       <br />      
       <%= f.label :name, "Course Name", :class => "req" %>
-      <%= f.text_field :name %>
+      <%= f.text_field :name, :class => "focus"  %>
       <br />
       <%= f.label :grading_scale_id, {}, :class => 'req' %>
       <%= collection_select :course, :grading_scale_id, grading_scales, :id, :name %>
 
       <div class="spacer">
-        <%= f.submit 'Create', :class=> 'btn positive' %>
-        <%= link_to 'Cancel', {:action=> 'index', :controller=> 'courses'}, :class => 'btn positive' %>
+        <%= f.submit 'Save', :class=> 'btn positive' %>
+        <%= link_to 'Cancel', course %>
       </div>
     </fieldset>
   <% end %>

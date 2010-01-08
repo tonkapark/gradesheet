@@ -1,0 +1,27 @@
+<% content_for :left do %>
+  <%= render :partial => 'settings/settings_list' %>
+<% end %>
+
+
+<h3><%= @skill_category.name %> <small><%= link_to 'edit', [:edit, @skill_category] %></small></h3>
+
+<table>
+  <thead>
+    <th>Description</th>
+    <th>Enable</th>
+  </thead>
+  <tbody>
+  <% @skill_category.supporting_skills.each do |skill| %>
+    <tr class="<%= cycle("odd","even") %>">
+      <td>
+        <%= skill.description %> 
+      </td>
+      
+      <td>
+        <%= skill.active %>
+      </td>
+      
+    </tr> 
+  <% end %>
+  </tbody>
+</table>

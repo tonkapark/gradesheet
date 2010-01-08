@@ -3,7 +3,7 @@
   <div >
     <h3>Section Details</h3>
     <ul id="<%= dom_id @course_term %>">
-      <li><strong>Section ID:</strong> <%= @course_term.code %> <%= link_to "Edit", [:edit, @course_term] if current_user.type == 'Administrator' || current_user.is_admin? %></li>
+      <li><strong>Section ID:</strong> <%= @course_term.code %> <%= link_to "Edit", [:edit, @course_term] %></li>
       <li><strong>Course Name:</strong> <%= @course_term.course.name %></li>
       <li><strong>Term:</strong> <%= @course_term.term.name %> (<%= @course_term.term.begin_date.strftime("%A, %B %d, %Y") %> to <%= @course_term.term.end_date.strftime("%A, %B %d, %Y") %>)</li>
       <li><strong>Instructor:</strong> <%= link_to @course_term.teacher.full_name, @course_term.teacher %></li>
@@ -68,16 +68,15 @@
       </tbody>
     </table>
   
-    <% if current_user.type == 'Administrator' || current_user.is_admin? %>
-      <% form_for Enrollment.new(:course_term_id => @course_term.id) do |f| %>
-        <%= f.error_messages %>
-        <%= f.hidden_field :course_term_id, :value => @course_term.id %>
-        <%= f.hidden_field :course_id, :value => @course_term.course_id %>  
-        <%= f.label :student, "Enroll Student" %>
-        <%= f.collection_select(:student_id, Student.available_for_course_term(@course_term), :id, :full_name, {:include_blank => true})  %>
-        <%= f.submit "Submit", :name => nil %>
-      <% end %>  
-    <% end %>    
+
+    <% form_for Enrollment.new(:course_term_id => @course_term.id) do |f| %>
+      <%= f.error_messages %>
+      <%= f.hidden_field :course_term_id, :value => @course_term.id %>
+      <%= f.hidden_field :course_id, :value => @course_term.course_id %>  
+      <%= f.label :student, "Enroll Student" %>
+      <%= f.collection_select(:student_id, current_user.school.students.available_for_course_term(@course_term), :id, :full_name, {:include_blank => true})  %>
+      <%= f.submit "Submit", :name => nil %>
+    <% end %>  
   </div>  
 
 </div>

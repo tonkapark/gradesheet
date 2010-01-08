@@ -1,0 +1,14 @@
+  
+<div class="supporting_skill">
+<tr class="<%= cycle("odd","even") %>">
+  <td>
+    <%= f.text_field :description %> 
+  </td>
+  
+  <td>
+    <%= f.check_box :active %>
+  </td>
+  
+  <td><%= remove_link_unless_new_record(f) -%></td>
+</tr>  
+</div>

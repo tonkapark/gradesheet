@@ -1,0 +1,25 @@
+<h3><%= @course.name %></h3>
+<table>
+  <thead>
+    <th>Course Name (ID)</th>
+    <th>Grading Scale</th>
+  </thead>
+  <tbody>   
+  
+    <tr class="even">
+      <td><strong><%= @course.name %> (<%= @course.code %>)</strong> <small><%= link_to "Edit", [:edit, @course] %></small></td>
+      <td><%= @course.grading_scale.name  %></td>
+    </tr>
+    <tr>
+      <td colspan="2">     
+        <h3>Sections <small><%= link_to "Create New Section", new_course_term_path(:course_id => @course) %></small></h3>
+        <ul>
+        <% @course.course_terms.each do |co| %>
+          <li><%= link_to co.code, co %> (<%= " #{co.school_year.name}/#{co.term.name}" %>)</li>
+        <% end %>
+        </ul>
+       </td>
+    </tr>
+
+  </tbody>
+</table>

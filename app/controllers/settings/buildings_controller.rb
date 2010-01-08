@@ -1,22 +1,22 @@
 class Settings::BuildingsController < SettingsController
 
   before_filter :find_building, :except => [:index, :new, :create]
-  before_filter :load_sites, :only => [:new, :edit]
+  before_filter :load_sites, :only => [:index, :new, :edit]
 
   def index
-    @buildings = Building.all
+    @buildings = current_user.school.buildings.all
   end
   
   def show    
   end
   
   def new
-    @building = Building.new
+    @building = current_user.school.buildings.new
     @building.rooms.build
   end
   
   def create
-    @building = Building.new(params[:building])
+    @building = current_user.school.buildings.new(params[:building])
     if @building.save
       flash[:notice] = "Successfully created building."
       redirect_to buildings_url
@@ -48,11 +48,11 @@ class Settings::BuildingsController < SettingsController
   
 protected 
   def find_building
-    @building = Building.find(params[:id])
+    @building = current_user.school.buildings.find(params[:id])
   end
   
   def load_sites
-    @sites = Site.find(:all)
+    @sites = current_user.school.sites.find(:all)
   end
   
   

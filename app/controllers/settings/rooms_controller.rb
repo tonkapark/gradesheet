@@ -52,6 +52,6 @@ class Settings::RoomsController < SettingsController
   end
   
   def load_building
-    @building = Building.find(params[:building_id])
+    @building = current_user.school.buildings.find(params[:building_id])
   end
 end

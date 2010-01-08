@@ -69,7 +69,7 @@ protected
   end
   
   def load_assignment
-    @assignment = Assignment.find(params[:id])
+    @assignment = current_user.school.assignments.find(params[:id])
   end
   
 end

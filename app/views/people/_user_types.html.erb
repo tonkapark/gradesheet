@@ -22,11 +22,7 @@
   	<tr class="even" onclick="location.href='<%= teachers_url %>'">
       <td><%= link_to 'Teachers', teachers_path %></td>
 		  <td><%= button_to( 'Add', new_teacher_url , :method => :get, :class => 'btn standard sml' ) %></td>
-	  </tr>	
-    <tr class="odd" onclick="location.href='<%= teacher_assistants_url %>'">
-      <td><%= link_to 'Teacher Assistants', teacher_assistants_path %></td>
-      <td><%= button_to( 'Add', new_teacher_assistant_url , :method => :get, :class => 'btn standard sml' ) %></td>
-    </tr>		   	   	   
+	  </tr>		   	   	   
   </tbody>
 </table>
 

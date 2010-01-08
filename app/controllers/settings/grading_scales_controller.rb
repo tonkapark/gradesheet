@@ -3,7 +3,7 @@ class Settings::GradingScalesController < SettingsController
   before_filter :find_scale, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @scales = GradingScale.find(:all)
+    @scales = current_user.school.grading_scales.find(:all)
   end
 
   def show
@@ -11,14 +11,14 @@ class Settings::GradingScalesController < SettingsController
 
 
   def new
-    @scale = GradingScale.new
+    @scale = current_user.school.grading_scales.new
   end
 
   def edit
   end
 
   def create
-    @scale = GradingScale.new(params[:grading_scale])
+    @scale = current_user.school.grading_scales.new(params[:grading_scale])
 
     if @scale.save
       flash[:notice] = "Grading scale '#{@scale.name}' was successfully created."
@@ -52,7 +52,7 @@ class Settings::GradingScalesController < SettingsController
 
 protected
   def find_scale
-    @scale = GradingScale.find(params[:id])
+    @scale = current_user.school.grading_scales.find(params[:id])
   end
   
 end

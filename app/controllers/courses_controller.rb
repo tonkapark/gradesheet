@@ -1,156 +1,58 @@
 class CoursesController < GradesheetController
 
-  before_filter :find_course, :only => [:edit, :remove_student, :add_student]
-  before_filter :find_grade_scales_and_teachers, :only => [:edit, :new]
+  before_filter :find_course, :only => [:show, :edit, :update]
+  before_filter :find_grade_scales, :only => [:edit, :new]
   after_filter :expire_cache, :only => [:create, :update, :destroy]
 
   def index
-    @courses = Course.find(:all)
+    @courses = current_user.school.courses.find(:all)
   end
   
   def new
-    @course = Course.new
-    @school_years = SchoolYear.active
+    @course = current_user.school.courses.new
   end
 
-  def edit    
-    @homerooms = Student.find_homerooms()
-    @skill_cats = SupportingSkillCategory.active
-    
-    
-		respond_to do |format|
-			format.html
-			format.js {
-				# The format of the params[value] is studentid||header name||type.  This
-				# allows us to load the proper list of students and label the table
-				# header with something appropriate.  It is a hack and I'm sure there
-				# is a better way to do this.
-				value = params[:value].split('||')
-				if value.pop == 'H' then
-					# Find students by "Home Room"
-					@students = Student.find_all_by_homeroom(value[0])
-				else
-					# Find students by "Class Of"
-					@students = Student.find_all_by_class_of(value[0])
-				end
-
-				render :partial => "student_list"
-			}
-		end  end
+  def edit        
+    @skill_cats = current_user.school.supporting_skill_categories.active
+  end
 
   def create
-    @course       = Course.new(params[:course])    
-    
-    # Force the course to be created by the current user
-		#@course.teacher = current_user
-
-    # Insert the grading terms
-    #@course.terms << SchoolYear.find(params[:school_year][:id]).terms
+    @course  = current_user.school.courses.new(params[:course])        
 
     if @course.save
       flash[:notice] = "Course '#{@course.name}' was successfully created."
       redirect_to(courses_url)
     else
-      find_grade_scales_and_teachers      
-      @school_years = SchoolYear.active
+      find_grade_scales
       render :action => "new"
     end
    
   end
 
   def update
-    # Are we updating the course or assigning a supporting skill?
-    if params[:skill]
-      # Add or remove supporting_skills to this course
-      course_term = CourseTerm.find(params[:id])
-      course_term.supporting_skills.delete(SupportingSkill.find(params[:skill]["false"])) if params[:skill]["false"]
-      course_term.supporting_skills << SupportingSkill.find(params[:skill]["true"]) if params[:skill]["true"]
-      @course = course_term.course
+    if @course.update_attributes(params[:course])
+      flash[:notice] = "Successfully updated course."
+      redirect_to @course
     else
-      @course = Course.find(params[:id])
-    end
-
-
-
-    respond_to do |format|
-      if @course.update_attributes(params[:course])
-        flash[:notice] = "Course '#{@course.name}' was successfully updated."
-	      format.html { redirect_to(courses_url) }
-	      format.js { render :action => "update" }
-      else
-        flash[:error] = "Course '#{@course.name}' failed to update."
-        format.html { redirect_to(:action => "edit") }
-        format.js { head :unprocessable_entity }
-      end
+      render :action => 'edit'
     end
   end
 
 
   def destroy  
     @course.destroy
-
     flash[:notice] = "Course '#{@course.name}' was successfully deleted."
-    redirect_to :action => :index
+    redirect_to courses_url
   end
 
- 	# Add student(s) to a course  
-  def add_student
-
-    # Are we adding one student or an array of students?
-    if params[:students]
-      # Add all the students to the course
-      students = Student.find(params[:students])
-      students.each do |student|
-        begin
-          @course.students << student
-        rescue ActiveRecord::RecordInvalid
-          # This is here to catch an existing student being added to a course
-        end
-      end
-      @course.save
-    else
-      # Add a single student to the course and save it
-  		@student = Student.find(params[:student_id])    	
-  	  @add = true
-		  
-   		if @course.students.index(@student) == nil
-	      @course.students << @student
-	      @course.save
-      end
-    end
-    
-   	render :action => "modify", :locals => { :add => true }
-  end
-
-  # Remove a student from a course
-  def remove_student
- 		@student = Student.find(params[:student_id])
- 		@add = false
- 		
- 		if @course.students.index(@student) != nil
-	    @course.students -= [@student]
-  	  @course.save
-  	end
-
-   	render :action => "modify", :locals => { :add => false }
-  end
-  
-  # Toggle the accommodation flag on/off.
-  def toggle_accommodation
-    @enrollment = Enrollment.find(params[:id])
-    @enrollment.toggle!(:accommodation)
-    
-    render :nothing => true
-  end
 
 protected
   def find_course
-    @course = Course.find(params[:id])
+    @course = current_user.school.courses.find(params[:id])
   end
   
-  def find_grade_scales_and_teachers
-    @grading_scales = GradingScale.find(:all)
-    @teachers = Teacher.find(:all)
+  def find_grade_scales
+    @grading_scales = current_user.school.grading_scales.find(:all)
   end
     
   private

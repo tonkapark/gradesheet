@@ -1,10 +1,10 @@
 class Settings::SupportingSkillsController < SettingsController
   
-  before_filter :find_skill, :only => [:show, :edit, :update, :destroy]
-
-  def index
-    @categories = SupportingSkillCategory.all
-    @skills = SupportingSkill.by_category_id(category.id)
+  before_filter :load_category, :only => [:index, :new, :create]
+  before_filter :find_skill_and_category, :except => [:index, :new, :create]
+  
+  def index    
+    @skills = @category.supporting_skills.all
   end
 
   def show
@@ -12,69 +12,53 @@ class Settings::SupportingSkillsController < SettingsController
 
 
   def new
-    @skill = SupportingSkill.new
-
-    render :action => :edit
+    @skill = @category.supporting_skills.new
   end
 
 
-  def edit
-    @skill_category = SupportingSkillCategory.find(@skill.supporting_skill_category_id)
+  def edit    
   end
 
 
   def create
-    @skill = SupportingSkill.new(params[:supporting_skill])
-    @skill_category = SupportingSkillCategory.find(params[:supporting_skill][:supporting_skill_category_id])
-
+    @skill = @category.supporting_skills.build(params[:supporting_skill])
     if @skill.save
       flash[:notice] = "Supporting skill was successfully created."
+      redirect_to @category
     else
-      flash[:error] = "Supporting skill was not created."
+      render :action => 'new'
     end
 
-     render :action => :edit
+    
   end
 
 
   def update
-
-    respond_to do |format|
-      if @skill.update_attributes(params[:supporting_skill])
-        format.html {
-          flash[:notice] = "Supporting skill was successfully updated."
-          redirect_to :action => :edit,
-          :controller => :supporting_skill_categories,
-          :id => @skill.supporting_skill_category_id
-        }
-        format.js   { head :ok }
-      else
-        format.html {
-          flash[:error] = "Supporting skill was not successfully updated."
-          redirect_to :action => :edit
-        }
-        format.js   { head :unprocessable_entity }
-      end
+    if @room.update_attributes(params[:room])
+      flash[:notice] = "Successfully updated skill."
+      redirect_to @category
+    else
+      render :action => 'edit'
     end
   end
 
 
 
   def destroy
-
-    if @skill.destroy
-      flash[:notice] = "Supporting skill was successfully deleted."
-    else
-      flash[:error] = "Supporting skill was not deleted."
-    end
-    
-    redirect_to :action => :edit,
-      :controller => :supporting_skill_categories,
-      :id => @skill.supporting_skill_category_id
+    @room.destroy
+    flash[:notice] = "Successfully destroyed room."
+    redirect_to @category
   end
   
 protected
-  def find_skill
-    @skill = SupportingSkill.find(params[:id])
+  def find_skill_and_category
+    load_category
+    @skill = @category.supporting_skills.find(params[:id])
   end
+  
+  def load_category
+    @category = current_user.school.supporting_skill_categories.find(params[:suporting_skill_category_id])
+  end
+  
+
 end

@@ -1,4 +1,4 @@
-class Student < Person  
+class Student < PersonRole
 	has_many	:enrollments
   has_many	:course_terms, :through => :enrollments
 	has_many	:assignment_evaluations
@@ -15,13 +15,13 @@ class Student < Person
   def self.available_for_course_term(course_term)
     find_by_sql ["
         SELECT
-          * 
+          pr.* 
         FROM
-          people s 
+          person_roles pr
         WHERE
-          s.type = 'Student'
+          pr.type = 'Student'
           and
-          s.id not in (
+          pr.person_id not in (
                       SELECT
                         sco.student_id 
                       FROM

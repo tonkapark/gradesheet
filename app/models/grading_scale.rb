@@ -2,11 +2,13 @@
 class GradingScale < ActiveRecord::Base
 	before_destroy  :ensure_no_children
   after_update    :save_ranges
-  
+    
+  belongs_to :school
 	has_many	:courses
 	has_many  :scale_ranges, :dependent => :destroy
   accepts_nested_attributes_for :scale_ranges, :allow_destroy => true, :reject_if => proc { |a| a['max_score'].blank? }
 	
+  validates_presence_of :school_id
 	validates_length_of     :name, :within => 1..20
 	validates_uniqueness_of :name, :case_sensitive => false
 	validates_associated    :scale_ranges

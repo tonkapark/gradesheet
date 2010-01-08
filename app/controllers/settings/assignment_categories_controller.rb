@@ -3,7 +3,7 @@ class Settings::AssignmentCategoriesController < SettingsController
   before_filter :find_type, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @types = AssignmentCategory.all
+    @types = current_user.school.assignment_categories.all
     
     respond_to do |format|
       format.html # index.html.erb
@@ -18,8 +18,8 @@ class Settings::AssignmentCategoriesController < SettingsController
 
 
   def new
-    @type = AssignmentCategory.new
-
+    @type = current_user.school.assignment_categories.new
+    
     render :action => :edit
   end
 
@@ -29,8 +29,8 @@ class Settings::AssignmentCategoriesController < SettingsController
 
 
   def create
-    @type = AssignmentCategory.new(params[:assignment_category])
-
+    @type = current_user.school.assignment_categories.new(params[:assignment_category])
+    #@type.school = current_user.school
     respond_to do |format|
       if @type.save
         flash[:notice] = "Assignment type '#{@type.name}' was successfully created."
@@ -64,7 +64,7 @@ class Settings::AssignmentCategoriesController < SettingsController
   
 protected
   def find_type
-    @type = AssignmentCategory.find(params[:id])
+    @type = current_user.school.assignment_categories.find(params[:id])
   end
   
 end

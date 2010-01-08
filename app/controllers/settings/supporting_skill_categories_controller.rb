@@ -4,7 +4,7 @@ class Settings::SupportingSkillCategoriesController < SettingsController
   before_filter :find_skill_category, :only => [ :update, :destroy]
   
   def index
-    @skill_categories = SupportingSkillCategory.all
+    @skill_categories = current_user.school.supporting_skill_categories.all
   end
 
   def show    
@@ -12,9 +12,7 @@ class Settings::SupportingSkillCategoriesController < SettingsController
 
 
   def new
-    @skill_category = SupportingSkillCategory.new
-
-    render :action => :edit
+    @skill_category = current_user.school.supporting_skill_categories.new
   end
 
 
@@ -23,14 +21,13 @@ class Settings::SupportingSkillCategoriesController < SettingsController
 
 
   def create
-    @skill_category = SupportingSkillCategory.new(params[:supporting_skill_category])
+    @skill_category = current_user.school.supporting_skill_categories.new(params[:supporting_skill_category])
 
     if @skill_category.save
       flash[:notice] = "Supporting skill category '#{@skill_category.name}' was successfully created."
-      render :action => :edit
+      redirect_to @skill_category
     else
-      flash[:error] = "Supporting skill category was not created."
-      redirect_to :action => :index
+      render :action => 'new'
     end
 
   end
@@ -39,9 +36,9 @@ class Settings::SupportingSkillCategoriesController < SettingsController
   def update
     if @skill_category.update_attributes(params[:supporting_skill_category])
       flash[:notice] = "Supporting skill category '#{@skill_category.name}' was successfully updated."
-      redirect_to :action => :index
+      redirect_to @skill_category
     else
-      render :action => :edit
+      render :action => 'edit'
     end
   end
 
@@ -53,17 +50,17 @@ class Settings::SupportingSkillCategoriesController < SettingsController
       flash[:error] = "Supporting skill category '#{@skill_category.name}' was not deleted."
     end
     
-    redirect_to :action => :index
+    redirect_to supporting_skill_categories_url
   end
   
 protected
   def find_skill_category
-    @skill_category = SupportingSkillCategory.find(params[:id])
+    @skill_category = current_user.school.supporting_skill_categories.find(params[:id])
   end
   
   def find_supporting_skills_and_category
     find_skill_category
-    @skills = SupportingSkill.by_category_id(params[:id])
+    @skills = current_user.school.supporting_skills.by_category_id(params[:id])
   end
   
 end

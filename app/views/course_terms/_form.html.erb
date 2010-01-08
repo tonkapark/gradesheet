@@ -8,24 +8,24 @@
       <% if course_term.new_record? %>
         <%= f.text_field :code, {:class => "focus" } %>
       <% else %>
-          <%= f.text_field :code, {:class => "focus", :disabled => 'disabled' } %>
+          <%= f.text_field :code, {:disabled => 'disabled' } %>
       <% end %>      
       <br />
       <%= f.label :course, "Course Name", :class => "req" %>
-      <%= f.select(:course_id, Course.all.collect {|r| [ r.name + ' (' + r.code + ')', r.id]}, {:include_blank => true}) %>
+      <%= f.select(:course_id, current_user.school.courses.all.collect {|r| [ r.name + ' (' + r.code + ')', r.id]}, {:include_blank => true}) %>
       <br />
       <%= f.label :term, "Grading Term", :class => "req" %>
-      <%= f.select(:term_id, Term.all.collect {|r| [ r.name + ' (' + r.begin_date.to_s + ' - ' + r.end_date.to_s + ')', r.id]}, {:include_blank => true}) %>            
+      <%= f.select(:term_id, current_user.school.terms.all.collect {|r| [ r.name + ' (' + r.begin_date.to_s + ' - ' + r.end_date.to_s + ')', r.id]}, {:include_blank => true}) %>            
       <br />
       <%= f.label :teacher_id, "Teacher Name", :class => "req" %>
-      <%= f.select(:teacher_id, Teacher.all.collect {|r| [ r.full_name , r.id]}, {:include_blank => true}) %>
+      <%= f.select(:teacher_id, current_user.school.teachers.all.collect {|r| [ r.full_name , r.id]}, {:include_blank => true}) %>
+      <br />
+      <%= f.label :room_id, "Room", :class => "req" %>      
+      <%= f.select(:room_id, Room.all(:include => :building, :conditions => ["buildings.school_id = ?", current_user.school.id]).collect {|r| [ r.building.name + '/' + r.name + ' (' + r.seats.to_s + ')', r.id]}, {:include_blank => true})  %>
       <br />
       <%= f.label :seats, "Seats", :class => "req" %> 
       <%= f.text_field :seats, {:size => 3} %>
-      <br />
-      <%= f.label :room_id, "Room", :class => "req" %>      
-      <%= f.select(:room_id, Room.all(:include => :building).collect {|r| [ r.building.name + '/' + r.name + ' (' + r.seats.to_s + ')', r.id]}, {:include_blank => true})  %>
-      <br />
+      <br />      
       <div class="spacer">
         <%= f.submit 'Save', :class=> 'btn positive' %> | <%= link_to 'Cancel', courses_url %>
       </div>

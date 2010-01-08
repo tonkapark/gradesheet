@@ -4,16 +4,16 @@ class Settings::SchoolYearsController < SettingsController
   after_filter :expire_cache, :only => [:create, :update, :destroy]  
 
   def index
-    @years = SchoolYear.all(:order => "end_date DESC", :include => :terms)
+    @years = current_user.school.school_years.all(:order => "end_date DESC", :include => :terms)
   end
 
   def show
-    @year = SchoolYear.find(params[:id], :include => :terms)
+    @year = current_user.school.school_years.find(params[:id], :include => :terms)
   end
 
 
   def new
-    @year = SchoolYear.new
+    @year = current_user.school.school_years.new
   end
 
 
@@ -22,7 +22,7 @@ class Settings::SchoolYearsController < SettingsController
 
 
   def create
-    @year = SchoolYear.new(params[:school_year])
+    @year = current_user.school.school_years.new(params[:school_year])
 
     if @year.save
       flash[:notice] = "School year '#{@year.name}' was successfully created."
@@ -54,7 +54,7 @@ class Settings::SchoolYearsController < SettingsController
 
 protected
   def find_year
-    @year = SchoolYear.find(params[:id])
+    @year = current_user.school.school_years.find(params[:id])
   end
   
 private

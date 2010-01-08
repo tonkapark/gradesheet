@@ -10,7 +10,7 @@
     <tr>
       <td><%=h room.building.name %></td>
       <td><%=h room.name %></td>
-      <td><%=h room.capacity %></td>
+      <td><%=h room.seats %></td>
       <td><%= link_to "Show", [@building,room] %></td>
       <td><%= link_to "Edit", [:edit, @building, room] %></td>
       <td><%= link_to "Destroy", [@building,room], :confirm => 'Are you sure?', :method => :delete %></td>
