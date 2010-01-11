@@ -14,7 +14,7 @@
         <%= render :partial => @course_terms, :locals => {:role => current_user.type} %>      
       </tbody>
     </table>
-    <% will_paginate @course_terms %>
+    <%= will_paginate @course_terms %>
   <% end %>
   
   <% unless @all_course_terms.blank? %>
@@ -31,6 +31,6 @@
         <%= render :partial => @all_course_terms, :locals => {:role => current_user.type} %>      
       </tbody>
     </table>
-    <% will_paginate @all_course_terms %>
+    <%= will_paginate @all_course_terms %>
   <% end %>  
 </div>

@@ -1,8 +1,9 @@
 # Links the course with each of its terms or grading periods.
 class CourseTerm < ActiveRecord::Base
 	
-  attr_accessible :course_id, :code, :term_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
+  attr_accessible :school, :course_id, :code, :term_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
   
+  belongs_to :school
   belongs_to :teacher
   belongs_to  :term
 	belongs_to  :course
@@ -33,6 +34,10 @@ class CourseTerm < ActiveRecord::Base
   delegate :active,         :to => :term
   delegate :grading_scale,  :to => :course
   delegate :students,       :to => :enrollment
+  
+  #will_paginate defaults
+  cattr_reader :per_page
+  @@per_page = 15  
   
   # Calculate a students current grade for a particular course & term.
   def calculate_grade(student_id)

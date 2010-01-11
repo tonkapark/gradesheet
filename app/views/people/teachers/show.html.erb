@@ -1,21 +1,13 @@
-
 <h2><%= @teacher.full_name %> <small><%= link_to 'edit', edit_teacher_path(@teacher) %></small></h2>
 
 <h3>Details</h3>
-<ul>
-  <li><strong>School ID:</strong> <%= @teacher.code %></li>
-  <li><strong>gender:</strong> <%= @teacher.gender %></li>  
-  <li><strong>dob:</strong> <%= @teacher.date_of_birth %></li>    
-  <li><strong>email:</strong> <%= @teacher.email %></li>
-  <li><strong>phone:</strong> <%= @teacher.primary_phone %></li>
-  <li><strong>phone2:</strong> <%= @teacher.secondary_phone %></li>
-</ul>
+<%= render 'people/person_detail', :person => @teacher %>
 
 <% unless @teacher.user.blank? %>
-<h3>User</h3>
+<h3>User Account</h3>
 <ul>
-  <li>Login: <%= @teacher.user.login %></li>
-  <li>Last Login: <%= @teacher.user.last_login_at %></li>
+  <li><strong>login:</strong> <%= @teacher.user.email %></li>
+  <li>last login: <%#= @teacher.user.last_login_at %></li>  
 </ul>
 <% end %>
 

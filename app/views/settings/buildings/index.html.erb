@@ -1,5 +1,9 @@
 <% title "Buildings" %>
 
+<% content_for :left do %>
+  <%= render :partial => 'settings/settings_list' %>
+<% end %>
+
 <%= link_to "Add New Building", new_building_path %>
 
 

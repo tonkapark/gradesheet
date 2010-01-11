@@ -5,7 +5,7 @@
     </tr>
   </thead>
   <tbody>
-    <% reports.delete_if{ |r| r.restricted } unless current_user.is_admin? %>
+    <% reports.delete_if{ |r| r.restricted } unless current_user.admin? %>
 
     <% reports.each do |r| %>
       <tr class="<%= cycle('odd', 'even') + (current_page?(:id => r.name) ? ' current' : '') %>"

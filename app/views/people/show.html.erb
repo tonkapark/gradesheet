@@ -10,17 +10,6 @@
   <li><strong>phone2:</strong> <%= @person.secondary_phone %></li>
 </ul>
 
-<% unless @person.roles.blank? %>
-<h3>Roles</h3>
-<p>
-  <% @person.roles.each do |role| %>
-    <%= role.class.name %>,
-  <% end %>
-</p>  
-<% end %>
-
-
-
 <% unless @person.user.blank? %>
 <h3>User Account</h3>
 <ul>

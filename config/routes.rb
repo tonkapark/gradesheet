@@ -1,21 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
 
-  #~ map.namespace :people, :path_prefix => nil, :name_prefix => nil do |u|
-    #~ u.resources :students do |student|
-      #~ student.resources :enrollments, :as => 'courses', :member => {:confirm_drop => :get} do |sco|
-        #~ sco.resources :assignment_evaluations, :name_prefix => 'sco_', :only => [:index], :as => 'assignments'
-      #~ end      
-    #~ end    
-    #~ u.resources :administrators
-    #~ u.resources :teachers
-    #~ u.resources :teacher_assistants    
-  #~ end
-  
-  map.resources	:people
-  map.students 'students', :controller => 'people', :action => 'index', :role => 'Student'
-  map.teachers 'teachers', :controller => 'people', :action => 'index', :role => 'Teacher'
-  map.administrators 'administrators', :controller => 'people', :action => 'index', :role => 'Administrator'
-    
+  map.namespace :people, :path_prefix => nil, :name_prefix => nil do |u|
+    u.resources :students do |student|
+      student.resources :enrollments, :as => 'courses', :member => {:confirm_drop => :get} do |sco|
+        sco.resources :assignment_evaluations, :name_prefix => 'sco_', :only => [:index], :as => 'assignments'
+      end      
+    end    
+    u.resources :administrators
+    u.resources :teachers
+    u.resources :teacher_assistants    
+  end
+  map.resources	:people, :only => [:index]
+
+
   # Settings consists of many different, often unrelated, things.  The most
   # logical way to group them together is to build individual controllers
   # and house them under the Settings "master" controller.  

@@ -3,26 +3,24 @@ class CourseTermsController < GradesheetController
    before_filter :find_course_term, :except => [:index, :new, :create]
    
   def index    
-    @course_terms = current_user.person.course_terms.paginate :page => params[:page] unless current_user.person.class.name == 'Administrator'
+    @course_terms = current_user.person.course_terms.paginate :page => params[:page] unless current_user.admin?
     
-    if current_user.person.class.name == 'Administrator' || current_user.is_admin?
-      @all_course_terms = CourseTerm.paginate :page => params[:page]
+    if current_user.admin?
+      @all_course_terms = current_user.school.course_terms.paginate :page => params[:page]
     end    
   end
   
   def show
-    respond_to do |wants|
-      wants.html
-    end
+
   end
   
   def new
-    @course_term = CourseTerm.new
+    @course_term = current_user.school.course_terms.new
     @course_term.course_id = params[:course_id] #if params [:course_id]
   end
   
   def create
-    @course_term = CourseTerm.new(params[:course_term])
+    @course_term = current_user.school.course_terms.new(params[:course_term])
     if @course_term.save
       flash[:notice] = "Successfully created course offering."
       redirect_to @course_term
@@ -72,7 +70,7 @@ class CourseTermsController < GradesheetController
   
 protected
   def find_course_term
-    @course_term = CourseTerm.find(params[:id])
+    @course_term = current_user.school.course_terms.find(params[:id])
   end
 
 end

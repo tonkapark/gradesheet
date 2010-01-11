@@ -1,0 +1,5 @@
+<tr class="<%= cycle('odd', 'even') %>" >
+  <%= content_tag :td, person.code %>
+  <td><%= link_to person.fullname_last, person %></td>
+  <%= content_tag :td, person.email %>
+</tr>

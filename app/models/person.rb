@@ -1,16 +1,18 @@
 class Person < ActiveRecord::Base
-  attr_accessible :school, :code, :firstname, :middlename, :lastname, :generation, :gender, :date_of_birth, :primary_phone, :secondary_phone, :email
+  attr_accessible :school, :code, :firstname, :middlename, :lastname, :generation, :gender, :date_of_birth, :primary_phone, :secondary_phone, :email, :roles_attributes
   attr_accessor :permalink
   
   ValidatesDateTime.us_date_format = true
   
   belongs_to :school
   has_one :user
-  has_many :roles, :class_name => 'PersonRole'
+  has_many :person_roles
+  has_many :roles, :through => :person_roles
+  accepts_nested_attributes_for :roles, :allow_destroy => true, :reject_if => proc { |a| a['role_id'].blank? }
   
   before_save :upcase_code    
   
-  validates_presence_of :firstname, :lastname
+  validates_presence_of :school_id, :firstname, :lastname
   validates_inclusion_of :generation, :in => GENERATIONS_LIST, :message => " {{value}} is not a valid selection.", :allow_blank => true
   validates_inclusion_of :gender, :in => %w[Male Female], :allow_blank => true
   validates_date :dob, :after => '1 Jan 1900', :before => Proc.new { 1.day.from_now.to_date }, :before_message => 'cannot be in the future.', :allow_nil => true
@@ -22,8 +24,10 @@ class Person < ActiveRecord::Base
   validates_format_of :code, :with => /^[\w-]+$/,
                               :message => "cannot contain certain special characters or spaces. Valid(a-z, 0-9, -)",
                               :allow_blank => true
-                              
-  
+
+  #will_paginate defaults
+  cattr_reader :per_page
+  @@per_page = 20    
                               
   def to_param
     code.blank? ? "#{id}" : code

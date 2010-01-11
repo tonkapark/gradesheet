@@ -1,5 +1,6 @@
 # Links the course_term with supporting skills.
 class CourseTermSkill < ActiveRecord::Base
+  belongs_to :school
   belongs_to  :course_term
   belongs_to  :supporting_skill
   has_many    :supporting_skill_evaluations

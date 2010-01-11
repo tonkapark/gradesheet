@@ -1,7 +1,7 @@
 class EnrollmentsController < GradesheetController
 
   def create
-    @enrollment = Enrollment.new(params[:enrollment])
+    @enrollment = current_user.school.enrollments.new(params[:enrollment])
     
     if @enrollment.save
       flash[:notice] = "Successfully created student course enrollment."

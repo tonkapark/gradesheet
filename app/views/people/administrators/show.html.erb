@@ -1,0 +1,13 @@
+<h2><%= @administrator.full_name %> <small><%= link_to 'edit', edit_administrator_path(@administrator) %></small></h2>
+
+<h3>Details</h3>
+<%= render 'people/person_detail', :person => @administrator %>
+
+<% unless @administrator.user.blank? %>
+<h3>User Account</h3>
+<ul>
+  <li><strong>login:</strong> <%= @administrator.user.email %></li>
+  <li>last login: <%#= @administrator.user.last_login_at %></li>  
+</ul>
+<% end %>
+

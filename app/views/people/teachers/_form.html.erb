@@ -1,5 +1,5 @@
 <div class='box span-13'>
-  <% form_for person do |f| %>  
+  <% form_for teacher do |f| %>  
     <fieldset>
       <%= f.label :code, "School ID" %>
       <%= f.text_field :code, :class => 'input' %>
@@ -30,18 +30,12 @@
       <br/>
       <%= f.label :secondary_phone, "Secondary Phone" %>
       <%= f.text_field :secondary_phone, {:size => 10, :class => 'input'} %>  
-      <br/>      
-      
-      <% Role.all.each do |r| %>
-        <%= r.name %>: <input type="checkbox" id="<%= r.id %>" name="role_ids[]" value="<%= r.id %>"
-         <% if @person.roles.include? r %>checked="checked"<% end %>>
-      <% end %>   
-      
+      <br/>            
 
 
       <div class="spacer">
         <%= submit_tag 'Save', :class => 'btn positive' %>
-        <%= link_to 'Cancel', person %>
+        <%= link_to 'Cancel', teacher %>
       </div>
     </fieldset>
   <% end %>

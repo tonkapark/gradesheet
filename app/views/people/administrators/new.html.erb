@@ -1,7 +1,2 @@
-<% content_for :left do %>
-	<%= render :partial => 'people/user_types' %>
-<% end %>
-
-<%= error_messages_for :administrator, :header_message => "Please Try Again!", :message => "We had some problems creating the new administrator:" %>
-
-<%= render :partial => "people/edit", :locals => { :person => @administrator, :sites => @sites } %>
+<h2>New administrator</h2>
+<%= render :partial => 'form', :locals => {:administrator => @administrator} %>

@@ -18,7 +18,7 @@
           <%= render :partial => @assignments %>
         </tbody>
       </table>
-      <% will_paginate @assignments %>
+      <%= will_paginate @assignments %>
     <% end %>
     
     <% unless @all_assignments.blank? %>
@@ -41,7 +41,7 @@
         </tbody>
       </table>   
       
-      <% will_paginate @all_assignments %>
+      <%= will_paginate @all_assignments %>
     <% end %>
        
   </div>

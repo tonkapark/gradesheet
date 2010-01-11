@@ -1,5 +1,6 @@
 # Contains the minimum & maximum grades possible and their letter scores.
 class ScaleRange < ActiveRecord::Base
+  belongs_to :school
   belongs_to  :grading_scale
 
   validate :min_less_than_max

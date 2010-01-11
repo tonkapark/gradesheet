@@ -2,6 +2,7 @@
 class Assignment < ActiveRecord::Base
   before_destroy :ensure_no_children
   
+  belongs_to :school
   belongs_to	:course_term
   belongs_to	:assignment_category
   has_many		:assignment_evaluations
@@ -17,6 +18,10 @@ class Assignment < ActiveRecord::Base
   validates_existence_of    :assignment_category
 
   delegate :grading_scale, :to => :course_term  
+  
+  #will_paginate defaults
+  cattr_reader :per_page
+  @@per_page = 15      
   
   # Return a date formated for display as an assignment due date.
   def due_date_formatted

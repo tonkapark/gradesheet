@@ -1,4 +1,3 @@
 class People::BaseController < GradesheetController
-  include SortHelper
-
+  layout 'people'
 end

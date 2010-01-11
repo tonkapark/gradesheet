@@ -19,6 +19,10 @@ class Course < ActiveRecord::Base
   
   validates_length_of		:name, :in => 1..100
   
+  #will_paginate defaults
+  cattr_reader :per_page
+  @@per_page = 5     
+  
   # Courses are considered 'active' only if they are in a grading term that is 'active'.
   named_scope :active, :include => :terms,
     :conditions	=> ["date_ranges.active = ?", true],

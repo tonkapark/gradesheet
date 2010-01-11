@@ -1,3 +1,3 @@
-class Administrator < PersonRole
+class Administrator < Person
 		
 end

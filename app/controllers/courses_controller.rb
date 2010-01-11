@@ -5,7 +5,7 @@ class CoursesController < GradesheetController
   after_filter :expire_cache, :only => [:create, :update, :destroy]
 
   def index
-    @courses = current_user.school.courses.find(:all)
+    @courses = current_user.school.courses.paginate :page => params[:page]
   end
   
   def new

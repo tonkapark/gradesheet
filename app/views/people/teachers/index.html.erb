@@ -1,11 +1,6 @@
-<% content_for :left do %>
-	<%= render :partial => 'people/user_types' %>
-<% end %>
-
-<div id="users">
-	<%= render :partial => "people/user_list", :locals => { :people => @teachers }  %>
+<h2>Listing All Teachers</h2>
+<p><%= link_to "Add Teacher", new_teacher_path %></p>
+<div id="people">
+  <%= render 'people/person_list_paginate', :people => @teachers %>
 </div>
 
-<br />
-
-<%#= link_to 'New Teacher', new_teacher_path %>

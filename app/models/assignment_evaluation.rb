@@ -4,6 +4,7 @@ class AssignmentEvaluation < ActiveRecord::Base
   before_validation :massage_points_earned
   after_save :update_enrollment_points_earned
   
+  belongs_to :school
 	belongs_to :enrollment
 	belongs_to :assignment
 

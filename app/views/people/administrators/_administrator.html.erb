@@ -1,0 +1,6 @@
+<tr class="<%= cycle('odd', 'even') %>" >
+  <td><%= link_to administrator.fullname_last, administrator %></td>
+
+  <%= content_tag :td, administrator.email %>
+  <td><%= administrator.class.name.titleize %></td>
+</tr>

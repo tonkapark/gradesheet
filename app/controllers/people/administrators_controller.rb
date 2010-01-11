@@ -1,72 +1,54 @@
 class People::AdministratorsController < People::BaseController
   
-  before_filter :find_administrator, :only => [:edit, :update, :destroy]
+  before_filter :find_administrator, :except => [:index, :new, :create]
   
-  def index
-    sort_init 'lastname'
-    sort_update
-    params[:sort_clause] = sort_clause
-
+  def index  
+  
     if params[:search]
-      @administrators = Administrator.code_or_firstname_or_lastname_like_any(params[:search].to_s.split).paginate  :order => params[:sort_clause], :page => params[:page]
+      @administrators =current_user.school.administrators.code_or_firstname_or_lastname_like_any(params[:search].to_s.split).ascend_by_lastname.paginate :page => params[:page]
     else
-      @administrators = Administrator.paginate :order => params[:sort_clause], :page => params[:page]
-    end       
-
-    respond_to do |format|
-      format.html
-      format.js { render :partial => "people/user_list", :locals => { :people => @administrators } }
+      @administrators = current_user.school.administrators.paginate :order => 'lastname', :page => params[:page]
     end
+      
   end
-
+  
   def show
-		redirect_to :action => :index
   end
-
+  
   def new
-    @administrator = Administrator.new
-    render :action => :edit
+    @administrator = current_user.school.administrators.new    
   end
-
+  
+  def create
+    @administrator = current_user.school.administrators.build(params[:administrator])    
+    if @administrator.save
+      flash[:notice] = "Successfully created administrator."
+      redirect_to @administrator
+    else
+      render :action => 'new'
+    end 
+  end
+  
   def edit
   end
-
-  def create
-    @administrator = Administrator.new(params[:administrator])
-
-    respond_to do |format|
-      if @administrator.save
-        flash[:notice] = "Administrator #{@administrator.full_name}' was successfully created."
-        format.html { redirect_to(administrators_url) }
-      else
-        format.html { render :action => "new" }
-      end
-    end
+  
+  def update    
+    if @administrator.update_attributes(params[:administrator])
+      flash[:notice] = "Person  '" + @administrator.full_name + "'  was successfully updated."
+      redirect_to @administrator
+    else
+      render :action => "edit"
+    end    
   end
-
-  def update
-
-    respond_to do |format|
-      if @administrator.update_attributes(params[:administrator])
-        flash[:notice] = "Administrator '#{@administrator.full_name}' was successfully updated."
-        format.html { redirect_to(administrators_url) }
-      else
-        format.html { render :action => "edit" }
-      end
-    end
-  end
-
+  
   def destroy
     @administrator.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(administrators_url) }
-      format.xml  { head :ok }
-    end
+    flash[:notice] = "Person'" + @administrator.full_name + "'  was successfully deleted."
+    redirect_to administrators_url
   end
   
 protected
   def find_administrator
-    @administrator = Administrator.find_by_code!(params[:id])
-  end  
+    @administrator = current_user.school.administrators.find(:first, :conditions => ["(id = ? or code = ?)", params[:id].to_i, params[:id]])
+  end
 end

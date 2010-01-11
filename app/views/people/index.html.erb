@@ -1,6 +1,16 @@
-
-<h2>Listing <%= params[:role].nil? ? "All People" : params[:role].pluralize %></h2>
 <div id="people">
-	<%= render :partial => "person_list", :locals => { :people => @people }  %>
+
+  <h3>Recent Students</h3>
+  <p><%= link_to 'All Students', students_path %> | <%= link_to "Add Student", new_student_path %></p>
+  <%= render 'people/person_list', :people => @students %>
+  
+  <h3>Recent Teachers</h3>
+  <p><%= link_to 'All Teachers', teachers_path %> | <%= link_to "Add Teacher", new_teacher_path %></p>
+  <%= render 'people/person_list', :people => @teachers %>
+  
+  <h3>Recent Administrators</h3>
+  <p><%= link_to 'All Administrators', administrators_path %> | <%= link_to "Add Administrator", new_administrator_path %></p>
+  <%= render 'people/person_list', :people => @administrators %>
+  	
 </div>
 

@@ -10,6 +10,7 @@ class CreateEdu < ActiveRecord::Migration
     add_index :assignment_categories, [:school_id]
     
     create_table :assignment_evaluations, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :assignment_id, :null => false
       t.integer  :enrollment_id, :null => false
       t.integer  :student_id
@@ -17,10 +18,12 @@ class CreateEdu < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :assignment_evaluations, [:school_id]
     add_index :assignment_evaluations, [:enrollment_id]
     add_index :assignment_evaluations, [:student_id, :assignment_id], :unique => true
 
     create_table :assignments, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :course_term_id, :null => false
       t.string   :name      
       t.integer  :assignment_category_id
@@ -29,6 +32,7 @@ class CreateEdu < ActiveRecord::Migration
       t.timestamps      
     end
 
+    add_index :assignments, [:school_id]
     add_index :assignments, [:assignment_category_id]
     add_index :assignments, [:course_term_id]
 
@@ -45,6 +49,7 @@ class CreateEdu < ActiveRecord::Migration
     add_index :buildings, [:site_id]
 
     create_table :comments, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :user_id
       t.string   :commentable_id
       t.string   :commentable_type
@@ -55,19 +60,23 @@ class CreateEdu < ActiveRecord::Migration
       
     end
 
+    add_index :comments, [:school_id]
     add_index :comments, [:user_id]
 
     create_table :course_term_skills, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :course_term_id
       t.integer  :supporting_skill_id
       t.timestamps
       
     end
 
+    add_index :course_term_skills, [:school_id]
     add_index :course_term_skills, [:course_term_id]
     add_index :course_term_skills, [:supporting_skill_id]
 
     create_table :course_terms, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :term_id, :null => false
       t.integer  :course_id, :null => false
       t.string   :code            
@@ -79,6 +88,7 @@ class CreateEdu < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :course_terms, [:school_id]
     add_index :course_terms, [:code]
     add_index :course_terms, [:course_id]
     add_index :course_terms, [:room_id]
@@ -112,18 +122,22 @@ class CreateEdu < ActiveRecord::Migration
     add_index :date_ranges, [:school_year_id]
 
     create_table :enrollments, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :student_id, :null => false
       t.integer   :course_term_id, :null => false
       t.integer :course_id
       t.string   :grade
+      t.datetime :graded_at
       t.float    :total_points_earned, :default => 0.0      
       t.boolean  :accommodation,       :default => false
       t.timestamps
     end
 
+    add_index :enrollments, [:school_id]
     add_index :enrollments, [:course_id]
     add_index :enrollments, [:course_term_id]
     add_index :enrollments, [:student_id]
+    add_index :enrollments, [:course_term_id, :student_id], :unique => true
 
     create_table :grading_scales, :force => true do |t|
       t.integer :school_id, :null => false
@@ -136,6 +150,7 @@ class CreateEdu < ActiveRecord::Migration
     add_index :grading_scales, [:school_id]
 
     create_table :grading_skills, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :course_id, :null => false
       t.string   :symbol
       t.string   :description
@@ -144,19 +159,23 @@ class CreateEdu < ActiveRecord::Migration
       t.timestamps      
     end
 
+    add_index :grading_skills, [:school_id]
     add_index :grading_skills, [:course_id]
 
     create_table :rooms, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :building_id, :null => false
       t.string   :name
       t.integer  :seats
       t.timestamps
       
     end
-
+    
+    add_index :rooms, [:school_id]
     add_index :rooms, [:building_id]
 
     create_table :scale_ranges, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :grading_scale_id
       t.string   :description
       t.float    :max_score
@@ -166,7 +185,8 @@ class CreateEdu < ActiveRecord::Migration
       t.timestamps
       
     end
-
+    
+    add_index :scale_ranges, [:school_id]
     add_index :scale_ranges, [:grading_scale_id]
 
     create_table :schools, :force => true do |t|
@@ -196,6 +216,7 @@ class CreateEdu < ActiveRecord::Migration
     add_index :supporting_skill_categories, [:school_id]
     
     create_table :supporting_skill_evaluations, :force => true do |t|
+      t.integer :school_id, :null => false
       t.integer  :student_id, :null => false
       t.integer  :course_term_skill_id
       t.string   :score
@@ -203,6 +224,7 @@ class CreateEdu < ActiveRecord::Migration
       t.timestamps      
     end
 
+    add_index :supporting_skill_evaluations, [:school_id]
     add_index :supporting_skill_evaluations, [:course_term_skill_id]
     add_index :supporting_skill_evaluations, [:student_id]
 
@@ -220,6 +242,7 @@ class CreateEdu < ActiveRecord::Migration
     
     create_table :people, :force => true do |t|
       t.integer  :school_id, :null => false
+      t.string  :type, :null => false
       t.string   :code
       t.string   :firstname
       t.string   :middlename
@@ -237,15 +260,24 @@ class CreateEdu < ActiveRecord::Migration
     add_index :people, [:lastname]
     add_index :people, [:code]
     
-    create_table :person_roles, :force => true do |t|
-      t.integer :school_id, :null => false 
-      t.integer :person_id, :null => false
-      t.string  :type, :null => false
-    end
+    #~ create_table :roles, :force => true do |t|    
+      #~ t.string  :name, :null => false
+      #~ #dynamic_attributes?
+      #~ t.timestamps
+    #~ end    
     
-    add_index :person_roles, [:school_id] 
-    add_index :person_roles, [:person_id] 
-    add_index :person_roles, [:school_id, :person_id, :type], :unique => true
+    #~ create_table :person_roles, :force => true do |t|
+      #~ t.integer :school_id, :null => false      
+      #~ t.integer :person_id, :null => false
+      #~ t.integer :role_id, :null => false
+      #~ #dynamic_attributes?
+      #~ t.timestamps
+    #~ end
+    
+    #~ add_index :person_roles, [:school_id]
+    #~ add_index :person_roles, [:person_id] 
+    #~ add_index :person_roles, [:role_id]     
+    #~ add_index :person_roles, [:person_id, :role_id], :unique => true
     
     create_table :users, :force => true do |t|
       t.integer :school_id, :null => false
@@ -283,6 +315,8 @@ class CreateEdu < ActiveRecord::Migration
     drop_table :grading_scales
     drop_table :grading_skills
     drop_table :people
+    drop_table :person_roles
+    drop_table :roles
     drop_table :rooms
     drop_table :scale_ranges
     drop_table :schools

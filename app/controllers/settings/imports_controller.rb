@@ -6,7 +6,7 @@ class Settings::ImportsController < SettingsController
   def create
     
     @parsed_file=CSV::Reader.parse(params[:import][:file])
-    @import = User.new
+    @import = Person.new
     @valid_records = 0
     @record_counter = 0
     import_type = params[:import_type]
@@ -27,7 +27,7 @@ class Settings::ImportsController < SettingsController
           next if row.length < 2
           
           # Create and save the user record
-          create_new_user(import_type, row)
+          create_new_person(import_type, row, current_user.school)
       end
 
       rescue CSV::IllegalFormatError => exc
@@ -64,10 +64,8 @@ class Settings::ImportsController < SettingsController
   # Given an import_type ('students', 'teachers', etc.) and a row of valid data,
   # build a Create statement and insert it into the database.  It also counts
   # the 'bad' records and performs a garbage collection every so often.
-  def create_new_user(import_type, row)
-    # Create a random password
-    password = Authlogic::CryptoProviders::Sha512.encrypt(row[0] + Authlogic::Random.hex_token)
-
+  def create_new_person(import_type, row, school)
+    
     # We can expect exceptions when processing user provided data, so we need
     # to deal with it and store the information for later display.
     begin    
@@ -75,27 +73,45 @@ class Settings::ImportsController < SettingsController
         when 'students'      
           # Create a new student record and save it
           record = Student.create!(
-            :login      => row[0],
-            :first_name => row[1],
-            :last_name  => row[2],
-            :email      => row[3],
-            :class_of   => row[4],
-            :homeroom   => row[5],
-            :site       => Site.find_by_name(row[6]),
-            :password   => password,
-            :password_confirmation  => password
+            :school => school,
+            :firstname => row[1],
+            :middlename => row[2],            
+            :lastname  => row[3],
+            :generation => row[4],
+            :gender => row[5],
+            :date_of_birth => row[6],
+            :email      => row[7],
+            :primary_phone => row[8],
+            :secondary_phone => row[9]
           )
         when 'teachers'
           # Create a new teacher record and save it
           record = Teacher.create!(
-            :login      => row[0],
-            :first_name => row[1],
-            :last_name  => row[2],
-            :email      => row[3],
-            :site       => Site.find_by_name(row[4]),
-            :password   => password,
-            :password_confirmation  => password
+            :school => school,
+            :firstname => row[1],
+            :middlename => row[2],            
+            :lastname  => row[3],
+            :generation => row[4],
+            :gender => row[5],
+            :date_of_birth => row[6],
+            :email      => row[7],
+            :primary_phone => row[8],
+            :secondary_phone => row[9]
           )
+        when 'administrators'
+          # Create a new teacher record and save it
+          record = Teacher.create!(
+            :school => school,
+            :firstname => row[1],
+            :middlename => row[2],            
+            :lastname  => row[3],
+            :generation => row[4],
+            :gender => row[5],
+            :date_of_birth => row[6],
+            :email      => row[7],
+            :primary_phone => row[8],
+            :secondary_phone => row[9]
+          )          
         else
           # Bad import type
           raise "unknown import type"

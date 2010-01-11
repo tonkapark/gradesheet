@@ -4,18 +4,16 @@ class AssignmentsController < GradesheetController
   before_filter :load_assignment, :except => [:index, :new, :create]
   
   def index  
-    unless current_user.person.blank?
-      @assignments = current_user.person.assignments.paginate :page => params[:page] unless current_user.person.class.name == 'Administrator'  
-    end
+    @assignments = current_user.person.assignments.paginate :page => params[:page] unless current_user.admin?
     
-    if current_user.person.class.name== 'Administrator' || current_user.is_admin?      
-      @all_assignments = Assignment.paginate :page => params[:page]
+    if current_user.admin?      
+      @all_assignments = current_user.school.assignments.paginate :page => params[:page]
     end    
   end
   
   def show
-    AssignmentEvaluation.gradebook(@assignment.id).each do |sa|
-      @assignment.assignment_evaluations.build(:enrollment_id => sa.enrollment_id, :student_id => sa.student_id) if sa.id.blank?
+    current_user.school.assignment_evaluations.gradebook(@assignment.id).each do |sa|
+      @assignment.assignment_evaluations.build(:enrollment_id => sa.enrollment_id, :student_id => sa.student_id, :school_id => current_user.school.id) if sa.id.blank?
     end    
   end
   
@@ -26,6 +24,7 @@ class AssignmentsController < GradesheetController
   
   def create
     @assignment = @course_term.assignments.build(params[:assignment])
+    @assignment.school = current_user.school    
     if @assignment.save
       flash[:notice] = "Successfully created assignment."
       redirect_to @course_term
@@ -39,6 +38,7 @@ class AssignmentsController < GradesheetController
   end
   
   def update
+    @assignment.school = current_user.school
     if @assignment.update_attributes(params[:assignment])
       flash[:notice] = "Successfully updated assignment."
       redirect_to @assignment.course_term
@@ -65,7 +65,7 @@ class AssignmentsController < GradesheetController
   
 protected
   def load_course_term
-    @course_term = CourseTerm.find(params[:course_term_id])
+    @course_term = current_user.school.course_terms.find(params[:course_term_id])
   end
   
   def load_assignment
