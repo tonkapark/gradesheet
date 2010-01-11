@@ -1,21 +1,23 @@
+<% stylesheet 'formtastic', 'style/forms' %>
+
 <% content_for :left do %>
 	<%= render :partial => 'settings/settings_list' %>
 <% end %>
 
 <%= error_messages_for :type, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
 
+<% title "Assignment Type" %>
+
 <div class='box span-13'>
-  <% form_for @type do |f| %>
-    <fieldset>
-      <legend>Assignment Type</legend>
-      
-      <%= f.label :name, {}, :class => 'req' %>
-		  <%= f.text_field :name, :class => "focus" %>
-			
-	    <div class="spacer">
-		    <%= submit_tag 'Save', :class => 'btn positive' %>
-		    <%= link_to 'Cancel', assignment_categories_path(), :class => 'btn standard' %>
-	    </div>
-    </fieldset>
+  <% semantic_form_for @type do |form| %>
+
+    <% form.inputs do %>
+      <%= form.input :name, :label => 'Name', :required => true, :input_html => {:class => 'focus'} %>
+    <% end %>
+    
+    <% form.buttons do %>
+      <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', assignment_categories_path %>
+    <% end %>
+
   <% end %>
 </div>

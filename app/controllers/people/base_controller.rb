@@ -1,3 +1,2 @@
-class People::BaseController < GradesheetController
-  layout 'people'
+class People::BaseController < GradesheetController  
 end

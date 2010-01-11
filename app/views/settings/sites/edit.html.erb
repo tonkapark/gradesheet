@@ -1,21 +1,23 @@
+<% stylesheet 'formtastic', 'style/forms' %>
+
 <% content_for :left do %>
 	<%= render :partial => 'settings/settings_list' %>
 <% end %>
 
+<% title 'Campus Sites' %>
+
 <%= error_messages_for "site" %>
 
 <div class='box span-13'>
-  <% form_for @site do |f| %>
-    <fieldset>
-      <legend>Campus</legend>
+  <% semantic_form_for @site do |form| %>
 
-      <%= f.label :name, {}, :class => "req" %>
-		  <%= f.text_field :name, :class => "focus" %>
+    <% form.inputs do %>
+      <%= form.input :name, :label => 'Name', :required => true, :input_html => {:class => 'focus'} %>
+    <% end %>
 			
-	    <div class="spacer">
-		    <%= submit_tag 'Save', :class => 'btn positive' %>
-		    <%= link_to 'Cancel', sites_path(), :class => 'btn standard' %>
-	    </div>
+    <% form.buttons do %>
+      <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', sites_path %>
+    <% end %>
     </fieldset>
   <% end %>
 </div>

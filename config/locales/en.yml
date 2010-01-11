@@ -2,6 +2,18 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
-  site_name: Site Name
-  tag_line: Site Tag Line
+  home: "Home"
+  courses: Courses
+  course terms: Course Sections
+  course sections: Course Sections
+  assignments: Assignments
+  reports: Reports
+  settings: Settings
+  people: People
+  student: Student
+  teacher: Teacher
+  administrator: Administrator
+  students: Students
+  teachers: Teachers
+  administrators: Administrators
+  sign_in: Sign In

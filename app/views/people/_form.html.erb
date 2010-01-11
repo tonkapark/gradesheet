@@ -1,48 +1,31 @@
+<% stylesheet 'formtastic' %>
+
 <div class='box span-13'>
-  <% form_for person do |f| %>  
-    <fieldset>
-      <%= f.label :code, "School ID" %>
-      <%= f.text_field :code, :class => 'input' %>
-      <br />               
-      <%= f.label :firstname, {}, :class => 'req' %>
-      <%= f.text_field :firstname, :class => 'input' %>
-      <br />
-      <%= f.label :middlename, {} %>
-      <%= f.text_field :middlename, :class => 'input' %>
-      <br />      
-      <%= f.label :lastname, {}, :class => 'req' %>
-      <%= f.text_field :lastname, :class => 'input' %>
-      <br />
-      <%= f.label :generation %>
-      <%= f.select(:generation, GENERATIONS_LIST, :include_blank => true) %>
-      <br/>      
-      <%= f.label :gender %>
-      <%= f.select(:gender, %w[Male Female], :include_blank => true) %>
-      <br/>
-      <%= f.label :date_of_birth, "Birth Date" %>
-      <%= f.text_field :date_of_birth, :size => 8 %>
-      <br/>
-      <%= f.label :email, {}, :class => '' %>
-      <%= f.text_field :email, {:size => 20, :class => 'input'} %>
-      <br />
-      <%= f.label :primary_phone, "Primary Phone" %>
-      <%= f.text_field :primary_phone, {:size => 10, :class => 'input'} %>    
-      <br/>
-      <%= f.label :secondary_phone, "Secondary Phone" %>
-      <%= f.text_field :secondary_phone, {:size => 10, :class => 'input'} %>  
-      <br/>      
-      
-      <% Role.all.each do |r| %>
-        <%= r.name %>: <input type="checkbox" id="<%= r.id %>" name="role_ids[]" value="<%= r.id %>"
-         <% if @person.roles.include? r %>checked="checked"<% end %>>
-      <% end %>   
-      
 
-
-      <div class="spacer">
-        <%= submit_tag 'Save', :class => 'btn positive' %>
-        <%= link_to 'Cancel', person %>
-      </div>
-    </fieldset>
+  <% semantic_form_for person do |form| %>  
+    <% form.inputs do %>
+      
+      <% if form.object.new_record? %>
+        <%= form.input :code, :label => 'School ID' %>
+      <% else %>
+        <%= form.input :code, :label => 'School ID', :input_html => { :disabled => true } %>
+      <% end %>        
+      
+      <%= form.input :firstname, :label => 'Firstname' %>
+      <%= form.input :middlename, :label => 'Middlename' %>
+      <%= form.input :lastname, :label => 'Lastname' %>
+      <%= form.input :generation, :label => 'Generation', :collection => GENERATIONS_LIST, :include_blank => true %>
+      <%= form.input :gender, :label => 'Gender', :collection => %w[Male Female], :include_blank => true %>
+      <%= form.input :dob, :label => 'Dob' %>
+      <%= form.input :primary_phone, :label => 'Primary phone' %>
+      <%= form.input :secondary_phone, :label => 'Secondary phone' %>
+      <%= form.input :email, :label => 'Email' %>
+    <% end %>  
+  
+ 
+    <% form.buttons do %>
+      <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', person %>
+    <% end %>
+    
   <% end %>
 </div>

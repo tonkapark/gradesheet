@@ -2,9 +2,11 @@
 	<%= render :partial => 'settings/settings_list' %>
 <% end %>
 
+<% title 'Campus Sites' %>
 <%= error_messages_for "site" %>
 
-<table class='master'>
+<p><%= link_to "Add Site", new_site_path() %></p>
+<table>
 	<thead>
 	 <tr>
 		<th>Name</th>
@@ -12,11 +14,6 @@
 	 </tr>		
 	</thead>
 	<tbody>
-		<tr class="<%= cycle('odd', 'even')%>">
-		  <td colspan='0'>
-		    <%= link_to "Add Site", new_site_path(), :class => 'btn positive' %>
-		  </td>
-		</tr>
 		<% for site in @sites %>
 			<tr class="<%= cycle('odd', 'even')%>">
 				<td><%= link_to site.name, edit_site_path(site) %></td>

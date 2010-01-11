@@ -2,9 +2,11 @@
 	<%= render :partial => 'settings/settings_list' %>
 <% end %>
 
+<% title "Assignment Types" %>
 <%= error_messages_for "assignment_categories" %>
 
-<table class='master'>
+<p><%= link_to "Add Type", new_assignment_category_path() %></p>
+<table>
 	<thead>
 	 <tr>
 		<th>Name</th>
@@ -12,17 +14,11 @@
 	 </tr>		
 	</thead>
 	<tbody>
-		<tr class="<%= cycle('odd', 'even') %>">
-		  <td colspan='0'>
-		    <%= link_to "Add Type", new_assignment_category_path(), :class => 'btn positive' %>
-		  </td>
-		</tr>
 		<% for type in @types %>
-			<tr class="<%= cycle('odd', 'even')%>" onclick="location.href='<%= url_for(type) + '/edit' %>'">
+			<tr class="<%= cycle('odd', 'even')%>">
 				<td><%= link_to type.name, edit_assignment_category_path(type) %></td>
-				<td><%= button_to 'Delete', type, :method => :delete,
-									:class => "btn negative ",
-									:confirm => "Are you sure you want to delete the '" + type.name + "' assignment type?" %></td>
+				<td><%= link_to 'Remove', type, :method => :delete,
+										:confirm => "Are you sure you want to delete the '" + type.name + "' assignment type?" %></td>
 			</tr>
 		<% end %>
 	</tbody>

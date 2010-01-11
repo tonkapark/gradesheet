@@ -1,4 +1,9 @@
+<% content_for :subnav do %>
+  <%= nav_link :students %>
+  <%= nav_link :teachers %>
+  <%= nav_link :administrators %>
+<% end %>
 
 <h2>Edit Student</h2>
 
-<%= render :partial => 'form', :locals => {:student => @student} %>
+<%= render :partial => 'people/form', :locals => {:person =>  @student} %>

@@ -1,2 +1,10 @@
-<h2>New teacher</h2>
-<%= render :partial => 'form', :locals => {:teacher => @teacher} %>
+<% title "New Teacher" %>
+
+<% content_for :subnav do %>
+  <%= nav_link :students %>
+  <%= nav_link :teachers %>
+  <%= nav_link :administrators %>
+<% end %>
+
+
+<%= render :partial => 'people/form', :locals => {:person =>  @teacher} %>

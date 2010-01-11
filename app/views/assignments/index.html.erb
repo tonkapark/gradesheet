@@ -1,51 +1,49 @@
 
-<div class="span-24">
+<% title 'Assignments', false %>
  
-  <div id='assignment_list'>
-    <% unless @assignments.blank? %>
-      <h2>My Assignments</h2>    
-      <table id='assignments' class='master'>
-        <thead>
-          <tr>
-            <th>Section</th>
-            <th>Assignment</th>
-            <th>Type</th>
-            <th>Due Date</th>
-            <th>Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          <%= render :partial => @assignments %>
-        </tbody>
-      </table>
-      <%= will_paginate @assignments %>
-    <% end %>
-    
-    <% unless @all_assignments.blank? %>
-      <h2>All Assignments</h2>
-      <table id='assignments' class='master'>
-        <thead>
-          <tr>
-            <th>Section</th>
-            <th>Instructor</th>
-            <th>Assignment</th>
-            <th>Type</th>
-            <th>Due Date</th>
-            <th>Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @all_assignments.each do |assignment| %>
-            <%= render :partial => 'assignment', :locals => {:assignment => assignment} %>
-          <% end %>
-        </tbody>
-      </table>   
-      
-      <%= will_paginate @all_assignments %>
-    <% end %>
-       
-  </div>
-
+<div id='assignment_list'>
+  <% unless @assignments.blank? %>
+    <h2>My Assignments</h2>    
+    <table id='assignments' class='master'>
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Assignment</th>
+          <th>Type</th>
+          <th>Due Date</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render :partial => @assignments %>
+      </tbody>
+    </table>
+    <%= will_paginate @assignments %>
+  <% end %>
   
+  <% unless @all_assignments.blank? %>
+    <h2>All Assignments</h2>
+    <table id='assignments' class='master'>
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Instructor</th>
+          <th>Assignment</th>
+          <th>Type</th>
+          <th>Due Date</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all_assignments.each do |assignment| %>
+          <%= render :partial => 'assignment', :locals => {:assignment => assignment} %>
+        <% end %>
+      </tbody>
+    </table>   
+    
+    <%= will_paginate @all_assignments %>
+  <% end %>
+     
 </div>
+
 

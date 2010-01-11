@@ -1,0 +1,42 @@
+body {
+	font:13px/1.5 Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif
+}
+a {
+	color: #1b67b2;
+}
+a:hover {
+	text-decoration: none;
+}
+a:focus {
+	outline:1px dotted invert
+}
+hr {
+	border:0 #ccc solid;
+	border-top-width:1px;
+	clear:both;
+	height:0
+}
+h1 {
+	font-size:25px
+}
+h2 {
+	font-size:23px
+}
+h3 {
+	font-size:21px
+}
+h4 {
+	font-size:19px
+}
+h5 {
+	font-size:17px
+}
+h6 {
+	font-size:15px
+}
+
+p, ul, ol {margin-bottom: 20px}
+
+#content h3{border-bottom: 1px dotted #D2D2D2; color: #222; font-size: 16px; margin: 0px 0px 15px; padding: 0px 0px 10px;}
+
+#content .title h2 {color: #333; font: normal normal bold 20px/21px Helvetica, Arial, sans-serif; margin: 0px 0px 10px;}

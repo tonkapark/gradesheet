@@ -1,0 +1,185 @@
+@import "styles/reset.css";
+@import "styles/typography.css";
+@import "styles/layout.css";
+@import "styles/tables.css";
+@import "styles/forms.css";
+
+body{background: #F4F4F4; color: #333;}
+
+img {
+	display: block;
+	border: 0;
+}
+
+a img {
+	border: none;
+}
+
+.whitespace {height: 20px;}
+small {font-size: 11px}
+.left { float: left; }
+.right { float: right; }
+.center { text-align: center; }
+
+#notice {background: #FFFBCC; border: 1px solid #E6DB55; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
+#succeed {background: #D1ECB8; border: 1px solid #81C445; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
+#error {background: #FFEBE8; border: 1px solid #F0BAA2; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
+
+
+/* Header */
+/* ------------------------------------------------------------------ */
+
+#header {
+  color: #fff;
+  background-color: #131C25;
+  height: 70px;  
+}
+
+#header h1 {
+  float: left;
+	color: #fff;
+	font: bold 28px/29px Helvetica, Arial, sans-serif;
+	padding-top: 20px;
+}
+
+#header h1 a {
+	color: #fff;
+	text-decoration: none;
+}
+
+#header #account-info {
+  float:right;
+  padding-top: 15px;
+}
+
+#header #account-info a {
+	color: #fff;
+}
+
+/* ------------------------------------------------------------------ */
+/* MAIN NAVIGATION  */		
+/* ------------------------------------------------------------------ */
+
+#nav{
+	height: 30px;
+	background-color: #56A9B9;		 	
+}
+
+#nav ul {list-style:none}
+
+#nav li {
+	padding-right: 12px;
+	padding-left: 12px;
+	margin: 0px;
+	float: left;
+	height: 30px;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #131C25;
+	line-height: 30px;
+	position:relative;
+	}
+		/*	class "active" is used to highlight the current/active link	*/
+		#nav li.active {
+		background-color: #FFFFFF;
+		border-top-width: 4px;
+		border-top-style: solid;
+		border-top-color: #FFFFFF;
+		margin-top: -4px;
+		border-right-width: 1px;
+		border-right-style: solid;
+		border-right-color: #FFFFFF;
+		}
+
+	#nav a {
+	color: #FFFFFF;
+	text-transform: uppercase;
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: none;
+	}
+	
+	/*	class "active" is used to highlight the current/active link	*/
+	#nav a.active {
+	color: #131C25;
+	text-decoration: none;
+	}
+	
+	#nav a:hover	{text-decoration:underline;}
+
+/* ------------------------------------------------------------------ */
+/* SUB NAVIGATION  */		
+/* ------------------------------------------------------------------ */
+
+#subnav			{
+	height: 30px;
+	background-color: #FFFFFF;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #d6d6d6;
+	clear: both;
+	padding-bottom: 5px;
+}
+	#subnav li 			{ float: left;line-height: 30px;}
+	#subnav a 			{ color: #B5B5B5;font-size: 11px;padding-right: 10px;padding-left: 12px;}
+	
+	/*	class "active" is used to highlight the current/active link	*/
+	#subnav a.active 	{color: #131C25;font-weight: bold;}
+	#subnav a:hover 	{ color: #131C25;}
+
+
+/* ------------------------------------------------------------------ */
+/* CONTENT SECTION */
+/* ------------------------------------------------------------------ */
+	
+.box {background: #fff; border: 1px solid #E8E8E8; margin: 0px 0px 20px; padding: 15px 15px 0px; position: relative; }	
+
+/* ------------------------------------------------------------------ */
+/* PAGINATION */
+/* ------------------------------------------------------------------ */
+
+.pagination {
+	text-align: right;
+	display: block;
+	margin: 0 0 15px;
+	font-weight: bold;
+	position: relative;
+}
+
+.pagination ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.pagination ul li {
+	display: inline;
+	margin: 0 5px 0 0;
+	padding: 0;
+	color: #222;
+}
+
+.pagination ul li a {
+}
+
+/* ------------------------------------------------------------------ */
+/* FOOTER */
+/* ------------------------------------------------------------------ */
+	
+#footer {
+	clear: both;
+	background: #1e1e1e;
+	color: #999;
+	height: 40px;
+}
+
+#footer p {
+	margin: 0;
+	padding: 0 20px;
+	line-height: 40px;
+	font-size: 11px;
+}
+
+#footer p a {
+	color: #ccc;
+}

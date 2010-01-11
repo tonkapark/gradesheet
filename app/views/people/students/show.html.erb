@@ -1,3 +1,9 @@
+<% content_for :subnav do %>
+  <%= nav_link :students %>
+  <%= nav_link :teachers %>
+  <%= nav_link :administrators %>
+<% end %>
+
 <h2><%= @student.full_name %> <small><%= link_to 'edit', edit_student_path(@student) %></small></h2>
 
 <h3>Details</h3>

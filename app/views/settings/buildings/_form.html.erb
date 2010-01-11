@@ -1,13 +1,15 @@
-<% form_for building do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :site_id %><br />
-    <%= collection_select(:building, :site_id, sites, :id, :name, {:include_blank => true}) 
- %>
-  </p>
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p><%= f.submit "Submit" %> | <%= link_to "Cancel", buildings_path %></p>
+<% stylesheet 'formtastic', 'style/forms' %>
+
+<% semantic_form_for building do |form| %>
+  <%= form.error_messages %>
+
+
+  <% form.inputs do %>
+    <%= form.input :site, :collection => sites %>
+    <%= form.input :name, :label => 'Name', :required => true %>
+  <% end %>
+    
+  <% form.buttons do %>
+    <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', buildings_path %>
+  <% end %>
 <% end %>

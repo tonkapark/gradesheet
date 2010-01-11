@@ -1,13 +1,13 @@
-<% form_for [building,room] do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :seats %><br />
-    <%= f.text_field :seats %>
-  </p>
+<% stylesheet 'formtastic', 'style/forms' %>
+
+<% semantic_form_for [building,room] do |form| %>
+  <%= form.error_messages %>
+  <% form.inputs do %>
+    <%= form.input :name, :required => true %>
+    <%= form.input :seats, :required => true%>
+  <% end %>
   
-  <p><%= f.submit "Submit" %> | <%= link_to 'Cancel', buildings_url %></p>
+  <% form.buttons do %>
+    <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', buildings_path %>
+  <% end %>
 <% end %>

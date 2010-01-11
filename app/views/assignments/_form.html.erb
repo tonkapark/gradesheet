@@ -1,33 +1,22 @@
-<% stylesheet 'mycal' %>
+<% stylesheet 'mycal', 'formtastic' %>
 <% javascript 'prototype', 'scal' %>
 
 
-<fieldset>
-  <% header = assignment.name? ? "Editing: #{assignment.name}" : "New Assignment" %>
-  <%= content_tag :legend, header %>
-  <%= f.hidden_field :course_term_id, :value => @course_term.id %>  
+<h3><%= assignment.name? ? "Editing: #{assignment.name}" : "New Assignment" %></h3>
 
-  <%= f.label :name, {}, :class => 'req' %>
-  <%= f.text_field :name, :class => "focus" %>
-  <br />
-  <%= f.label :possible_points, {}, :class => 'req' %>
-  <%= f.text_field :possible_points %>
-  <br />
-  <%= f.label :assignment_category_id, 'Type', :class => 'req' %>
-  <%= collection_select :assignment, :assignment_category_id, AssignmentCategory.find(:all), :id, :name %>
-  <br />
-
-  <%= f.label :due_date %>
-  <%= f.hidden_field :due_date %>
+<% form.inputs do %>
+  <%= form.input :name, :label => 'Name', :required => true %>
+  <%= form.input :possible_points, :label => 'Possible points', :required => true %>
+  <%= form.input :due_date, :as => :hidden, :required => true %>
   <span id='due_date' class='scal tinyscal'></span>
-  <input id='default_due_date' type='hidden'
-         value='<%= assignment.due_date? ? assignment.due_date.to_s(:long) : DateTime.now.to_s(:long) %>' />
+  <input id='default_due_date' type='hidden' value='<%= assignment.due_date? ? assignment.due_date.to_s(:long) : DateTime.now.to_s(:long) %>' />
+  
+  <%= form.input :assignment_category, :required => true, :for => :assignment_categories %>
+<% end %>
 
-  <div class='spacer'>
-    <%= submit_tag "Save", :name => "assignments", :class=> 'btn positive' %>
-    <%= link_to 'Cancel', @course_term, :class => 'btn standard' %>
-  </div>
-</fieldset>
+<% form.buttons do %>
+  <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', @course_term %>
+<% end %>
 
 
 <% content_for :page_footer do %>

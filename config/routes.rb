@@ -22,7 +22,7 @@ ActionController::Routing::Routes.draw do |map|
     s.resources :supporting_skill_categories#, :has_many => :supporting_skills
     s.resources :sites
     s.resources :imports
-    s.resources :assignment_categories
+    s.resources :assignment_categories,  :as => "assignment_types"
     s.resources :buildings, :has_many => :rooms
   end
   map.resources :settings, :only => [:index]

@@ -25,6 +25,8 @@ Rails::Initializer.run do |config|
     :lib => 'will_paginate',
     :source  => 'http://gemcutter.org'    
     
+  config.gem "formtastic", :source => 'http://gemcutter.org/'
+    
   config.time_zone = 'UTC'
 end
 

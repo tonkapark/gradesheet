@@ -1,4 +1,10 @@
-<h2>Listing All Students</h2>
+<% content_for :subnav do %>
+  <%= nav_link :students %>
+  <%= nav_link :teachers %>
+  <%= nav_link :administrators %>
+<% end %>
+
+<% title "Listing All Students" %>
 <p><%= link_to "Add Student", new_student_path %></p>
 <div id="people">
 	<%= render 'people/person_list_paginate', :people => @students %>

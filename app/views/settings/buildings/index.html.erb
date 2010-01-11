@@ -4,7 +4,7 @@
   <%= render :partial => 'settings/settings_list' %>
 <% end %>
 
-<%= link_to "Add New Building", new_building_path %>
+<p><%= link_to "Add New Building", new_building_path %></p>
 
 
 <table>
@@ -20,7 +20,7 @@
       <td><%= link_to "Destroy", building, :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
     <tr>
-      <td colspan="2">
+      <td colspan="3">
         <small><%= link_to "Add Room", new_building_room_path(building) %></small>
         <ul>
         <% building.rooms.each do |room| %>
