@@ -27,15 +27,9 @@
         <% end %>
 
         <div id='account-info' class='span-9 last'>
-          <% if !current_user %>
-            <span>Welcome</span> | 
-            <span><%= link_to "Sign in ", sign_in_path %></span>
-          <% else %>
-            <span><%= current_user.full_name %></span> | 
-            <span><%= link_to 'My Account', [:edit,current_user] %></span> | 
-            <span><%= link_to "Sign out", sign_out_path, :method => :delete %></span>
-          <% end %>
+          <%= render 'shared/account_header' %>
         </div>
+        
 
         <div class='span-23'>
           <%#= menu_builder(request.path_parameters['controller'].split('/')[0]) %>

@@ -1,0 +1,8 @@
+
+<% if !current_user %>
+  <span>Welcome</span> | 
+  <span><%= link_to "Sign in ", sign_in_path %></span>
+<% else %>
+  <span><%= current_user.full_name %></span> | 
+  <span><%= link_to "Sign out", sign_out_path, :method => :delete %></span>
+<% end %>
