@@ -3,7 +3,7 @@
 <% end %>
 
 
-<h3><%= @skill_category.name %> <small><%= link_to 'edit', [:edit, @skill_category] %></small></h3>
+<h3><%= @topic.name %> <small><%= link_to 'edit', [:edit, @topic] %></small></h3>
 
 <table>
   <thead>
@@ -11,14 +11,14 @@
     <th>Enable</th>
   </thead>
   <tbody>
-  <% @skill_category.supporting_skills.each do |skill| %>
+  <% @topic.objectives.each do |objective| %>
     <tr class="<%= cycle("odd","even") %>">
       <td>
-        <%= skill.description %> 
+        <%= objective.description %> 
       </td>
       
       <td>
-        <%= skill.active %>
+        <%= objective.active %>
       </td>
       
     </tr> 

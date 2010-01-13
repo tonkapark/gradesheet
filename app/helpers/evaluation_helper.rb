@@ -15,7 +15,7 @@ module EvaluationHelper
     else
       @ctskills.each do |skill|
         body << "<th width='60' class='skill' id='#{skill.id}'>"
-        body << "<div class='skill-name'>#{word_wrap(skill.supporting_skill.description, :line_width => 10).gsub(/\n/,'<br />')}</div>"
+        body << "<div class='skill-name'>#{word_wrap(skill.objective.description, :line_width => 10).gsub(/\n/,'<br />')}</div>"
 
         # Build the <select> element by hand
         body += <<END

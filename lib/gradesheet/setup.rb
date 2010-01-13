@@ -44,7 +44,7 @@ module Gradesheet
 
     def load_sample_data
       
-      [Assignment, AssignmentEvaluation, Course, AssignmentCategory, SupportingSkill, SupportingSkillCategory, ScaleRange, GradingScale, Term, SchoolYear, Person, Site, Building, Room, School, Enrollment, CourseTerm, User].each(&:delete_all)
+      [Assignment, AssignmentEvaluation, Course, AssignmentCategory, Objective, Topic, ScaleRange, GradingScale, Term, SchoolYear, Person, Site, Building, Room, School, Enrollment, CourseTerm, User].each(&:delete_all)
       
       admin_user
       
@@ -65,26 +65,26 @@ module Gradesheet
       AssignmentCategory.create!(:school => school, :name => 'Test')
       AssignmentCategory.create!(:school => school, :name => 'Project')
 
-      math = SupportingSkillCategory.create!(:school => school, :name => 'Math')
-      science = SupportingSkillCategory.create!(:school => school, :name => 'Science')
-      art = SupportingSkillCategory.create!(:school => school, :name => 'Art')
-      handwriting = SupportingSkillCategory.create!(:school => school, :name => 'Handwriting')
+      math = Topic.create!(:school => school, :name => 'Math')
+      science = Topic.create!(:school => school, :name => 'Science')
+      art = Topic.create!(:school => school, :name => 'Art')
+      handwriting = Topic.create!(:school => school, :name => 'Handwriting')
       
-      SupportingSkill.create!(:school => school, :supporting_skill_category => math, :description => 'student can add', :active => true)
-      SupportingSkill.create!(:school => school, :supporting_skill_category => math, :description => 'student can substract', :active => true)
+      Objective.create!(:topic => math, :description => 'student can add', :active => true)
+      Objective.create!(:topic => math, :description => 'student can substract', :active => true)
       
-      SupportingSkill.create!(:school => school, :supporting_skill_category => science, :description => 'student can add', :active => true)
-      SupportingSkill.create!(:school => school, :supporting_skill_category => science, :description => 'student can substract', :active => true)
+      Objective.create!(:topic => science, :description => 'student can add', :active => true)
+      Objective.create!(:topic => science, :description => 'student can substract', :active => true)
       
-      SupportingSkill.create!(:school => school, :supporting_skill_category => art, :description => 'student can fingerpaint', :active => true)
-      SupportingSkill.create!(:school => school, :supporting_skill_category => handwriting, :description => 'student can clearly write their name', :active => true)
+      Objective.create!(:topic => art, :description => 'student can fingerpaint', :active => true)
+      Objective.create!(:topic => handwriting, :description => 'student can clearly write their name', :active => true)
             
       scale = GradingScale.create!(:school => school, :name => 'Standard', :active => true, :simple_view => false)
-      ScaleRange.create!(:school => school, :grading_scale => scale, :description => 'Understanding of subject is excellent', :max_score => 100, :min_score => 90, :letter_grade => 'A')
-      ScaleRange.create!(:school => school, :grading_scale => scale, :description => 'Understanding of subject is very good', :max_score => 89, :min_score => 80, :letter_grade => 'B')
-      ScaleRange.create!(:school => school, :grading_scale => scale, :description => 'Understanding of subject is adequate', :max_score => 79, :min_score => 70, :letter_grade => 'C')
-      ScaleRange.create!(:school => school, :grading_scale => scale, :description => 'Understanding of subject is poor', :max_score => 69, :min_score => 60, :letter_grade => 'D')
-      ScaleRange.create!(:school => school, :grading_scale => scale, :description => 'Understanding of subject is inadequate', :max_score => 59, :min_score => 0, :letter_grade => 'F')
+      ScaleRange.create!( :grading_scale => scale, :description => 'Understanding of subject is excellent', :max_score => 100, :min_score => 90, :letter_grade => 'A')
+      ScaleRange.create!( :grading_scale => scale, :description => 'Understanding of subject is very good', :max_score => 89, :min_score => 80, :letter_grade => 'B')
+      ScaleRange.create!( :grading_scale => scale, :description => 'Understanding of subject is adequate', :max_score => 79, :min_score => 70, :letter_grade => 'C')
+      ScaleRange.create!( :grading_scale => scale, :description => 'Understanding of subject is poor', :max_score => 69, :min_score => 60, :letter_grade => 'D')
+      ScaleRange.create!( :grading_scale => scale, :description => 'Understanding of subject is inadequate', :max_score => 59, :min_score => 0, :letter_grade => 'F')
             
       year = SchoolYear.create!(:school => school, :name => 'Current Year')
       first_semester = Term.create!(:school => school, :school_year => year, :name => 'First Semester', :begin_date => Date.parse('2009-08-01'), :end_date => Date.parse('2009-12-21'), :active => true)
@@ -138,16 +138,16 @@ module Gradesheet
       end
         
       10.times do
-        course = Course.create!(:school => school, :code => "#{Populator.words(1)}/#{Populator.value_in_range(100..500)}", :name => Populator.words(1..4).titleize, :grading_scale_id => scale.id)      
+        course = Course.create!(:school => school, :code => "#{Populator.words(1)}/#{Populator.value_in_range(100..500)}", :name => Populator.words(1..4).titleize)      
         1.times do
           room = school.rooms.find(:first, :order => rand())
           teacher = school.teachers.find(:first, :order => rand())
-          course_offering = CourseTerm.create!( :school => school, :code => "#{course.code}-001", :course_id => course.id, :term_id => first_semester.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room_id => room.id) 
+          course_offering = CourseTerm.create!( :school => school, :code => "#{course.code}-001", :course_id => course.id, :term_id => first_semester.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room_id => room.id, :grading_scale_id => scale.id) 
           2.times do
             Assignment.create!(:school => school, :course_term_id => course_offering.id, :name => Populator.words(1..3).titleize, :assignment_category => AssignmentCategory.find(:first, :order => rand()), :possible_points => rand(100), :due_date => Date.today + rand(100))
           end
 
-          course_offering2 = CourseTerm.create!(:school => school,  :code => "#{course.code}-001", :course_id => course.id, :term_id => second_semester.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room_id => room.id)   
+          course_offering2 = CourseTerm.create!(:school => school,  :code => "#{course.code}-001", :course_id => course.id, :term_id => second_semester.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room_id => room.id, :grading_scale_id => scale.id)   
           2.times do
             Assignment.create!(:school => school, :course_term_id => course_offering2.id, :name => Populator.words(1..3).titleize, :assignment_category => AssignmentCategory.find(:first, :order => rand()), :possible_points => rand(100), :due_date => Date.today + rand(200))
           end

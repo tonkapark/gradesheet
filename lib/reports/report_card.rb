@@ -220,7 +220,7 @@ class ReportCard
 
           temp_data = []
           course.course_terms.each{|ct| temp_data << "ct#{ct.id}"}
-          skill_score = Struct.new(:supporting_skill, *temp_data)
+          skill_score = Struct.new(:objective, *temp_data)
           
     		  # Gather the grades for each term in this course
           course.course_terms.sort!{|a,b| a.term.end_date <=> b.term.end_date}.each_with_index do |course_term, ctindex|
@@ -233,14 +233,14 @@ class ReportCard
             # Get a list of all supporting skills for all terms for this course
             course_term.course_term_skills.each do |ctskill|
               # Get the existing skill_score, or create a new one
-              temp = data_hash.fetch(ctskill.supporting_skill,
-                skill_score.new(ctskill.supporting_skill.description))
+              temp = data_hash.fetch(ctskill.objective,
+                skill_score.new(ctskill.objective.description))
 
               # Get the score for the current course_term_skill
               temp[ctindex+1] = ctskill.score(student)
 
               # Store it back into the hash for data
-              data_hash[ctskill.supporting_skill] = temp
+              data_hash[ctskill.objective] = temp
             end
           end
 

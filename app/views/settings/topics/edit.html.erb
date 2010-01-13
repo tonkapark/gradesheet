@@ -1,0 +1,6 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'settings/settings_list' %>
+<% end %>
+
+<% title "Edit Topic" %>
+<%= render :partial => 'form', :locals => {:topic => @topic} %>

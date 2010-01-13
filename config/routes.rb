@@ -19,7 +19,7 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace :settings, :name_prefix => nil do |s|
     s.resources :school_years, :controller => "school_years", :as => "grading_periods"    
     s.resources :grading_scales    
-    s.resources :supporting_skill_categories#, :has_many => :supporting_skills
+    s.resources :topics#, :has_many => :objectives
     s.resources :sites
     s.resources :imports
     s.resources :assignment_categories,  :as => "assignment_types"

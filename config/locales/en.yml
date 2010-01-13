@@ -24,7 +24,7 @@ en:
   grading_periods: "Grading Periods"
   grading_scales: "Grading Scales"
   import_data: "Import Data"
-  supporting_skills: "Supporting Skills"  
+  objectives: "Content Topics"  
   activerecord:
     attributes:
       user:

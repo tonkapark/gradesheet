@@ -11,7 +11,7 @@ class CourseTerm < ActiveRecord::Base
   belongs_to  :grading_scale
   
   has_many    :course_term_skills
-  has_many    :supporting_skills,       :through => :course_term_skills
+  has_many    :objectives,       :through => :course_term_skills
   has_many    :assignments
 	has_many    :assignment_evaluations,  :through => :assignments  
   has_many    :comments, :as => :commentable
@@ -28,7 +28,7 @@ class CourseTerm < ActiveRecord::Base
   validates_length_of :code, :in => 3..35
   validates_format_of :code, :with => /^[\w\/\-\.]+$/,
                               :message => "cannot contain certain special characters or spaces. Valid(a-z, 0-9, / . -)"
-  validates_uniqueness_of :code ,:scope => [:school, :course, :term]
+  validates_uniqueness_of :code ,:scope => [:school_id, :course_id, :term_id]
   validates_numericality_of :seats, :greater_than => 0
   validate :student_limit
 

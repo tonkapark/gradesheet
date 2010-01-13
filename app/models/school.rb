@@ -2,8 +2,8 @@ class School < ActiveRecord::Base
   has_many :assignment_categories
   has_many :assignment_evaluations
   has_many :assignments
-  has_many :supporting_skill_categories
-  has_many :supporting_skills
+  has_many :topics
+  has_many :objectives
   has_many :users
   has_many :courses
   has_many :course_terms

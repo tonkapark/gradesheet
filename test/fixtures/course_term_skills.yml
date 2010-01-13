@@ -1,47 +1,47 @@
 cst1:
   course_term: english-t1-08
-  supporting_skill: langart1
+  objective: langart1
 
 cst2:
   course_term: english-t1-08
-  supporting_skill: langart2
+  objective: langart2
 
 cst3:
   course_term: english-t1-08
-  supporting_skill: langart3
+  objective: langart3
 
 cst4:
   course_term: english-t1-09
-  supporting_skill: langart4
+  objective: langart4
 
 cst5:
   course_term: english-t2-09
-  supporting_skill: langart5
+  objective: langart5
 
 cst6:
   course_term: english-t3-09
-  supporting_skill: langart6
+  objective: langart6
 
 cst7:
   course_term: spelling-t1-08
-  supporting_skill: langart1
+  objective: langart1
 
 cst8:
   course_term: spelling-t2-08
-  supporting_skill: langart2
+  objective: langart2
 
 cst9:
   course_term: spelling-t3-08
-  supporting_skill: langart3
+  objective: langart3
 
 cst10:
   course_term: math-t1-08
-  supporting_skill: math1
+  objective: math1
 
 cst11:
   course_term: math-t1-08
-  supporting_skill: math2
+  objective: math2
 
 cst12:
   course_term: math-t1-08
-  supporting_skill: math3
+  objective: math3

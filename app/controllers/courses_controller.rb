@@ -12,7 +12,7 @@ class CoursesController < GradesheetController
   end
 
   def edit        
-    @skill_cats = current_user.school.supporting_skill_categories.active
+    @skill_cats = current_user.school.topics.active
   end
 
   def create

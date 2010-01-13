@@ -12,7 +12,7 @@ class CourseTermSkillTest < ActiveSupport::TestCase
 	
 
   test 'assign a valid supporting skill' do
-    @course_term.supporting_skills << SupportingSkill.last
+    @course_term.objectives << SupportingSkill.last
     assert_valid @course_term
   end
 
@@ -20,16 +20,16 @@ class CourseTermSkillTest < ActiveSupport::TestCase
     ss = SupportingSkill.new(:description => 'INVALID')
       
     assert_raise(ActiveRecord::RecordInvalid) do
-      @course_term.supporting_skills << ss
+      @course_term.objectives << ss
     end
   end
 
   test 'assign a duplicate supporting skill' do
-    @course_term.supporting_skills << SupportingSkill.last
+    @course_term.objectives << SupportingSkill.last
     assert_valid @course_term
 
     assert_raise(ActiveRecord::RecordInvalid) do
-      @course_term.supporting_skills << SupportingSkill.last
+      @course_term.objectives << SupportingSkill.last
     end
   end
 
