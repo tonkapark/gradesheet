@@ -1,26 +1,15 @@
-<% items = [
-  {:name => 'Assignment Types', :url => '/settings/assignment_types'},
-  {:name => 'Campus Sites', :url => '/settings/sites'},
-  {:name => 'Buildings and Rooms', :url => '/settings/buildings'},
-  {:name => 'Grading Periods', :url => '/settings/grading_periods'},
-  {:name => 'Grading Scales', :url => '/settings/grading_scales'},
-  {:name => 'Import Data', :url => '/settings/imports'},
-  {:name => 'Supporting Skills', :url => '/settings/supporting_skill_categories'}
-]
-%>
 
-<table class='master'>
-  <thead>
-    <tr>
-      <th>Settings</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% for item in items %>
-      <tr class="<%= cycle('odd', 'even') + (current_page?(item[:url]) ? ' current' : '') %>"
-          onclick="location.href='<%= url_for(item[:url]) %>'">
-        <td><a href='<%= item[:url]%>'><%= item[:name] %></a></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="box">
+  <h3>Settings</h3>
+  <ul>
+    <%= nav_link :assignment_categories, :label => "assignment_types" %>
+    <%= nav_link :sites, :label => "campus_sites" %>
+    <%= nav_link :buildings, :rooms, :label => "buildings_and_rooms" %>
+    <%= nav_link :school_years, :label => "grading_periods" %>
+    <%= nav_link :grading_scales %>
+    <%= nav_link :imports, :label => "import_data" %>
+    <%= nav_link :supporting_skill_categories, :label => "supporting_skills" %>  
+  </ul>
+</div>
+
+

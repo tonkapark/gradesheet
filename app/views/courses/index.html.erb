@@ -1,32 +1,21 @@
+<% title "Courses", false %>
 
+<div class="title">
+  <h2>Courses <small><%= link_to 'Add New Course', new_course_path %></small></h2>
+</div>
 
-<h2>Courses <small><%= link_to 'Add New Course', new_course_path %></small></h2>
-
-<div id='course_list'>
+<div id='course_list'>  
   <table>
     <thead>
       <th>Course Name (ID)</th>
-      <th>Grading Scale</th>
     </thead>
-    <tbody>    
-    <% @courses.each do |course| %> 
-      <tr class="even">
-        <td><strong><%= course.name %> (<%= course.code %>)</strong> <small><%= link_to "Edit", [:edit, course] %></small></td>
-        <td><%= course.grading_scale.name  %></td>
-      </tr>
-      <tr>
-        <td colspan="2">     
-          <h3>Sections <small><%= link_to "Create New Section", new_course_term_path(:course_id => course) %></small></h3>
-          <ul>
-          <% course.course_terms.each do |co| %>
-            <li><%= link_to co.code, co %> (<%= " #{co.school_year.name}/#{co.term.name}" %>)</li>
-          <% end %>
-          </ul>
-         </td>
-      </tr>
-    <% end %>
-  </tbody>
+    <tbody>      
+      <% @courses.each do |course| %> 
+        <tr class="<%= cycle("odd","even") %>">
+          <td><strong><%= link_to course.name, course %> (<%= course.code %>)</strong> <small><%= link_to "Edit", [:edit, course] %></small></td>
+        </tr>
+      <% end %>          
+    </tbody>
   </table>
-  
   <%= will_paginate @courses %>
 </div>

@@ -20,7 +20,7 @@ module LayoutHelper
   def remove_link_unless_new_record(fields)
     unless fields.object.new_record?
       out = ''
-      out << fields.hidden_field(:_delete)
+      out << fields.hidden_field(:_destroy)
       out << link_to_function("delete", "$(this).up('.#{fields.object.class.name.underscore}').hide(); $(this).previous().value = '1'")
       out
     end

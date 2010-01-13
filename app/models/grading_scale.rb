@@ -6,7 +6,7 @@ class GradingScale < ActiveRecord::Base
   belongs_to :school
 	has_many	:courses
 	has_many  :scale_ranges, :dependent => :destroy
-  accepts_nested_attributes_for :scale_ranges, :allow_destroy => true, :reject_if => proc { |a| a['max_score'].blank? }
+  accepts_nested_attributes_for :scale_ranges, :allow_destroy => true, :reject_if => proc { |a| a['letter_grade'].blank? }
 	
   validates_presence_of :school_id
 	validates_length_of     :name, :within => 1..20

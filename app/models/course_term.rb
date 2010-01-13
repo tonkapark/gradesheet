@@ -1,13 +1,15 @@
 # Links the course with each of its terms or grading periods.
 class CourseTerm < ActiveRecord::Base
 	
-  attr_accessible :school, :course_id, :code, :term_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
+  attr_accessible :school, :course_id, :code, :grading_scale_id, :term_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
   
   belongs_to :school
   belongs_to :teacher
   belongs_to  :term
 	belongs_to  :course
   belongs_to :room
+  belongs_to  :grading_scale
+  
   has_many    :course_term_skills
   has_many    :supporting_skills,       :through => :course_term_skills
   has_many    :assignments
@@ -20,20 +22,31 @@ class CourseTerm < ActiveRecord::Base
 	validates_existence_of	:term
 	validates_existence_of	:course
   validates_existence_of	:teacher
-	#validates_uniqueness_of :course_id, :scope =>  :term_id
-
+	validates_existence_of :grading_scale
+  
   before_save :upcase_code
   validates_length_of :code, :in => 3..35
   validates_format_of :code, :with => /^[\w\/\-\.]+$/,
                               :message => "cannot contain certain special characters or spaces. Valid(a-z, 0-9, / . -)"
-
+  validates_uniqueness_of :code ,:scope => [:school, :course, :term]
   validates_numericality_of :seats, :greater_than => 0
   validate :student_limit
 
   delegate :school_year,    :to => :term
-  delegate :active,         :to => :term
-  delegate :grading_scale,  :to => :course
+  delegate :active,         :to => :term  
   delegate :students,       :to => :enrollment
+  
+  # Sections are considered 'active' only if they are in a grading term that is 'active'.
+  named_scope :active, :include => :terms,
+    :conditions	=> ["date_ranges.active = ?", true],
+    :order => ["courses.name ASC"]
+
+  # Find all the sections for a particular school year
+  named_scope :by_school_year, lambda { |*school_year| 
+    { :include => :terms,
+      :conditions => ["date_ranges.school_year_id = ?", school_year ||= SchoolYear.current]
+    }
+  }  
   
   #will_paginate defaults
   cattr_reader :per_page
@@ -75,7 +88,9 @@ class CourseTerm < ActiveRecord::Base
      total_possible_points += a.possible_points
    end
    return total_possible_points
-  end    
+  end   
+
+
   
 protected
 

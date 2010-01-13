@@ -1,4 +1,4 @@
-<% content_for :left do %>
+<% content_for :sidebar do %>
   <h3>Upcoming Events</h3>
   <%= content_tag :div, "<span class='notice'>#{distance_of_time_in_words_to_now(Term.current[0].end_date).capitalize}</span>
   until the end of this grading period.", :class => 'box span-3 last' if Term.current[0] %>

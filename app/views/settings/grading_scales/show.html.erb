@@ -1,0 +1,26 @@
+<% title "#{@scale.name} Grade Scale" %>
+
+<% content_for :sidebar do %>
+	<%= render :partial => 'settings/settings_list' %>
+<% end %>
+
+<p><%= link_to 'Edit', [:edit, @scale] %></p>
+
+<div class='scale_range'>
+  <table>
+    <thead>
+      <th>Min Score</th>
+      <th>Max Score</th>
+      <th>Letter Grade</th>
+      <th>Description</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <% @scale.scale_ranges.each do |range| %>
+      <tr>        
+        <%= render :partial => 'scale_range', :locals => { :range => range} %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>    
+</div>

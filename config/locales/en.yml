@@ -2,18 +2,41 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  administrator: Administrator
   home: "Home"
   courses: Courses
-  course terms: Course Sections
-  course sections: Course Sections
+  course terms: "Course Sections"
+  course sections: "Course Sections"
   assignments: Assignments
   reports: Reports
   settings: Settings
   people: People
   student: Student
-  teacher: Teacher
-  administrator: Administrator
+  teacher: Teacher  
   students: Students
   teachers: Teachers
   administrators: Administrators
-  sign_in: Sign In
+  sign_in: "Sign In"
+  assignment_types: "Assignment Types"
+  campus_sites: "Campus Sites"
+  buildings: Buildings
+  buildings_and_rooms: "Buildings and Rooms"
+  grading_periods: "Grading Periods"
+  grading_scales: "Grading Scales"
+  import_data: "Import Data"
+  supporting_skills: "Supporting Skills"  
+  activerecord:
+    attributes:
+      user:
+        email: Email
+        password: Password
+      person:
+        firstname: "First Name"
+        middlename: "Middle Name"
+        lastname: "Last Name"
+        generation: "Generation"
+        gender: Gender
+        dob: "Date of Birth"
+        primary_phone: "Primary Phone"
+        secondary_phone: "Secondary Phone"
+        email: Email      

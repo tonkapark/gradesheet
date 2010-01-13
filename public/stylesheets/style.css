@@ -114,9 +114,7 @@ small {font-size: 11px}
 #subnav			{
 	height: 30px;
 	background-color: #FFFFFF;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #d6d6d6;
+	border-bottom: 1px solid #d6d6d6;
 	clear: both;
 	padding-bottom: 5px;
 }
@@ -127,11 +125,12 @@ small {font-size: 11px}
 	#subnav a.active 	{color: #131C25;font-weight: bold;}
 	#subnav a:hover 	{ color: #131C25;}
 
+.whitebar {height: 5px; background: #fff; border-bottom: 1px solid #d6d6d6; padding-bottom: 5px;}
 
 /* ------------------------------------------------------------------ */
 /* CONTENT SECTION */
 /* ------------------------------------------------------------------ */
-	
+
 .box {background: #fff; border: 1px solid #E8E8E8; margin: 0px 0px 20px; padding: 15px 15px 0px; position: relative; }	
 
 /* ------------------------------------------------------------------ */
@@ -162,6 +161,15 @@ small {font-size: 11px}
 .pagination ul li a {
 }
 
+
+/* ------------------------------------------------------------------ */
+/* SIDEBAR */
+/* ------------------------------------------------------------------ */
+
+#sidebar ul {list-style: none;}
+#sidebar ul li {border-bottom: 1px solid #D8D8D8;  line-height: 16px; margin: 0px 0px 15px; padding: 0px 0px 15px;}
+
+
 /* ------------------------------------------------------------------ */
 /* FOOTER */
 /* ------------------------------------------------------------------ */
@@ -182,4 +190,45 @@ small {font-size: 11px}
 
 #footer p a {
 	color: #ccc;
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Rails Errors */
+/* ------------------------------------------------------------------ */
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
 }

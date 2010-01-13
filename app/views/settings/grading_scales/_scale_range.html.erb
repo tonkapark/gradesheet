@@ -1,16 +1,7 @@
+   
+<td><%= range.min_score %></td>
+<td><%= range.max_score %></td>
+<td><%= range.letter_grade %>   </td>
+<td><%= range.description %></td>
 
-  <div class='scale_range box span-12 last'>
-
-    <%= f.label :max_score, "From" %>
-    <%= f.text_field :min_score, :size => '3' %>%
-    <strong>&nbsp; up to &nbsp;</strong>
-    <%= f.text_field :max_score, :size => '3' %>%
-    <strong>&nbsp; is &nbsp;</strong>
-    <%= f.text_field :letter_grade, :size => '3' %>
-    <br />
-    <%= f.label :description %>
-    <%= f.text_area :description, :size => '20x2' %>
-
-    <%= remove_link_unless_new_record(f) -%>
-  </div>
 

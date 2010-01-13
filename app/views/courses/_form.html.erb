@@ -1,27 +1,26 @@
-<%= error_messages_for :course, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
+<% stylesheet 'formtastic', 'styles/forms' %>
 
-<div class="box span-14">
-  <% form_for course do |f| %>
-    <fieldset>
-      <legend><%= course.new_record? ? 'New Course' : 'Edit Course' %></legend>
-
-      <%= f.label :code, "Course ID", :class => "req" %>
-      <% if f.object.new_record? %>
-        <%= f.text_field :code, :class => "focus" %>
+<div class="box">
+  <% semantic_form_for course do |form| %>
+    <%= form.error_messages %>
+          
+    <% form.inputs do %>
+      <% if form.object.new_record? %>
+        <%= form.input :code, :required => true, :input_html => {:class => "focus"} %>
       <% else %>
-        <%= f.text_field :code, { :disabled => 'disabled' }%>
+        <%= form.input :code, :input_html => {:disabled => 'disabled'} %>
       <% end %>
-      <br />      
-      <%= f.label :name, "Course Name", :class => "req" %>
-      <%= f.text_field :name, :class => "focus"  %>
-      <br />
-      <%= f.label :grading_scale_id, {}, :class => 'req' %>
-      <%= collection_select :course, :grading_scale_id, grading_scales, :id, :name %>
+      <%= form.input :name, :label => 'Course Name', :required => true %>
+   
+      
+    <% end %>
+    
+    
+    
+    
+    <% form.buttons do %>
+      <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', course %>
+    <% end %>
 
-      <div class="spacer">
-        <%= f.submit 'Save', :class=> 'btn positive' %>
-        <%= link_to 'Cancel', course %>
-      </div>
-    </fieldset>
   <% end %>
 </div>

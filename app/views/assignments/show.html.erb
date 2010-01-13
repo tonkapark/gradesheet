@@ -1,51 +1,57 @@
-<div class="span-12">
-  <h2>Assignment Scores</h2>
-  <h3>Section: <%= link_to @assignment.course_term.code, @assignment.course_term %>   <small><%= link_to "Gradebook", grades_course_term_path(@assignment.course_term) %></small></h3>
+<% title "#{@assignment.assignment_category.name}:#{@assignment.name} Scores" %>
 
-  <table id='assignment'>
+<h3>Section: <%= link_to @assignment.course_term.code, @assignment.course_term %>   <small><%= link_to "Gradebook", grades_course_term_path(@assignment.course_term) %></small></h3>
+
+<table id='assignment'>
+  <thead>
+    <tr>
+      <th>Assignment Type</th>
+      <th>Due Date</th>
+      <th>Points</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @assignment.assignment_category.name %></td>
+      <td><%= @assignment.due_date_formatted %></td>
+      <td><%= @assignment.possible_points %></td>  
+      <td><%= link_to 'change', [:edit, @course_term, @assignment] %></td>        
+    </tr> 
+  </tbody>
+</table>
+  
+
+<% form_for @assignment, :url => evaluate_assignment_path(@assignment) do |f| %>
+  <%= f.error_messages %>
+  <table id='evaluations'>
     <thead>
       <tr>
-        <th>Assignment Type</th>
-        <th>Due Date</th>
-        <th>Points</th>
-        <th></th>
+        <th>Student</th>
+        <th>Points Earned - <small>(E)xcused, (M)issed</small></th>
       </tr>
     </thead>
     <tbody>
+      <% f.fields_for :assignment_evaluations do |e| %>
+        <%= e.hidden_field :enrollment_id %>
+        <%= e.hidden_field :student_id %>          
+        <%= e.hidden_field :school_id %>                    
+        <tr class="<%= cycle('odd', 'even') %>">
+          <td><%= e.object.enrollment.student.full_name %></td>
+          <td><%= e.text_field :points_earned, {:size => 3} %></td>  
+        </tr>
+      <% end %>
       <tr>
-        <td><%= @assignment.assignment_category.name %></td>
-        <td><%= @assignment.due_date_formatted %></td>
-        <td><%= @assignment.possible_points %></td>  
-        <td><%= link_to 'change', [:edit, @course_term, @assignment] %></td>        
-      </tr> 
+        <td></td>
+        <td><%= f.submit "Submit" %></td>
+      </tr>
     </tbody>
   </table>
+<% end %>
+
+
+
+
   
 
-  <% form_for @assignment, :url => evaluate_assignment_path(@assignment) do |f| %>
-    <%= f.error_messages %>
-    <table id='evaluations'>
-      <thead>
-        <tr>
-          <th>Student</th>
-          <th>Points Earned - <small>(E)xcused, (M)issed</small></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% f.fields_for :assignment_evaluations do |e| %>
-          <%= e.hidden_field :enrollment_id %>
-          <%= e.hidden_field :student_id %>          
-          <%= e.hidden_field :school_id %>                    
-          <tr class="<%= cycle('odd', 'even') %>">
-            <td><%= e.object.enrollment.student.full_name %></td>
-            <td><%= e.text_field :points_earned, {:size => 3} %></td>  
-          </tr>
-        <% end %>
-        <tr>
-          <td></td>
-          <td><%= f.submit "Submit" %></td>
-        </tr>
-      </tbody>
-    </table>
-  <% end %>
-</div>
+

@@ -22,7 +22,7 @@ class Settings::GradingScalesController < SettingsController
 
     if @scale.save
       flash[:notice] = "Grading scale '#{@scale.name}' was successfully created."
-      redirect_to grading_scales_url
+      redirect_to @scale
     else
       render :action => 'new'
     end
@@ -32,7 +32,7 @@ class Settings::GradingScalesController < SettingsController
     
     if @scale.update_attributes(params[:grading_scale])
       flash[:notice] = "Grading scale '#{@scale.name}' was successfully updated."
-      redirect_to grading_scales_url
+      redirect_to @scale
     else
       render :action => 'edit'
     end

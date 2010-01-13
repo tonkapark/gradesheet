@@ -2,7 +2,7 @@
 
 <%= error_messages_for :assignment, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
 
-<div class='box span-13 last'>
+<div class='box'>
   <% semantic_form_for @assignment do |form| %>
     <%= render :partial => 'form', :locals => {:form => form, :assignment => @assignment } %>
   <% end %>

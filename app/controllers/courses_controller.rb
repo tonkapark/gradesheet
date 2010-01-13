@@ -1,7 +1,6 @@
 class CoursesController < GradesheetController
 
-  before_filter :find_course, :only => [:show, :edit, :update]
-  before_filter :find_grade_scales, :only => [:edit, :new]
+  before_filter :find_course, :only => [:show, :edit, :update]  
   after_filter :expire_cache, :only => [:create, :update, :destroy]
 
   def index
@@ -22,8 +21,7 @@ class CoursesController < GradesheetController
     if @course.save
       flash[:notice] = "Course '#{@course.name}' was successfully created."
       redirect_to(courses_url)
-    else
-      find_grade_scales
+    else      
       render :action => "new"
     end
    
@@ -50,11 +48,7 @@ protected
   def find_course
     @course = current_user.school.courses.find(params[:id])
   end
-  
-  def find_grade_scales
-    @grading_scales = current_user.school.grading_scales.find(:all)
-  end
-    
+      
   private
 
   def expire_cache

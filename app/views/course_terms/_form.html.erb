@@ -8,13 +8,17 @@
   
     <% form.inputs do %>
       <% if course_term.new_record? %>
-        <%= form.input :code, :label => 'Section ID' %>
+        <%= form.input :code, :label => 'Section ID', :required => true %>
       <% else %>
         <%= form.input :code, :label => 'Section ID', :input_html => { :disabled => true } %>
       <% end %>       
       
-      <%= form.input :course, :label => 'Course', :collection => current_user.school.courses.all.collect {|r| [ r.name + ' (' + r.code + ')', r.id]} %>
-      <%= form.input :term, :label => 'Grading Term', :collection => current_user.school.terms.all.collect {|r| [ r.name + ' (' + r.begin_date.to_s + ' - ' + r.end_date.to_s + ')', r.id]} %>
+      <%= form.input :course, :label => 'Course', :required => true, :collection => current_user.school.courses.all.collect {|r| [ r.name + ' (' + r.code + ')', r.id]} %>
+      
+      
+      <%= form.input :grading_scale, :collection => grading_scales, :required => true %>
+      
+      <%= form.input :term, :label => 'Grading Term', :required => true, :collection => current_user.school.terms.all.collect {|r| [ r.name + ' (' + r.begin_date.to_s + ' - ' + r.end_date.to_s + ')', r.id]} %>
       <%= form.input :teacher, :label => 'Teacher', :collection => current_user.school.teachers.all.collect {|r| [ r.full_name , r.id]} %>
       <%= form.input :room, :label => 'Room', :collection => current_user.school.rooms.collect {|r| [ r.building.name + '/' + r.name + ' (' + r.seats.to_s + ')', r.id]} %>
       <%= form.input :seats, :label => 'Seats' %>

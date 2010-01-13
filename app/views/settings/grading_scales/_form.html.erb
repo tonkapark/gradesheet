@@ -1,35 +1,30 @@
 <% javascript :defaults %>
+<% stylesheet 'formtastic', 'styles/forms' %>
 
-<%= error_messages_for :scale, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
-
-<div class='box span-15 last'>
-  <% form_for scale do |f| %>
-    <fieldset>
-      <h2>Grade Scale</h2>
-      <%= f.label :name, "Grading Scale Name", :class => 'req' %>
-      <%= f.text_field :name, :class => "focus" %>
-      <br />
-      <%= f.label :name, "Hide Percentages?" %>
-      <%= f.check_box :simple_view %>
-      <br />
-      <br />
+<div class='box'>
+  <% semantic_form_for scale do |form| %>
+    <%= form.error_messages %>
+          
+    <% form.inputs do %>
+      <%= form.input :name, :label => 'Scale Name', :required => true %>
+      <%= form.input :simple_view %>
+      
       <h2 class="clear" >Grade Scale Ranges</h2>           
       <div id="scale_ranges">   
         
-        <p class="add_link"><%= add_record_link f, :scale_ranges, 'Add a range' %></p>    
+        <p class="add_link"><%= add_record_link form, :scale_ranges, 'Add a range' %></p>    
         <div class="scales">
-          <% f.fields_for :scale_ranges do |scale_range_form| %>
-            <%= render :partial => 'scale_range', :locals => { :f => scale_range_form } %>  
+          <% form.semantic_fields_for :scale_ranges do |scale_range_form| %>
+            <%= render :partial => 'scale_range_form', :locals => { :f => scale_range_form } %>  
           <% end %>
         </div>
-      </div>    
-
-      <div class='spacer span-15 last'>
-        <%= submit_tag 'Save', :class => 'btn positive' %>
-        <%= link_to 'Cancel', grading_scales_path, :class => 'btn standard' %>
-      </div>
-
-    </fieldset>
+      </div>      
+      
+    <% end %>
+    
+    <% form.buttons do %>
+      <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', grading_scales_path %>
+    <% end %>    
 
   <% end %>
 </div>

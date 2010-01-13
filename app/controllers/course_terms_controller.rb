@@ -1,6 +1,7 @@
 class CourseTermsController < GradesheetController
    
    before_filter :find_course_term, :except => [:index, :new, :create]
+   before_filter :find_grade_scales, :only => [:edit, :new]
    
   def index    
     @course_terms = current_user.person.course_terms.paginate :page => params[:page] unless current_user.admin?
@@ -25,6 +26,7 @@ class CourseTermsController < GradesheetController
       flash[:notice] = "Successfully created course offering."
       redirect_to @course_term
     else
+      find_grade_scales
       render :action => 'new'
     end
   end
@@ -72,5 +74,9 @@ protected
   def find_course_term
     @course_term = current_user.school.course_terms.find(params[:id])
   end
+  
+  def find_grade_scales
+    @grading_scales = current_user.school.grading_scales.find(:all)
+  end  
 
 end

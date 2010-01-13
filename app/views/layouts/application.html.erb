@@ -12,7 +12,7 @@
      
      
   <% if @content_css.nil?
-    if @content_for_left
+    if @content_for_sidebar
       @content_css = 'g720'
     else
       @content_css = 'g960'
@@ -64,6 +64,8 @@
         </div>
       </div>
     </div>    
+    <% else %>
+      <div class="whitebar"></div>
     <% end %>
 
     <div class="clear whitespace"></div>
@@ -78,12 +80,7 @@
 
 
         
-    <div class='main'>
-      <% if @content_for_left %>
-        <div class='g240'>
-          <%= yield :left  %>
-        </div> 
-      <% end %>   
+    <div class='main'>   
       <div id="content">
         <div class="<%= @content_css %>">
           <%- if show_title? -%>
@@ -93,6 +90,11 @@
           <%- end -%>        
           <%= yield  %>
         </div>
+      <% if @content_for_sidebar %>
+        <div id="sidebar" class='g240'>
+          <%= yield :sidebar  %>
+        </div> 
+      <% end %>        
       </div>
       
     </div>   
