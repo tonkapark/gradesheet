@@ -5,13 +5,13 @@
 <h3><%= assignment.name? ? "Editing: #{assignment.name}" : "New Assignment" %></h3>
 
 <% form.inputs do %>
+  <%= form.input :assignment_category, :required => true, :for => :assignment_categories %>
   <%= form.input :name, :label => 'Name', :required => true %>
   <%= form.input :possible_points, :label => 'Possible points', :required => true %>
   <%= form.input :due_date, :as => :hidden, :required => true %>
   <span id='due_date' class='scal tinyscal'></span>
   <input id='default_due_date' type='hidden' value='<%= assignment.due_date? ? assignment.due_date.to_s(:long) : DateTime.now.to_s(:long) %>' />
-  
-  <%= form.input :assignment_category, :required => true, :for => :assignment_categories %>
+    
 <% end %>
 
 <% form.buttons do %>

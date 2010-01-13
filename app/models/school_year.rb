@@ -1,6 +1,11 @@
 class SchoolYear < DateRange
+  
+  attr_accessible :terms_attributes
+  
   after_update :save_terms
-
+  
+  has_many :courses
+  has_many :courses_terms, :through => :courses  
   has_many  :terms, :dependent => :destroy
   accepts_nested_attributes_for :terms, :allow_destroy => true, :reject_if => proc { |a| a['name'].blank? }
   
@@ -20,7 +25,7 @@ class SchoolYear < DateRange
   named_scope :active,
     :select     => "DISTINCT date_ranges.*",
     :joins      => "INNER JOIN date_ranges terms_date_ranges on terms_date_ranges.school_year_id = date_ranges.id AND terms_date_ranges.type = 'Term' AND date_ranges.type = 'SchoolYear'",
-    :conditions => "terms_date_ranges.active = 't'",
+    :conditions => ["terms_date_ranges.locked = ? ",  false],
     :order      => "end_date DESC"
   
 

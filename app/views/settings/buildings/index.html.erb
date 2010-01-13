@@ -7,29 +7,31 @@
 <p><%= link_to "Add New Building", new_building_path %></p>
 
 
-<table>
-  <thead>
-    <th>Building</th>
-    <th>Site</th>
-    <th></th>
-  </thead>
-  <% for building in @buildings %>
-    <tr class="even">
-      <td><%= link_to building.name, building %> <small><%= link_to "edit", edit_building_path(building) %></small></td>
-      <td><%= link_to building.site.name, building.site %></td>
-      <td><%= link_to "Destroy", building, :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
-    <tr>
-      <td colspan="3">
-        <small><%= link_to "Add Room", new_building_room_path(building) %></small>
-        <ul>
-        <% building.rooms.each do |room| %>
-          <li><%= link_to room.name, [building, room] %> (<%= room.seats %>)</li>
-        <% end %>
-        </ul>      
-      </td>
-    </tr>
-  <% end %>
-</table>
-
+<% for building in @buildings %>
+  <table>
+    <thead>
+      <th>Building</th>
+      <th>Site</th>
+      <th></th>
+    </thead>
+  
+      <tr class="even">
+        <td><%= link_to building.name, building %></td>
+        <td><%= link_to building.site.name, building.site %></td>
+        <td><%= link_to "edit", edit_building_path(building) %> | <%= link_to "delete", building, :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <h3>Rooms <small><%= link_to "Add Room", new_building_room_path(building) %></small></h3>
+          <ul>
+          <% building.rooms.each do |room| %>
+            <li><%= link_to room.name, [building, room] %> (<%= room.seats %>)</li>
+          <% end %>
+          </ul>      
+        </td>
+      </tr>
+  
+  </table>
+<% end %>
+  
 <p><%= link_to "New Building", new_building_path %></p>

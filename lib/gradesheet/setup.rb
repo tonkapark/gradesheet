@@ -44,7 +44,7 @@ module Gradesheet
 
     def load_sample_data
       
-      [Assignment, AssignmentEvaluation, Course, AssignmentCategory, Objective, Topic, ScaleRange, GradingScale, Term, SchoolYear, Person, Site, Building, Room, School, Enrollment, CourseTerm, User].each(&:delete_all)
+      [Assignment, AssignmentEvaluation, Course, AssignmentCategory, ScaleRange, GradingScale, Term, SchoolYear, Person, Site, Building, Room, School, Enrollment, CourseTerm, User].each(&:delete_all)
       
       admin_user
       
@@ -73,7 +73,7 @@ module Gradesheet
       ScaleRange.create!( :grading_scale => scale, :description => 'Understanding of subject is inadequate', :max_score => 59, :min_score => 0, :letter_grade => 'F')
             
       year = SchoolYear.create!(:school => school, :name => 'Current Year')
-      first_semester = Term.create!(:school => school, :school_year => year, :name => 'First Semester', :begin_date => Date.parse('2009-08-01'), :end_date => Date.parse('2009-12-21'), :active => true)
+      first_semester = Term.create!(:school => school, :school_year => year, :name => 'First Semester', :begin_date => Date.parse('2009-08-01'), :end_date => Date.parse('2009-12-21'))
       second_semester = Term.create!(:school => school, :school_year => year, :name => 'Second Semester', :begin_date => Date.parse('2010-01-10'), :end_date => Date.parse('2010-06-15'))
       
       25.times do
@@ -123,17 +123,17 @@ module Gradesheet
         create_user = create_user ? false : true
       end
         
-      10.times do
+      2.times do
         course = Course.create!(:school => school, :code => "#{Populator.words(1)}/#{Populator.value_in_range(100..500)}", :name => Populator.words(1..4).titleize)      
         1.times do
           room = school.rooms.find(:first, :order => rand())
           teacher = school.teachers.find(:first, :order => rand())
-          course_offering = CourseTerm.create!( :school => school, :code => "#{course.code}-001", :course_id => course.id, :term_id => first_semester.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room_id => room.id, :grading_scale_id => scale.id) 
+          course_offering = CourseTerm.create!( :school => school, :code => "#{course.code}-001", :course_id => course.id, :school_year_id => year.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room_id => room.id, :grading_scale_id => scale.id) 
           2.times do
             Assignment.create!(:school => school, :course_term_id => course_offering.id, :name => Populator.words(1..3).titleize, :assignment_category => AssignmentCategory.find(:first, :order => rand()), :possible_points => rand(100), :due_date => Date.today + rand(100))
           end
 
-          course_offering2 = CourseTerm.create!(:school => school,  :code => "#{course.code}-001", :course_id => course.id, :term_id => second_semester.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room_id => room.id, :grading_scale_id => scale.id)   
+          course_offering2 = CourseTerm.create!(:school => school,  :code => "#{course.code}-002", :course_id => course.id, :school_year_id => year.id, :teacher_id => teacher.id, :seats => Populator.value_in_range(1..room.seats), :room_id => room.id, :grading_scale_id => scale.id)   
           2.times do
             Assignment.create!(:school => school, :course_term_id => course_offering2.id, :name => Populator.words(1..3).titleize, :assignment_category => AssignmentCategory.find(:first, :order => rand()), :possible_points => rand(100), :due_date => Date.today + rand(200))
           end

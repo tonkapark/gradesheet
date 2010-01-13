@@ -1,11 +1,11 @@
 # Links the course with each of its terms or grading periods.
 class CourseTerm < ActiveRecord::Base
 	
-  attr_accessible :school, :course_id, :code, :grading_scale_id, :term_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
+  attr_accessible :school, :course_id, :code, :grading_scale_id, :school_year_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
   
   belongs_to :school
   belongs_to :teacher
-  belongs_to  :term
+  belongs_to  :school_year
 	belongs_to  :course
   belongs_to :room
   belongs_to  :grading_scale
@@ -19,34 +19,19 @@ class CourseTerm < ActiveRecord::Base
   has_many :enrollments
   accepts_nested_attributes_for :enrollments
   
-	validates_existence_of	:term
+  validates_existence_of	:school
+	validates_existence_of	:school_year
 	validates_existence_of	:course
-  validates_existence_of	:teacher
-	validates_existence_of :grading_scale
   
   before_save :upcase_code
   validates_length_of :code, :in => 3..35
   validates_format_of :code, :with => /^[\w\/\-\.]+$/,
                               :message => "cannot contain certain special characters or spaces. Valid(a-z, 0-9, / . -)"
-  validates_uniqueness_of :code ,:scope => [:school_id, :course_id, :term_id]
-  validates_numericality_of :seats, :greater_than => 0
+  validates_uniqueness_of :code ,:scope => :school_id
+  validates_numericality_of :seats, :greater_than => 0, :allow_blank => true
   validate :student_limit
 
-  delegate :school_year,    :to => :term
-  delegate :active,         :to => :term  
   delegate :students,       :to => :enrollment
-  
-  # Sections are considered 'active' only if they are in a grading term that is 'active'.
-  named_scope :active, :include => :terms,
-    :conditions	=> ["date_ranges.active = ?", true],
-    :order => ["courses.name ASC"]
-
-  # Find all the sections for a particular school year
-  named_scope :by_school_year, lambda { |*school_year| 
-    { :include => :terms,
-      :conditions => ["date_ranges.school_year_id = ?", school_year ||= SchoolYear.current]
-    }
-  }  
   
   #will_paginate defaults
   cattr_reader :per_page
@@ -74,12 +59,6 @@ class CourseTerm < ActiveRecord::Base
     letter_grade = final_score > 0 ? self.course.grading_scale.calculate_letter_grade(final_score) : 'n/a'
 
     return {:letter => letter_grade, :score => final_score }
-  end
-
-  # Retrieve comments for a student in this course term
-  def comments(student_id)
-    comment = Comment.find_by_user_id_and_commentable_id(student_id, self.id.to_s)
-    return comment ? comment.content : ''
   end
   
   def total_possible_points

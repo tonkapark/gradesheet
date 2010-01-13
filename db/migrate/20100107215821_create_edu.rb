@@ -63,13 +63,12 @@ class CreateEdu < ActiveRecord::Migration
 
     create_table :course_terms, :force => true do |t|
       t.integer :school_id, :null => false
-      t.integer  :term_id, :null => false
+      t.integer  :school_year_id, :null => false
       t.integer  :course_id, :null => false
       t.string   :code            
       t.integer  :teacher_id
       t.integer  :room_id
       t.integer  :seats
-      t.integer  :teacher_assistant_id      
       t.integer  :grading_scale_id
       t.integer  :enrollments_count,    :default => 0
       t.timestamps
@@ -79,7 +78,8 @@ class CreateEdu < ActiveRecord::Migration
     add_index :course_terms, [:code]
     add_index :course_terms, [:course_id]
     add_index :course_terms, [:room_id]
-    add_index :course_terms, [:term_id]
+    add_index :course_terms, [:school_year_id]
+    add_index :course_terms, [:school_id, :code], :unique => true
     add_index :course_terms, [:grading_scale_id]
 
     create_table :courses, :force => true do |t|
@@ -100,7 +100,7 @@ class CreateEdu < ActiveRecord::Migration
       t.date     :begin_date
       t.date     :end_date
       t.integer  :school_year_id
-      t.boolean  :active
+      t.boolean  :locked, :default => false
       t.timestamps
       
     end
@@ -137,15 +137,12 @@ class CreateEdu < ActiveRecord::Migration
     add_index :grading_scales, [:school_id]
 
     create_table :rooms, :force => true do |t|
-      t.integer :school_id, :null => false
       t.integer  :building_id, :null => false
       t.string   :name
       t.integer  :seats
-      t.timestamps
-      
+      t.timestamps      
     end
-    
-    add_index :rooms, [:school_id]
+  
     add_index :rooms, [:building_id]
 
     create_table :scale_ranges, :force => true do |t|

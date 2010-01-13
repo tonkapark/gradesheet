@@ -2,6 +2,8 @@
 # directly but subclassed for other user types (Terms, School Years, etc.)
 class DateRange < ActiveRecord::Base
 
+  attr_accessible :begin_date, :end_date, :name, :locked
+  
   belongs_to :school
   validates_presence_of :school_id
 

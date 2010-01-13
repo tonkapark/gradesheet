@@ -23,7 +23,7 @@ class Settings::SchoolYearsController < SettingsController
 
   def create
     @year = current_user.school.school_years.new(params[:school_year])
-
+    
     if @year.save
       flash[:notice] = "School year '#{@year.name}' was successfully created."
       redirect_to school_years_path
@@ -33,7 +33,7 @@ class Settings::SchoolYearsController < SettingsController
     end
   end
 
-  def update    
+  def update       
     if @year.update_attributes(params[:school_year])
       flash[:notice] = "School year '#{@year.name}' was successfully updated."
       redirect_to :action => :index 

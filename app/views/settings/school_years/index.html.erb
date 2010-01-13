@@ -1,26 +1,15 @@
+<% title "School Years" %>
+
 <% content_for :sidebar do %>
   <%= render :partial => 'settings/settings_list' %>
 <% end %>
 
-  <table class="master">
-    <tbody>
-      <tr>
-        <td colspan='0'>
-          <%= link_to "New School Year", new_school_year_path, :class => 'btn positive' %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<p><%= link_to "New School Year", new_school_year_path %></p>
+
 
 <% for year in @years %>
-  <h2>
-    <span style="float:right;"><%= button_to 'Delete',
-        { :controller => :school_years, :action => "destroy", :id => year.id },
-        :method   => :delete,
-        :class    => "btn negative",
-        :confirm => "Are you sure you want to delete the '#{year.name}' school year?" %></span>
-      <%= link_to year.name, [:edit, year] %>
-  </h2>
+<div class="box">
+  <h3><%= link_to year.name, [:edit, year] %></h3>
 
   <table class="master">
     <thead>
@@ -28,7 +17,7 @@
         <th>Period Name</th>
         <th>Begin Date</th>
         <th>End Date</th>
-        <th>Active?</th>
+        <th>Locked?</th>
       </tr>
     </thead>
     <tbody>
@@ -37,11 +26,11 @@
           <%= content_tag :td, link_to(term.name, edit_school_year_path(year)) %>
           <%= content_tag :td, term.begin_date %>
           <%= content_tag :td, term.end_date %>
-          <%= content_tag :td, ( check_box_tag :active, term.active, term.active, :disabled => true ) %>
+          <%= content_tag :td, ( check_box_tag :locked, term.locked, term.locked, :disabled => true ) %>
         </tr>
       <% end %>
     </tbody>
   </table>
-
+</div>
 <% end %>
 

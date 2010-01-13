@@ -6,7 +6,7 @@
     <thead>
       <th>Course</th>
       <th>Offering ID</th>     
-      <th>Grading Period</th>
+      <th>School Year</th>
       <th>Start Date</th>
       <th>Grade</th>
       <th>Grade Post Date</th>
@@ -16,8 +16,8 @@
         <tr class="<%= cycle('odd', 'even') %>">
           <td><%= e.course_term.course.name %></td>
           <td><%= link_to e.course_term.code, e.course_term %></td>
-          <td><%= e.course_term.term.name %></td>        
-          <td><%= e.course_term.term.begin_date %></td>        
+          <td><%= e.course_term.school_year.name %></td>        
+          <td><%= e.course_term.school_year.terms.first.begin_date %></td>        
           <td><%= e.grade %></td>        
           <td><%= "TODO" %></td>                        
         </tr>

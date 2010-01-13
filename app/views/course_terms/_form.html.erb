@@ -1,11 +1,8 @@
-<% stylesheet 'formtastic' %>
+<% stylesheet 'formtastic', 'styles/forms' %>
 
-<%= error_messages_for :course_term, :header_message => "Please Try Again!", :message => "We had some problems saving your changes:" %>
-
-<div class="box span-14">
-  <h3><%= course_term.new_record? ? 'New Course Section' : 'Edit Course Section' %></h3>
+<div class="box">
   <% semantic_form_for course_term do |form| %> 
-  
+    <%= form.error_messages %>
     <% form.inputs do %>
       <% if course_term.new_record? %>
         <%= form.input :code, :label => 'Section ID', :required => true %>
@@ -18,14 +15,14 @@
       
       <%= form.input :grading_scale, :collection => grading_scales, :required => true %>
       
-      <%= form.input :term, :label => 'Grading Term', :required => true, :collection => current_user.school.terms.all.collect {|r| [ r.name + ' (' + r.begin_date.to_s + ' - ' + r.end_date.to_s + ')', r.id]} %>
+      <%= form.input :school_year, :label => 'School Year', :required => true, :collection => current_user.school.school_years.all.collect {|r| [ r.name, r.id]} %>
       <%= form.input :teacher, :label => 'Teacher', :collection => current_user.school.teachers.all.collect {|r| [ r.full_name , r.id]} %>
       <%= form.input :room, :label => 'Room', :collection => current_user.school.rooms.collect {|r| [ r.building.name + '/' + r.name + ' (' + r.seats.to_s + ')', r.id]} %>
       <%= form.input :seats, :label => 'Seats' %>
     <% end %>
       
     <% form.buttons do %>
-      <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', courses_url %>
+      <%= form.commit_button 'Save' %> | <%= link_to 'Cancel', course_term %>
     <% end %>      
       
 
