@@ -1,0 +1,6 @@
+
+<div class="box">
+  <h2><%= link_to h(post.title), post %> <small><%= link_to 'Edit', [:edit, post] %></small></h2>  
+  <div class="published_at"><%= post.published_at.strftime('%b %d, %Y') %></div>
+  <p><%= simple_format(h(post.body)) %></p>
+</div>

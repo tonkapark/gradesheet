@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-
+  
   map.namespace :people, :path_prefix => nil, :name_prefix => nil do |u|
     u.resources :students do |student|
       student.resources :enrollments, :as => 'courses', :member => {:confirm_drop => :get} do |sco|
@@ -27,22 +27,18 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :settings, :only => [:index]
 
-	# Build the standard routes
-  map.resources :dashboard
-  
+	# Build the standard routes  
   map.resources :reports  
   map.resources :grades
-
-  # We do a couple of "special" things with these routes.  It mostly has to
-  # do with AJAX updating and things like that.
-  map.resources :evaluations, :member => { :update_grade => :post, :update_skill => :post }
-  map.resources :courses, :member => { :add_student => :post, :remove_student => :delete, :toggle_accommodation => :post }
   
+  map.resources :courses  
   map.resources :course_terms, :as => 'course_sections', :member => { :grades => :get, :post_grades => :put }, :has_many => :assignments, :shallow => true
   map.resources :assignments, :only => [:index], :member => { :evaluate => :put }
   
   map.resources :enrollments, :only => [:create]
 
+  map.resources :posts, :as => 'news'
+  
   # By default, we want the user to see the "dashboard" page.
   map.root :controller => "dashboard"
   

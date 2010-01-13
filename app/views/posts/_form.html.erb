@@ -1,0 +1,15 @@
+<% stylesheet 'formtastic', 'styles/forms' %>
+
+<% semantic_form_for @post do |form| %>
+  <%= form.error_messages %>
+  <% form.inputs do %>
+    <%= form.input :title, :required => true %>
+    <%= form.input :body, :required => true %>
+    <%= form.input :active %>
+  <% end %>
+  
+  <% form.buttons do %>
+    <%= form.commit_button 'Post' %> | <%= link_to 'Cancel', posts_path %>
+  <% end %>
+
+<% end %>

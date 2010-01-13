@@ -1,13 +1,6 @@
-<% content_for :sidebar do %>
-  <h3>Upcoming Events</h3>
-  <%= content_tag :div, "<span class='notice'>#{distance_of_time_in_words_to_now(Term.current[0].end_date).capitalize}</span>
-  until the end of this grading period.", :class => 'box span-3 last' if Term.current[0] %>
-  <%= content_tag :div, "<span class='notice'>#{distance_of_time_in_words_to_now(Time.now.end_of_year).capitalize}</span>
-  until New Year's Day.", :class => 'box span-3 last' %>
-  <%#= content_tag :li, '&lt;unknown&gt; days until the end of the school year.' %>
+<% title "#{Gradesheet[:site_name]} Dashboard" %>
 
-<% end %>
+<h3>News</h3>
+<%= render :partial => 'posts/post', :collection => @posts %>
 
-<h2>Welcome to <%= h Gradesheet[:site_name] %>!</h2>
-
-<%= render :file => "dashboard/_news.html" %>
+<%= will_paginate @posts %> 

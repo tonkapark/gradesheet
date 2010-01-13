@@ -1,0 +1,13 @@
+one:
+  school_id: 1
+  title: MyString
+  body: MyText
+  active: false
+  published_at: 2010-01-13 09:59:23
+
+two:
+  school_id: 1
+  title: MyString
+  body: MyText
+  active: false
+  published_at: 2010-01-13 09:59:23

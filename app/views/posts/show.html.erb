@@ -1,0 +1,21 @@
+<% title h @post.title %>
+
+<p>
+  <strong>Active:</strong>
+  <%=h @post.active %>
+</p>
+<p>
+  <strong>Published At:</strong>
+  <%=h @post.published_at %>
+</p>
+
+<%= simple_format(h(@post.body)) %>
+
+
+
+
+<p>
+  <%= link_to "Edit", edit_post_path(@post) %> |
+  <%= link_to "Destroy", @post, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", posts_path %>
+</p>
