@@ -7,12 +7,16 @@
 <div id='course_list'>  
   <table>
     <thead>
-      <th>Course Name (ID)</th>
+      <th>Course Code</th>
+      <th>Name</th>  
+      <th width='1'></th>    
     </thead>
     <tbody>      
       <% @courses.each do |course| %> 
         <tr class="<%= cycle("odd","even") %>">
-          <td><strong><%= link_to course.name, course %> (<%= course.code %>)</strong> <small><%= link_to "Edit", [:edit, course] %></small></td>
+          <td><%= course.code %></td>        
+          <td><%= link_to course.name, course %></td>
+          <td><%= link_to "edit", [:edit, course] %></td>
         </tr>
       <% end %>          
     </tbody>

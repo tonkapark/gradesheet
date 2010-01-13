@@ -139,7 +139,7 @@ class CreateEdu < ActiveRecord::Migration
     add_index :enrollments, [:course_term_id]
     add_index :enrollments, [:student_id]
     add_index :enrollments, [:course_term_id, :student_id], :unique => true
-
+    
     create_table :grading_scales, :force => true do |t|
       t.integer :school_id, :null => false
       t.string   :name
