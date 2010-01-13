@@ -64,20 +64,6 @@ module Gradesheet
       AssignmentCategory.create!(:school => school, :name => 'Quiz')
       AssignmentCategory.create!(:school => school, :name => 'Test')
       AssignmentCategory.create!(:school => school, :name => 'Project')
-
-      math = Topic.create!(:school => school, :name => 'Math')
-      science = Topic.create!(:school => school, :name => 'Science')
-      art = Topic.create!(:school => school, :name => 'Art')
-      handwriting = Topic.create!(:school => school, :name => 'Handwriting')
-      
-      Objective.create!(:topic => math, :description => 'student can add', :active => true)
-      Objective.create!(:topic => math, :description => 'student can substract', :active => true)
-      
-      Objective.create!(:topic => science, :description => 'student can add', :active => true)
-      Objective.create!(:topic => science, :description => 'student can substract', :active => true)
-      
-      Objective.create!(:topic => art, :description => 'student can fingerpaint', :active => true)
-      Objective.create!(:topic => handwriting, :description => 'student can clearly write their name', :active => true)
             
       scale = GradingScale.create!(:school => school, :name => 'Standard', :active => true, :simple_view => false)
       ScaleRange.create!( :grading_scale => scale, :description => 'Understanding of subject is excellent', :max_score => 100, :min_score => 90, :letter_grade => 'A')

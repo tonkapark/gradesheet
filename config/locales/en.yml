@@ -24,7 +24,6 @@ en:
   grading_periods: "Grading Periods"
   grading_scales: "Grading Scales"
   import_data: "Import Data"
-  objectives: "Content Topics"  
   activerecord:
     attributes:
       user:
