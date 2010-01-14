@@ -1,6 +1,9 @@
 class People::AdministratorsController < People::BaseController
   
+  add_breadcrumb 'Administrators', :administrators_path  
   before_filter :find_administrator, :except => [:index, :new, :create]
+  add_breadcrumb 'New', :new_administrator_path, :only => [:new, :create]
+  add_breadcrumb 'Edit', :edit_administrator_path, :only => [:edit, :update] 
   
   def index  
   
@@ -49,6 +52,7 @@ class People::AdministratorsController < People::BaseController
   
 protected
   def find_administrator
-    @administrator = current_user.school.administrators.find(:first, :conditions => ["(id = ? or code = ?)", params[:id].to_i, params[:id]])
+    @administrator = current_user.school.administrators.by_code(params[:id])
+    add_breadcrumb @administrator.full_name, :administrator_path
   end
 end

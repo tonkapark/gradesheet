@@ -1,13 +1,15 @@
 class People::EnrollmentsController < People::BaseController
   
-  before_filter :load_student
-  
+  add_breadcrumb 'Students', :students_path  
+  before_filter :find_student
+  before_filter :find_enrollment, :except => [:index, :new, :create]
+  add_breadcrumb 'Schedule', :student_enrollments_path  
+    
   def index
     @enrollments = @student.enrollments.all
   end
   
-  def show
-    @enrollment = @student.enrollments.find(params[:id])
+  def show    
   end
   
   def new
@@ -40,12 +42,10 @@ class People::EnrollmentsController < People::BaseController
     end
   end
   
-  def edit
-    @enrollment = @student.enrollments.find(params[:id])
+  def edit    
   end
   
   def update
-    @enrollment = @student.enrollments.find(params[:id])
     if @enrollment.update_attributes(params[:enrollment])
       flash[:notice] = "Successfully updated student course offering."
       redirect_to student_enrollments_url(@student)
@@ -55,7 +55,6 @@ class People::EnrollmentsController < People::BaseController
   end
   
   def destroy
-    @enrollment = @student.enrollments.find(params[:id])
     @enrollment.destroy
     flash[:notice] = "Successfully destroyed student course offering."
     redirect_to student_enrollments_url(@student)
@@ -66,8 +65,14 @@ class People::EnrollmentsController < People::BaseController
   end
   
   
-  protected
-  def load_student
-    @student = Student.find(params[:student_id]) 
+protected
+  def find_enrollment
+    @enrollment = @student.enrollments.find(params[:id])
   end
+
+  def find_student
+    @student = current_user.school.students.by_code(params[:student_id]) 
+    add_breadcrumb @student.full_name, student_path(@student)
+  end
+  
 end

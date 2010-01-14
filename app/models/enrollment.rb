@@ -1,6 +1,5 @@
-# Contains the enrollment information for each course.
 class Enrollment < ActiveRecord::Base
-  belongs_to :school
+
 	belongs_to :student	
 	belongs_to :course_term, :counter_cache => true
   has_many :assignment_evaluations

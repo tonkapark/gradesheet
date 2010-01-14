@@ -1,14 +1,12 @@
-# Contains the details on the grading periods and several date standardizations.
-class Term < DateRange
+class CatalogTerm < ActiveRecord::Base
   
-  #hack to scope terms by school  
-  attr_accessible :school_id
+  attr_accessible :starts_on, :ends_on, :name, :locked, :catalog
   
-  belongs_to  :school_year
+  belongs_to  :catalog
   
   validates_length_of		:name, :within => 1..20
-  validates_date        :begin_date, :before => :end_date
-  validates_date        :end_date, :after => :begin_date
+  validates_date        :starts_on, :before => :ends_on
+  validates_date        :ends_on, :after => :starts_on
 
   # Grading Terms are set as active or inactive by the school administrator.
   # Editing activities (entering grades, changing courses, etc.) are limited to

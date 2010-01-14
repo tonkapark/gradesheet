@@ -1,4 +1,6 @@
 class Settings::ImportsController < SettingsController
+  add_breadcrumb 'Import', :imports_path
+  
   require 'csv'
 
   # Import data into the database using parameter based inputs.  This allows us

@@ -15,7 +15,7 @@
       
       <%= form.input :grading_scale, :collection => grading_scales, :required => true %>
       
-      <%= form.input :school_year, :label => 'School Year', :required => true, :collection => current_user.school.school_years.all.collect {|r| [ r.name, r.id]} %>
+      <%= form.input :catalog, :label => 'School Year', :required => true, :collection => current_user.school.catalogs.all.collect {|r| [ r.name, r.id]} %>
       <%= form.input :teacher, :label => 'Teacher', :collection => current_user.school.teachers.all.collect {|r| [ r.full_name , r.id]} %>
       <%= form.input :room, :label => 'Room', :collection => current_user.school.rooms.collect {|r| [ r.building.name + '/' + r.name + ' (' + r.seats.to_s + ')', r.id]} %>
       <%= form.input :seats, :label => 'Seats' %>

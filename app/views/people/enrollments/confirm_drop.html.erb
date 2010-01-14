@@ -1,0 +1,11 @@
+<% title "Student Course Drop Confirmation" %>
+
+<div class="box">
+  <div class="notice">
+    Are you sure you want to drop the student from this course?
+  </div>  
+    
+  <p><strong><%= @student.full_name %></strong> will be dropped from course section <strong><%= @enrollment.course_term.code %></strong></p>
+    
+  <p><strong><%= link_to 'Yes, drop student', [@student, @enrollment], :method => :delete %></strong> or <%= link_to 'No, cancel', student_enrollments_path(@student) %></p>
+</div>

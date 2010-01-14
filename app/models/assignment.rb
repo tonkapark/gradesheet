@@ -1,5 +1,7 @@
 # Contains the details about each assignment.
 class Assignment < ActiveRecord::Base
+  include Pacecar
+  
   before_destroy :ensure_no_children
   
   belongs_to :school
@@ -18,6 +20,11 @@ class Assignment < ActiveRecord::Base
   validates_existence_of    :assignment_category
 
   delegate :grading_scale, :to => :course_term  
+  
+  def self.timely
+    self.due_date_inside(10.days.ago, Time.now + 10.days)
+  end
+  
   
   #will_paginate defaults
   cattr_reader :per_page

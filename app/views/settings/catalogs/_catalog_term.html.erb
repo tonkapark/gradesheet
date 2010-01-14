@@ -1,9 +1,8 @@
-<div class="term box">
+<div class="catalog_term box">
   <%= error_messages_for :term %>
-  <%= f.hidden_field :school_id, :value => @year.school.id %>
   <%= f.input :name, :label => 'Term Name', :required => true %>
-  <%= f.input :begin_date, :required => true %>
-  <%= f.input :end_date %>
+  <%= f.input :starts_on, :required => true %>
+  <%= f.input :ends_on %>
   <%= f.input :locked %>
 
   <%= remove_link_unless_new_record(f) -%>

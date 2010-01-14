@@ -1,4 +1,6 @@
 class Post < ActiveRecord::Base
+  include Pacecar::Limit
+  
   attr_accessible :school_id, :title, :body, :active, :published_at
   
   belongs_to :school
@@ -7,8 +9,10 @@ class Post < ActiveRecord::Base
   validates_existence_of :school
   validates_presence_of :title, :body
   
-  named_scope :published, :conditions => [ 'published_at < ? and active = ?', Time.zone.now, true]
-  
+  named_scope :published, 
+          :conditions => [ 'posts.published_at < ? and posts.active = ?', Time.zone.now, true], 
+          :order => "posts.published_at desc"
+        
   cattr_reader :per_page
   @@per_page = 10
 

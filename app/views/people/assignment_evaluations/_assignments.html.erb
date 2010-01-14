@@ -16,7 +16,7 @@
       <% student_assignments.each do |student_assignment| %>
       <tr class="<%= cycle('odd', 'even') %>">
         <td><%= student_assignment.enrollment.course_term.code %></td>
-        <td><%= link_to student_assignment.assignment.name, student_assignment.assignment %> (<%= student_assignment.assignment.assignment_category.name %>)</td>        
+        <td><%= link_to_unless current_user.person.class.name == 'Student', student_assignment.assignment.name, student_assignment.assignment %> (<%= student_assignment.assignment.assignment_category.name %>)</td>        
         <td><%= student_assignment.assignment.due_date_formatted %></td>
         <td><%= "#{student_assignment.points_earned} / #{student_assignment.assignment.possible_points}" %></td>       
         <td><%= "#{(student_assignment.points_earned_as_number / student_assignment.assignment.possible_points).round(2)*100} %" %>

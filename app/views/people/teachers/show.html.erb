@@ -22,7 +22,7 @@
 
 <h3>Teaching:</h3>
 <% @teacher.course_terms.each do |co| %>
-  <h3><%= link_to co.code, co %> <small>(<%= co.school_year.name %>)</small></h3>
+  <h3><%= link_to co.code, co %> <small>(<%= co.catalog.name %>)</small></h3>
   <% if co.enrollments.empty? %>  
     <p class="error">No enrolled students</p>  
   <% else %>

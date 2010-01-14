@@ -63,7 +63,7 @@ class CreateEdu < ActiveRecord::Migration
 
     create_table :course_terms, :force => true do |t|
       t.integer :school_id, :null => false
-      t.integer  :school_year_id, :null => false
+      t.integer  :catalog_id, :null => false
       t.integer  :course_id, :null => false
       t.string   :code            
       t.integer  :teacher_id
@@ -78,7 +78,7 @@ class CreateEdu < ActiveRecord::Migration
     add_index :course_terms, [:code]
     add_index :course_terms, [:course_id]
     add_index :course_terms, [:room_id]
-    add_index :course_terms, [:school_year_id]
+    add_index :course_terms, [:catalog_id]
     add_index :course_terms, [:school_id, :code], :unique => true
     add_index :course_terms, [:grading_scale_id]
 
@@ -92,24 +92,29 @@ class CreateEdu < ActiveRecord::Migration
     add_index :courses, [:school_id]
     add_index :courses, [:school_id, :code], :unique => true    
 
-    create_table :date_ranges, :force => true do |t|
+    create_table :catalogs, :force => true do |t|
       t.integer :school_id, :null => false
-      t.string   :type
       t.string   :name
       t.string   :description
-      t.date     :begin_date
-      t.date     :end_date
-      t.integer  :school_year_id
       t.boolean  :locked, :default => false
       t.timestamps
-      
     end
     
-    add_index :date_ranges, [:school_id]
-    add_index :date_ranges, [:school_year_id]
+    add_index :catalogs, [:school_id]
+    
+    create_table :catalog_terms, :force => true do |t|
+      t.integer  :catalog_id, :null => false
+      t.string   :name
+      t.date     :starts_on
+      t.date     :ends_on      
+      t.boolean  :locked, :default => false
+      t.timestamps      
+    end    
+    
+    add_index :catalog_terms, [:catalog_id]
+    add_index :catalog_terms, [:starts_on]
 
     create_table :enrollments, :force => true do |t|
-      t.integer :school_id, :null => false
       t.integer  :student_id, :null => false
       t.integer   :course_term_id, :null => false
       t.integer :course_id
@@ -120,7 +125,6 @@ class CreateEdu < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :enrollments, [:school_id]
     add_index :enrollments, [:course_id]
     add_index :enrollments, [:course_term_id]
     add_index :enrollments, [:student_id]

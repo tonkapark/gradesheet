@@ -83,6 +83,9 @@
     <div class='main'>   
       <div id="content">
         <div class="<%= @content_css %>">
+          <% unless @breadcrumbs.blank? %>
+            <ul class="breadcrumbs"><%= breadcrumbs %></ul>
+          <% end %>
           <%- if show_title? -%>
             <div class="title">
               <h2><%=h yield(:title) %></h2>

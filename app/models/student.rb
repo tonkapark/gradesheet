@@ -3,9 +3,7 @@ class Student < Person
   has_many	:course_terms, :through => :enrollments
 	has_many	:assignment_evaluations
   has_many :assignments, :through => :assignment_evaluations
-  has_many :objective_evaluations
-  has_many :course_term_skills,  :through => :objective_evaluations
-
+  
   has_one    :comment, :as => :commentable
 
   def current_course_terms

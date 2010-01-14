@@ -1,0 +1,36 @@
+<% title "School Catalogs" %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'settings/settings_list' %>
+<% end %>
+
+<p><%= link_to "New School Catalog", new_catalog_path %></p>
+
+
+<% @catalogs.each do |catalog| %>
+<div class="box">
+  <h3><%= link_to catalog.name, [:edit, catalog] %></h3>
+
+  <table class="master">
+    <thead>
+      <tr>
+        <th>Term Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Locked?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for term in catalog.catalog_terms.sort {|a,b| a.ends_on <=> b.ends_on} %>
+        <tr class="<%= cycle('odd', 'even')%>">
+          <%= content_tag :td, link_to(term.name, [:edit, catalog]) %>
+          <%= content_tag :td, term.starts_on %>
+          <%= content_tag :td, term.ends_on %>
+          <%= content_tag :td, ( check_box_tag :locked, term.locked, term.locked, :disabled => true ) %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% end %>
+

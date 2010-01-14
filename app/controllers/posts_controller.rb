@@ -1,8 +1,12 @@
 class PostsController < GradesheetController
+  
+  add_breadcrumb 'News', :posts_path
   before_filter :find_post, :only => [:show, :edit, :update, :destroy]
+  add_breadcrumb 'New', :new_post_path, :only => [:new, :create]
+  add_breadcrumb 'Edit', :edit_post_path, :only => [:edit, :update]   
   
   def index
-    @posts = current_user.school.posts.paginate :page => params[:page]
+    @posts = current_user.school.posts.published.paginate :page => params[:page]
   end
   
   def show

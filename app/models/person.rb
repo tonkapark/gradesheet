@@ -70,6 +70,11 @@ class Person < ActiveRecord::Base
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end      
   
+  def self.by_code(lookup)
+    find(:first, :conditions => ["(id = ? or code = ?)", lookup.to_i, lookup])
+  end
+  
+  
 protected
 
   def upcase_code

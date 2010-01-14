@@ -1,7 +1,11 @@
 class Settings::BuildingsController < SettingsController
 
+  add_breadcrumb 'Buildings', :buildings_path
   before_filter :find_building, :except => [:index, :new, :create]
   before_filter :load_sites, :only => [:index, :new, :edit]
+  add_breadcrumb 'New', :new_building_path, :only => [:new, :create]
+  add_breadcrumb 'Edit', :edit_building_path, :only => [:edit, :update]   
+  
 
   def index
     @buildings = current_user.school.buildings.all
@@ -49,10 +53,11 @@ class Settings::BuildingsController < SettingsController
 protected 
   def find_building
     @building = current_user.school.buildings.find(params[:id])
+    add_breadcrumb @building.name, :building_path
   end
   
   def load_sites
-    @sites = current_user.school.sites.find(:all)
+    @sites = current_user.school.sites.find(:all)    
   end
   
   

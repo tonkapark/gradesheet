@@ -1,5 +1,7 @@
+<% title "#{@student.full_name} > Schedule", false %>
 
-<h2>Student Schedule</h2>
-<h3><%= @student.full_name %></h3>
+<div class="title">
+  <h2>Schedule for <%= @student.full_name %></h2>
+</div>
 
-<%= render :partial => 'schedule', :locals => { :enrollments => @enrollments } %>
+<%= render :partial => 'schedule', :locals => { :student => @student, :enrollments => @enrollments } %>

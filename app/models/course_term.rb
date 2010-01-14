@@ -1,17 +1,17 @@
 # Links the course with each of its terms or grading periods.
 class CourseTerm < ActiveRecord::Base
-	
-  attr_accessible :school, :course_id, :code, :grading_scale_id, :school_year_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
+	include Pacecar::Limit
+  
+  attr_accessible :school, :course_id, :code, :grading_scale_id, :catalog_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
   
   belongs_to :school
   belongs_to :teacher
-  belongs_to  :school_year
+  belongs_to  :catalog
+  has_many :catalog_terms, :through => :catalog
 	belongs_to  :course
   belongs_to :room
   belongs_to  :grading_scale
   
-  has_many    :course_term_skills
-  has_many    :objectives,       :through => :course_term_skills
   has_many    :assignments
 	has_many    :assignment_evaluations,  :through => :assignments  
   has_many    :comments, :as => :commentable
@@ -19,8 +19,7 @@ class CourseTerm < ActiveRecord::Base
   has_many :enrollments
   accepts_nested_attributes_for :enrollments
   
-  validates_existence_of	:school
-	validates_existence_of	:school_year
+	validates_existence_of	:catalog
 	validates_existence_of	:course
   
   before_save :upcase_code
@@ -67,8 +66,14 @@ class CourseTerm < ActiveRecord::Base
      total_possible_points += a.possible_points
    end
    return total_possible_points
-  end   
+  end
+   
 
+  #~ #hack since has-many through fails with STI/Self-Referential joins
+  #~ #has_many :terms, :through => :school_year 
+  #~ def terms
+    #~ Term.find(:all, :conditions => ["date_ranges.school_year_id = ?",self.school_year_id])
+  #~ end  
 
   
 protected

@@ -17,8 +17,8 @@
       <% @course.course_terms.each do |co| %>
       <tr>
         <td><%= link_to co.code, co %></td>
-        <td><%= co.school_year.name %></td>
-        <td><%= co.school_year.terms.first.begin_date %></td>
+        <td><%= co.catalog.name %></td>
+        <td><%= co.catalog.starts_on %></td>
       </tr>
       <% end %>
     </tbody>
