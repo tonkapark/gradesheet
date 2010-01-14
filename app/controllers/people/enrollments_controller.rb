@@ -56,7 +56,7 @@ class People::EnrollmentsController < People::BaseController
   
   def destroy
     @enrollment.destroy
-    flash[:notice] = "Successfully destroyed student course offering."
+    flash[:notice] = "Successfully destroyed student course enrollment."
     redirect_to student_enrollments_url(@student)
   end
   

@@ -46,21 +46,7 @@ class CreateEdu < ActiveRecord::Migration
 
     add_index :buildings, [:school_id]
     add_index :buildings, [:site_id]
-
-    create_table :comments, :force => true do |t|
-      t.integer :school_id, :null => false
-      t.integer  :user_id
-      t.string   :commentable_id
-      t.string   :commentable_type
-      t.text     :content
-      t.boolean  :active
-      t.integer  :position
-      t.timestamps      
-    end
-
-    add_index :comments, [:school_id]
-    add_index :comments, [:user_id]
-
+    
     create_table :course_terms, :force => true do |t|
       t.integer :school_id, :null => false
       t.integer  :catalog_id, :null => false
@@ -223,10 +209,10 @@ class CreateEdu < ActiveRecord::Migration
     drop_table :assignment_evaluations
     drop_table :assignments
     drop_table :buildings
-    drop_table :comments
     drop_table :course_terms
     drop_table :courses
-    drop_table :date_ranges
+    drop_table :catalogs
+    drop_table :catalog_terms    
     drop_table :enrollments
     drop_table :grading_scales
     drop_table :people

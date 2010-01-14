@@ -25,9 +25,6 @@ ActionController::Routing::Routes.draw do |map|
     s.resources :buildings, :has_many => :rooms
   end
   map.resources :settings, :only => [:index]
-
-	# Build the standard routes  
-  map.resources :reports  
   
   map.resources :courses  
   map.resources :course_terms, :as => 'course_sections', :member => { :grades => :get, :post_grades => :put }, :has_many => :assignments, :shallow => true
