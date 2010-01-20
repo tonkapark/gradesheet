@@ -1,6 +1,54 @@
 <% title "#{Gradesheet[:site_name]} Dashboard" %>
 
-<h3>News</h3>
-<%= render :partial => 'posts/post', :collection => @posts %>
+<% content_for :sidebar do %>
 
-<%= will_paginate @posts %> 
+    <h3>News</h3>
+    <ul>
+      <% @posts.each do |post| %>
+        <li><%= link_to h(post.title), post %></li>
+      <% end %>
+    </ul>
+
+<% end %>
+
+<%= link_to "My Page", current_user.person %>
+
+
+<% unless @course_terms.empty? %>
+<div class="box">
+  <h3>Course Sections <small><%= link_to 'all', course_terms_path %></small></h3>
+  <ul>
+  <% @course_terms.each do |section| %>
+    <li><%= link_to section.code, section %></li>
+    <% section.catalog_terms.each do |t| %>
+      <%= t.name %> - Starts: <%= t.starts_on.strftime('%a, %d %b %Y') %> | Ends: <%= t.ends_on.strftime('%a, %d %b %Y') %><br/>
+    <% end %>
+    
+  <% end %>
+  </ul>
+</div>
+<% end %>
+
+<% if current_user.person.class.name == 'Student' %>
+  <h3>Schedule</h3>
+  <%= render :partial => 'people/enrollments/schedule', :locals => { :student => current_user.person, :enrollments => current_user.person.enrollments } %>
+<% end %>
+
+
+<div class="box">
+  <h3>Assignments <small><%= link_to 'all', assignments_path %></small></h3>
+  <% unless @assignments.empty? %>  
+    <% @assignments.each do |month, assignments| %>
+      <h3><%= month.strftime('%B %Y') %></h3>
+      <ul>
+        <% assignments.each do |a| %>          
+          <% if current_user.person.class.name == 'Teacher' %>
+            <li><%= link_to a.name, a %>, Due <%= a.due_date.strftime('%a, %d %b') %></li>
+          <% else %>
+            <li><%= a.name %></li>
+          <% end %>
+        <% end %>
+      </ul>  
+    <% end %>
+  <% end %>  
+</div>

@@ -1,6 +1,9 @@
 class Settings::AssignmentCategoriesController < SettingsController
 
+  add_breadcrumb 'Assignment Types', :assignment_categories_path
   before_filter :find_type, :only => [:show, :edit, :update, :destroy]
+  add_breadcrumb 'New', :new_assignment_category_path, :only => [:new, :create]
+  add_breadcrumb 'Edit', :edit_assignment_category_path, :only => [:edit, :update]   
 
   def index
     @types = current_user.school.assignment_categories.all
@@ -65,6 +68,7 @@ class Settings::AssignmentCategoriesController < SettingsController
 protected
   def find_type
     @type = current_user.school.assignment_categories.find(params[:id])
+    add_breadcrumb @type.name, :assignment_category_path
   end
   
 end

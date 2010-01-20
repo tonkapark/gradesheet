@@ -8,6 +8,7 @@
       <thead>
         <tr>
           <th>Section</th>
+          <%= content_tag :th, 'Instructor' unless current_user.person.class.name == 'Teacher' %>          
           <th>Assignment</th>
           <th>Type</th>
           <th>Due Date</th>

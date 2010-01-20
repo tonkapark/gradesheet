@@ -1,0 +1,9 @@
+<div class="catalog_term box">
+  <%= error_messages_for :term %>
+  <%= f.input :name, :label => 'Term Name', :required => true %>
+  <%= f.input :starts_on, :required => true %>
+  <%= f.input :ends_on %>
+  <%= f.input :locked %>
+
+  <%= remove_link_unless_new_record(f) -%>
+</div>

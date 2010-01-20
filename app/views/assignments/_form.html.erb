@@ -1,17 +1,15 @@
-<% stylesheet 'mycal', 'formtastic', 'styles/forms' %>
-<% javascript 'prototype', 'scal' %>
+<% stylesheet 'styles/jquery-ui-1.7.2.custom', 'formtastic', 'styles/forms' %>
+<% javascript 'http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js' %>
 
 
 <h3><%= assignment.name? ? "Editing: #{assignment.name}" : "New Assignment" %></h3>
 
 <% form.inputs do %>
+  <%= form.input :assignment_category, :required => true, :for => :assignment_categories %>
   <%= form.input :name, :label => 'Name', :required => true %>
   <%= form.input :possible_points, :label => 'Possible points', :required => true %>
-  <%= form.input :due_date, :as => :hidden, :required => true %>
-  <span id='due_date' class='scal tinyscal'></span>
-  <input id='default_due_date' type='hidden' value='<%= assignment.due_date? ? assignment.due_date.to_s(:long) : DateTime.now.to_s(:long) %>' />
-  
-  <%= form.input :assignment_category, :required => true, :for => :assignment_categories %>
+  <%= form.input :due_date, :as => :string, :required => true, :input_html => {:class => 'datepicker'}%>
+    
 <% end %>
 
 <% form.buttons do %>
@@ -19,14 +17,17 @@
 <% end %>
 
 
-<% content_for :page_footer do %>
+<% content_for :head do %>
+
+
   <% javascript_tag do %>
-    function updateDueDate(d) {
-      // Convert this date to a valid timestamp and push it into the assignment due date
-      $('assignment_due_date').value = d.format('yyyy-mm-dd 00:00:01');
-    }
-    due_date = new scal('due_date', updateDueDate, {closebutton: ''});
-    default_due_date = new Date ($('default_due_date').readAttribute('value'));
-    due_date.setCurrentDate(default_due_date);
+  
+	$(function() {
+		$('.datepicker').datepicker({
+			numberOfMonths: 3,
+			showButtonPanel: true
+		});
+	});
+  
   <% end %>
 <% end %>

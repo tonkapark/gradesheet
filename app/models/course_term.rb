@@ -1,17 +1,17 @@
 # Links the course with each of its terms or grading periods.
 class CourseTerm < ActiveRecord::Base
-	
-  attr_accessible :school, :course_id, :code, :grading_scale_id, :term_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
+	include Pacecar::Limit
+  
+  attr_accessible :school, :course_id, :code, :grading_scale_id, :catalog_id, :enrollments_count, :teacher_id, :enrollments_attributes, :room_id, :seats
   
   belongs_to :school
   belongs_to :teacher
-  belongs_to  :term
+  belongs_to  :catalog
+  has_many :catalog_terms, :through => :catalog
 	belongs_to  :course
   belongs_to :room
   belongs_to  :grading_scale
   
-  has_many    :course_term_skills
-  has_many    :objectives,       :through => :course_term_skills
   has_many    :assignments
 	has_many    :assignment_evaluations,  :through => :assignments  
   has_many    :comments, :as => :commentable
@@ -19,34 +19,18 @@ class CourseTerm < ActiveRecord::Base
   has_many :enrollments
   accepts_nested_attributes_for :enrollments
   
-	validates_existence_of	:term
+	validates_existence_of	:catalog
 	validates_existence_of	:course
-  validates_existence_of	:teacher
-	validates_existence_of :grading_scale
   
   before_save :upcase_code
   validates_length_of :code, :in => 3..35
   validates_format_of :code, :with => /^[\w\/\-\.]+$/,
                               :message => "cannot contain certain special characters or spaces. Valid(a-z, 0-9, / . -)"
-  validates_uniqueness_of :code ,:scope => [:school_id, :course_id, :term_id]
-  validates_numericality_of :seats, :greater_than => 0
+  validates_uniqueness_of :code ,:scope => :school_id
+  validates_numericality_of :seats, :greater_than => 0, :allow_blank => true
   validate :student_limit
 
-  delegate :school_year,    :to => :term
-  delegate :active,         :to => :term  
   delegate :students,       :to => :enrollment
-  
-  # Sections are considered 'active' only if they are in a grading term that is 'active'.
-  named_scope :active, :include => :terms,
-    :conditions	=> ["date_ranges.active = ?", true],
-    :order => ["courses.name ASC"]
-
-  # Find all the sections for a particular school year
-  named_scope :by_school_year, lambda { |*school_year| 
-    { :include => :terms,
-      :conditions => ["date_ranges.school_year_id = ?", school_year ||= SchoolYear.current]
-    }
-  }  
   
   #will_paginate defaults
   cattr_reader :per_page
@@ -75,12 +59,6 @@ class CourseTerm < ActiveRecord::Base
 
     return {:letter => letter_grade, :score => final_score }
   end
-
-  # Retrieve comments for a student in this course term
-  def comments(student_id)
-    comment = Comment.find_by_user_id_and_commentable_id(student_id, self.id.to_s)
-    return comment ? comment.content : ''
-  end
   
   def total_possible_points
     total_possible_points = 0
@@ -88,8 +66,14 @@ class CourseTerm < ActiveRecord::Base
      total_possible_points += a.possible_points
    end
    return total_possible_points
-  end   
+  end
+   
 
+  #~ #hack since has-many through fails with STI/Self-Referential joins
+  #~ #has_many :terms, :through => :school_year 
+  #~ def terms
+    #~ Term.find(:all, :conditions => ["date_ranges.school_year_id = ?",self.school_year_id])
+  #~ end  
 
   
 protected

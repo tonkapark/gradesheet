@@ -1,0 +1,7 @@
+<% title "New School Year" %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'settings/settings_list' %>
+<% end %>
+
+<%= render :partial => "form", :locals => { :catalog => @catalog, :button_name => 'Create Year' } %>

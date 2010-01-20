@@ -1,20 +1,22 @@
-<% title "Room" %>
+<% title "Room: #{h @room.name }" %>
 
-<p>
-  <strong>Building:</strong>
-  <%=h @room.building.name %>
-</p>
-<p>
-  <strong>Name:</strong>
-  <%=h @room.name %>
-</p>
-<p>
-  <strong>Capacity:</strong>
-  <%=h @room.seats %>
-</p>
+<% content_for :sidebar do %>
+  <%= render :partial => 'settings/settings_list' %>
+<% end %>
 
-<p>
-  <%= link_to "Edit", [:edit, @building, @room] %> |
-  <%= link_to "Destroy", [@building, @room], :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", building_rooms_path(@building) %>
-</p>
+<div class="box">
+  <p>
+    <strong>Building:</strong>
+    <%=h @room.building.name %>
+  </p>
+  <p>
+    <strong>Capacity:</strong>
+    <%=h @room.seats %>
+  </p>
+  
+  <p>
+    <%= link_to "Edit", [:edit, @building, @room] %> |
+    <%= link_to "Destroy", [@building, @room], :confirm => 'Are you sure?', :method => :delete %> |
+    <%= link_to "View All", building_rooms_path(@building) %>
+  </p>
+</div>

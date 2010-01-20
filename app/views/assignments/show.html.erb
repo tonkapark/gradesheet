@@ -33,8 +33,7 @@
     </thead>
     <tbody>
       <% f.fields_for :assignment_evaluations do |e| %>
-        <%= e.hidden_field :enrollment_id %>
-        <%= e.hidden_field :student_id %>          
+        <%= e.hidden_field :enrollment_id %>    
         <%= e.hidden_field :school_id %>                    
         <tr class="<%= cycle('odd', 'even') %>">
           <td><%= e.object.enrollment.student.full_name %></td>

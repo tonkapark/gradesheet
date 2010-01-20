@@ -1,6 +1,9 @@
 class Settings::SitesController < SettingsController
   
+  add_breadcrumb 'Campus Sites', :sites_path  
   before_filter :find_site, :only => [:show, :edit, :update, :destroy]
+  add_breadcrumb 'New', :new_site_path, :only => [:new, :create]
+  add_breadcrumb 'Edit', :edit_site_path, :only => [:edit, :update]     
   
   def index
     @sites = current_user.school.sites.all
@@ -62,5 +65,6 @@ class Settings::SitesController < SettingsController
 protected
   def find_site
     @site = current_user.school.sites.find(params[:id])
+    add_breadcrumb @site.name, nil
   end
 end

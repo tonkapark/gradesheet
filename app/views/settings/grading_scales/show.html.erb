@@ -13,12 +13,11 @@
       <th>Max Score</th>
       <th>Letter Grade</th>
       <th>Description</th>
-      <th></th>
     </thead>
     <tbody>
       <% @scale.scale_ranges.each do |range| %>
       <tr>        
-        <%= render :partial => 'scale_range', :locals => { :range => range} %>
+        <%= render :partial => 'scale_range_row', :locals => { :range => range} %>
       </tr>
       <% end %>
     </tbody>

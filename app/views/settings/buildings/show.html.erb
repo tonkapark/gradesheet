@@ -1,20 +1,26 @@
-<% title "Building" %>
+<% title "Building: #{h @building.name}" %>
 
-<p>
-  <strong>Site:</strong>
-  <%=h @building.site_id %>
-</p>
-<p>
-  <strong>Name:</strong>
-  <%=h @building.name %>
-</p>
-<p>
-  <strong>Rooms Count:</strong>
-  <%=h @building.rooms_count %>
-</p>
+<% content_for :sidebar do %>
+  <%= render :partial => 'settings/settings_list' %>
+<% end %>
 
-<p>
-  <%= link_to "Edit", edit_building_path(@building) %> |
-  <%= link_to "Destroy", @building, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", buildings_path %>
-</p>
+
+<div class="box">
+  <p>
+    <strong>Site:</strong>
+    <%=h @building.site.name %>
+  </p>
+  
+  <h3><%= pluralize @building.rooms_count, 'Room' %> <small><%= link_to "Add Room", new_building_room_path(@building) %></small></h3>
+  <ul>
+  <% @building.rooms.each do |room| %>
+    <li><%= link_to room.name, [@building, room] %> (<%= room.seats %>)</li>
+  <% end %>
+  </ul>  
+  
+  <p>
+    <%= link_to "Edit", edit_building_path(@building) %> |
+    <%= link_to "Destroy", @building, :confirm => 'Are you sure?', :method => :delete %> |
+    <%= link_to "View All", buildings_path %>
+  </p>
+</div>

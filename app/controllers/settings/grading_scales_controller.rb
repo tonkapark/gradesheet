@@ -1,7 +1,10 @@
 class Settings::GradingScalesController < SettingsController
- 
+  
+  add_breadcrumb 'Grade Scales', :grading_scales_path
   before_filter :find_scale, :only => [:show, :edit, :update, :destroy]
-
+  add_breadcrumb 'New', :new_grading_scale_path, :only => [:new, :create]
+  add_breadcrumb 'Edit', :edit_grading_scale_path, :only => [:edit, :update]   
+  
   def index
     @scales = current_user.school.grading_scales.find(:all)
   end
@@ -53,6 +56,7 @@ class Settings::GradingScalesController < SettingsController
 protected
   def find_scale
     @scale = current_user.school.grading_scales.find(params[:id])
+    add_breadcrumb @scale.name, :grading_scale_path
   end
   
 end

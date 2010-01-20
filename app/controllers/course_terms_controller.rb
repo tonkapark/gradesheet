@@ -1,7 +1,10 @@
 class CourseTermsController < GradesheetController
    
+   add_breadcrumb 'Courses Sections', :course_terms_path
    before_filter :find_course_term, :except => [:index, :new, :create]
    before_filter :find_grade_scales, :only => [:edit, :new]
+  add_breadcrumb 'New', :new_course_term_path, :only => [:new, :create]
+  add_breadcrumb 'Edit', :edit_course_term_path, :only => [:edit, :update]     
    
   def index    
     @course_terms = current_user.person.course_terms.paginate :page => params[:page] unless current_user.admin?
@@ -12,7 +15,7 @@ class CourseTermsController < GradesheetController
   end
   
   def show
-
+    @assignment_months = @course_term.assignments.month_group
   end
   
   def new
@@ -57,7 +60,7 @@ class CourseTermsController < GradesheetController
   end
 
   def grades
-    
+    add_breadcrumb 'Gradebook', :grades_course_term_path
   end
   
   def post_grades
@@ -73,6 +76,7 @@ class CourseTermsController < GradesheetController
 protected
   def find_course_term
     @course_term = current_user.school.course_terms.find(params[:id])
+    add_breadcrumb @course_term.code, :course_term_path
   end
   
   def find_grade_scales

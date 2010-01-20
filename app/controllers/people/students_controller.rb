@@ -1,6 +1,9 @@
 class People::StudentsController < People::BaseController
 
+  add_breadcrumb 'Students', :students_path
   before_filter :find_student, :except => [:index, :new, :create]
+  add_breadcrumb 'New', :new_student_path, :only => [:new, :create]
+  add_breadcrumb 'Edit', :edit_student_path, :only => [:edit, :update]  
   
   def index  
   
@@ -13,6 +16,7 @@ class People::StudentsController < People::BaseController
   end
   
   def show
+    
   end
   
   def new
@@ -49,7 +53,8 @@ class People::StudentsController < People::BaseController
   
 protected
   def find_student
-    @student = current_user.school.students.find(:first, :conditions => ["(id = ? or code = ?)", params[:id].to_i, params[:id]])
+    @student = current_user.school.students.by_code(params[:id])
+    add_breadcrumb @student.full_name, :student_path
   end
     
 end

@@ -11,7 +11,6 @@ class ApplicationController < ActionController::Base
  
   filter_parameter_logging  :password, :password_confirmation
    
- 
   ## Declare exception to handler methods
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 #  rescue_from NoMethodError, :with => :show_error
@@ -23,5 +22,5 @@ class ApplicationController < ActionController::Base
   
   def show_error(exception); render :text => exception.message; end
  
-  
+
 end

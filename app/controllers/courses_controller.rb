@@ -1,7 +1,9 @@
 class CoursesController < GradesheetController
 
-  before_filter :find_course, :only => [:show, :edit, :update]  
-  after_filter :expire_cache, :only => [:create, :update, :destroy]
+  add_breadcrumb 'Courses', :courses_path  
+  before_filter :find_course, :only => [:show, :edit, :update]    
+  add_breadcrumb 'New', :new_course_path, :only => [:new, :create]
+  add_breadcrumb 'Edit', :edit_course_path, :only => [:edit, :update]  
 
   def index
     @courses = current_user.school.courses.paginate :page => params[:page]
@@ -11,8 +13,7 @@ class CoursesController < GradesheetController
     @course = current_user.school.courses.new
   end
 
-  def edit        
-    @skill_cats = current_user.school.topics.active
+  def edit            
   end
 
   def create
@@ -47,15 +48,7 @@ class CoursesController < GradesheetController
 protected
   def find_course
     @course = current_user.school.courses.find(params[:id])
+    add_breadcrumb @course.code, :course_path
   end
       
-  private
-
-  def expire_cache
-    # Expire this users cache
-    # OPTIMIZE: The way I understand it, manually coding these expires is more
-    #           efficient than using a RegEx.
-    expire_fragment "course_list_#{current_user.id}_assignments"
-    expire_fragment "course_list_#{current_user.id}_evaluations"
-  end
 end

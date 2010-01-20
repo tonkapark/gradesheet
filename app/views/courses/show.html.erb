@@ -11,14 +11,14 @@
     <thead>
       <th>Section</th>
       <th>School Year</th>
-      <th>Grading Period</th>    
+      <th>Start Date</th>    
     </thead>
     <tbody>
       <% @course.course_terms.each do |co| %>
       <tr>
         <td><%= link_to co.code, co %></td>
-        <td><%= co.school_year.name %></td>
-        <td><%= co.term.name %></td>
+        <td><%= co.catalog.name %></td>
+        <td><%= co.catalog.starts_on %></td>
       </tr>
       <% end %>
     </tbody>

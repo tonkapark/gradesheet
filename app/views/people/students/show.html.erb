@@ -18,8 +18,8 @@
 <% end %>
 
 
-<h3>Schedule</h3>
-<%= render :partial => 'people/enrollments/schedule', :locals => { :enrollments => @student.enrollments } %>
+<h3>Schedule <small><%= link_to 'view', student_enrollments_path(@student) %></small></h3>
+<%= render :partial => 'people/enrollments/schedule', :locals => { :student => @student, :enrollments => @student.enrollments } %>
 
 <h3>Assignments</h3>
 <%= render :partial => 'people/assignment_evaluations/assignments', :locals => { :student_assignments => @student.assignment_evaluations } %>

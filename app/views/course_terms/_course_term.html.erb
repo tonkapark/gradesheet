@@ -1,7 +1,7 @@
 <tr class="<%= cycle('odd', 'even') %>">
   <td><%= link_to course_term.code, course_term %></td>
   <td><%= "#{course_term.course.name} (#{course_term.course.code})" %> </td>
-  <%= content_tag :td, "#{course_term.teacher.full_name} (#{course_term.teacher.code})" unless role == 'Teacher' || role == 'TeacherAssistant' %>
-  <td><%= course_term.term.name %> <%= "(#{course_term.term.begin_date} to #{course_term.term.end_date})" %></td>      
+  <%= content_tag :td, "#{course_term.teacher.full_name} (#{course_term.teacher.code})" %>
+  <td><%= course_term.catalog.name %> </td>      
   <td><%= course_term.enrollments.size %></td>            
 </tr>

@@ -40,12 +40,11 @@
           <ul>
             <%= nav_link :root, :label => 'home', :match_path => :root %>
             <% if signed_in? %>
-              <%= nav_link :people %>
+              <%= nav_link :people, :students, :administrators, :teachers %>
               <%= nav_link :courses %>
               <%= nav_link :course_terms, :label => 'course sections' %>
               <%= nav_link :assignments, :assignment_evaluations %>
-              <%= nav_link :reports %>
-              <%= nav_link :settings, :imports, :sites, :buildings, :rooms, :topics, :assignment_categories, :terms, :grading_scales %>
+              <%= nav_link :settings, :imports, :sites, :buildings, :rooms, :assignment_categories, :catalogs, :grading_scales %>
             <% else %>
               <%= nav_link :sign_in %>
             <% end %>
@@ -73,7 +72,9 @@
     <% unless flash.empty? %>
     <div id='flash' class="main">
       <div class='g960'>
-        <%= show_flash %>
+        <% flash.each do |name, msg| %>
+          <%= content_tag :div, msg, :class => "#{name}"  %>
+        <% end %>
       </div>
     </div>
     <% end %>
@@ -83,6 +84,9 @@
     <div class='main'>   
       <div id="content">
         <div class="<%= @content_css %>">
+          <% unless @breadcrumbs.blank? %>
+            <ul class="breadcrumbs"><%= breadcrumbs %></ul>
+          <% end %>
           <%- if show_title? -%>
             <div class="title">
               <h2><%=h yield(:title) %></h2>
@@ -113,7 +117,6 @@
             <%= link_to "Courses", courses_path %> |
             <%= link_to "Course Sections", course_terms_path %> | 
             <%= link_to "Assignments", assignments_path %> |
-            <%= link_to "Reports", reports_path %> |
             <%= link_to "Settings", settings_path %>
           <% end %>
         </p>        

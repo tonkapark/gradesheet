@@ -21,9 +21,9 @@ small {font-size: 11px}
 .right { float: right; }
 .center { text-align: center; }
 
-#notice {background: #FFFBCC; border: 1px solid #E6DB55; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
-#succeed {background: #D1ECB8; border: 1px solid #81C445; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
-#error {background: #FFEBE8; border: 1px solid #F0BAA2; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
+.warning, .notice {background: #FFFBCC; border: 1px solid #E6DB55; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
+.success {background: #D1ECB8; border: 1px solid #81C445; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
+.error {background: #FFEBE8; border: 1px solid #F0BAA2; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
 
 
 /* Header */
@@ -127,11 +127,19 @@ small {font-size: 11px}
 
 .whitebar {height: 5px; background: #fff; border-bottom: 1px solid #d6d6d6; padding-bottom: 5px;}
 
+
+ul.breadcrumbs {list-style-type:none}
+ul.breadcrumbs li {display: inline}
+
+
 /* ------------------------------------------------------------------ */
 /* CONTENT SECTION */
 /* ------------------------------------------------------------------ */
 
 .box {background: #fff; border: 1px solid #E8E8E8; margin: 0px 0px 20px; padding: 15px 15px 0px; position: relative; }	
+
+.header {background: #ddd; margin: 0px 0px 5px; padding: 13px 30px 13px 24px;}
+.header h1 {color: black; font-size: 14px; margin: 0px; padding: 0px;}
 
 /* ------------------------------------------------------------------ */
 /* PAGINATION */

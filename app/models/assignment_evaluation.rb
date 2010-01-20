@@ -11,11 +11,13 @@ class AssignmentEvaluation < ActiveRecord::Base
 	validates_existence_of :enrollment
 	validates_existence_of :assignment
   validates_uniqueness_of :enrollment_id, :scope => :assignment_id
-  # TODO: make sure there can only be one grade per student/assignment
-  #	validates_uniqueness_of :student_id, :scope => [:assignment_id]
-  #	validates_uniqueness_of :assignment_id, :scope => [:student_id]
-
-	validates_numericality_of	:points_earned, :allow_nil => :true, :greater_than_or_equal_to => 0.0, :unless => :valid_points?, :message => 'must be 0 or greater, or (E)xcused or (M)issed.'
+ # validates_uniqueness_of :student_id, :scope => [:assignment_id]
+  #validate :points_limit
+	validates_numericality_of	:points_earned, 
+              :allow_blank => :true, 
+              :greater_than_or_equal_to => 0.0,               
+              :unless => :valid_points?, 
+              :message => 'must be 0 or greater, or (E)xcused or (M)issed.'
 
   # Calculate the points earned based on the presence of 'magic' characters
   def points_earned_as_number
@@ -57,13 +59,16 @@ class AssignmentEvaluation < ActiveRecord::Base
     WHERE
       a.id = ?" , assignment_id]
   end  
-  
+
 protected
   
   def update_enrollment_points_earned
     self.enrollment.total_points_earned!
   end
       
+  def points_limit    
+    errors.add_to_base("Points Earned must be less than or equal to total possible points.")  unless self.assignment.possible_points >= self.points_earned.to_f    
+  end      
   
 private
   
@@ -73,8 +78,7 @@ private
 	# * 'E' = Excused assignment (assignment is not counted)
 	# * 'M' = Missing assignment (student gets no credit)
 	def valid_points?
-	  ['E', 'M'].include?(self.points_earned) ||
-      (points_earned.is_a?(Numeric) && (points_earned.to_f == points_earned.to_f.abs))
+	  ['E', 'M'].include?(self.points_earned) || (points_earned.is_a?(Numeric) && (points_earned.to_f == points_earned.to_f.abs))
 	end
 
   def massage_points_earned

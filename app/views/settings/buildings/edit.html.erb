@@ -2,3 +2,6 @@
 
 <%= render :partial => 'form', :locals => {:building => @building, :sites => @sites} %>
 
+<% content_for :sidebar do %>
+  <%= render :partial => 'settings/settings_list' %>
+<% end %>

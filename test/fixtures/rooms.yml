@@ -1,9 +1,0 @@
-one:
-  building_id: 1
-  name: MyString
-  seats: 1
-
-two:
-  building_id: 1
-  name: MyString
-  seats: 1

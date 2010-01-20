@@ -3,6 +3,7 @@ class Site < ActiveRecord::Base
 
 	belongs_to :school
   has_many :buildings
+  has_many :rooms, :through => :buildings
 	
 	validates_size_of        :name, :within => 1..40
   validates_uniqueness_of  :name, :case_sensitive => false

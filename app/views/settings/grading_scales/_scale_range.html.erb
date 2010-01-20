@@ -1,7 +1,24 @@
-   
-<td><%= range.min_score %></td>
-<td><%= range.max_score %></td>
-<td><%= range.letter_grade %>   </td>
-<td><%= range.description %></td>
+<div class='scale_range'>
+  <table>
+    <thead>
+      <th>Min Score</th>
+      <th>Max Score</th>
+      <th>Letter Grade</th>
+      <th>Description</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr>
+      <% f.inputs do %>
+        <td><%= f.input :min_score, :label => false, :input_html => {:size => '4'}  %></td>
+        <td><%= f.input :max_score, :label => false, :input_html => {:size => '4'}  %></td>
+        <td><%= f.input :letter_grade, :required => true, :label => false, :input_html => {:size => '4'}  %>   </td>
+        <td><%= f.input :description, :label => false %></td>
+      <% end %>
+        <td><%= remove_link_unless_new_record(f) -%></td>
+      </tr>
+    </tbody>
+  </table>    
+</div>
 
 
