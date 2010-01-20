@@ -4,7 +4,6 @@ tmp/*
 rdoc
 coverage.data
 coverage/*
-database.yml
 *.sqlite
 *.sqlite3
 *.autosave
@@ -14,7 +13,5 @@ doc/app_horo
 doc/*.png
 .DS_Store
 .svn
-config/analytics.js
 nbproject/*
-vendor/plugins/prawn-format
-vendor/plugins/validates_date_time
+

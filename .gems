@@ -1,0 +1,4 @@
+clearance --version 0.8.4
+formtastic
+pacecar
+will_paginate --version '>= 2.3.11'
