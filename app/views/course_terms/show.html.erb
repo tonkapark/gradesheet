@@ -1,6 +1,74 @@
-<% title "Section: #{@course_term.code}" %>
 
-<div class="g640 inside">
+<% title "Sections > #{@course_term.code}", false %>
+
+<div class="g720 inside">
+  <div id="enrollments">
+    <h3><%= pluralize @course_term.enrollments.size, 'Enrolled Student' %> <small><%= link_to 'Gradebook', grades_course_term_path(@course_term) %></small></h3>
+    
+    <p>  
+    <% form_for Enrollment.new(:course_term_id => @course_term.id) do |f| %>
+      <%= f.error_messages %>
+      <%= f.hidden_field :course_term_id, :value => @course_term.id %>
+      <%= f.label :student, "Enroll Student" %>
+      <%= f.collection_select(:student_id, current_user.school.students.available_for_course_term(@course_term), :id, :full_name, {:include_blank => true})  %>
+      <%= f.submit "Submit", :name => nil %>
+    <% end %>      
+    </p>      
+      
+    <table>
+      <thead>
+        <th>Student</th>
+        <th>ID</th>
+        <th>Points</th>      
+        <th>Grade</th>     
+      </thead>    
+      <tbody>
+      <% @course_term.enrollments.each do |sco| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+          <td><%= sco.student.full_name %> </td>
+          <td><%= sco.student.code %> </td>          
+          <td><%= "#{sco.total_points_earned} / #{@course_term.total_possible_points}" %></td>
+          <td><%= sco.grade %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table> 
+        
+  </div>  
+    
+  
+  <div id="assignments" >  
+    <h3>Assignments</h3>
+    <p><%= link_to "New Assignment", new_course_term_assignment_path(@course_term) %></p>
+      <div id='assignment_list'>            
+        <table id='assignments'>
+          <thead>
+            <tr>
+              <th>Assignment</th>
+              <th>Due Date</th>
+              <th>Points</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @assignment_months.each do |month, assignments| %>
+            <tr style="background: #ddd"><td colspan='4'><%= month.strftime('%B %Y') %></td></tr>
+            <% assignments.each do |a| %>            
+              <tr class="<%= cycle('odd', 'even') %>">
+                <td><%= a.name %></td>
+                <td><%= a.due_date_formatted %></td>
+                <td><%= a.possible_points %></td>          
+                <td><%= link_to "scores", a %></td>
+              </tr>
+            <% end %>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+
+<div class="g240">
   <div class="box">
     <h3>Section Details</h3>
     <ul id="<%= dom_id @course_term %>">
@@ -12,70 +80,6 @@
       <li><strong>Open Seats:</strong> <%= "#{@course_term.seats - @course_term.enrollments.count} / #{@course_term.seats}" unless @course_term.seats.nil? %></li>      
     </ul>    
   </div>
-  
-  <div id="assignments">  
-    <h3>Assignments</h3>
-    <p><%= link_to "New Assignment", new_course_term_assignment_path(@course_term) %></p>
-      <div id='assignment_list'>
-        <table id='assignments'>
-          <thead>
-            <tr>
-              <th>Assignment</th>
-              <th>Type</th>
-              <th>Due Date</th>
-              <th>Points</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-          <% @course_term.assignments.each do |a| %>
-            <tr class="<%= cycle('odd', 'even') %>">
-              <td><%= a.name %></td>
-              <td><%= a.assignment_category.name %></td>
-              <td><%= a.due_date_formatted %></td>
-              <td><%= a.possible_points %></td>          
-              <td><%= link_to "scores", a %></td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
-  </div>
-
 </div>
 
-
-<div class="g320">
-  
-  <div>
-    <h3><%= pluralize @course_term.enrollments.size, 'Enrolled Student' %> <small><%= link_to 'Gradebook', grades_course_term_path(@course_term) %></small></h3>
-    <table>
-      <thead>
-        <th>Student</th>
-        <th>Total Points Earned</th>      
-        <th>Final Grade</th>
-      </thead>    
-      <tbody>
-      
-      <% @course_term.enrollments.each do |sco| %>
-        <tr class="<%= cycle('odd', 'even') %>">
-          <td><%= sco.student.full_name %> </td>
-          <td><%= "#{sco.total_points_earned} / #{@course_term.total_possible_points}" %></td>
-          <td><%= sco.grade %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>  
-
-    <% form_for Enrollment.new(:course_term_id => @course_term.id) do |f| %>
-      <%= f.error_messages %>
-      <%= f.hidden_field :course_term_id, :value => @course_term.id %>
-      <%= f.hidden_field :course_id, :value => @course_term.course_id %>  
-      <%= f.label :student, "Enroll Student" %>
-      <%= f.collection_select(:student_id, current_user.school.students.available_for_course_term(@course_term), :id, :full_name, {:include_blank => true})  %>
-      <%= f.submit "Submit", :name => nil %>
-    <% end %>  
-  </div>  
-
-</div>
 

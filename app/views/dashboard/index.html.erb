@@ -36,16 +36,19 @@
 
 
 <div class="box">
-  <h3>Recent Assignments <small><%= link_to 'all', assignments_path %></small></h3>
+  <h3>Assignments <small><%= link_to 'all', assignments_path %></small></h3>
   <% unless @assignments.empty? %>  
-    <ul>
-      <% @assignments.each do |a| %>    
-        <% if current_user.person.class.name == 'Teacher' %>
-          <li><%= link_to a.name, a %>, Due <%= a.due_date.strftime('%a, %d %b') %></li>
-        <% else %>
-          <li><%= a.name %></li>
+    <% @assignments.each do |month, assignments| %>
+      <h3><%= month.strftime('%B %Y') %></h3>
+      <ul>
+        <% assignments.each do |a| %>          
+          <% if current_user.person.class.name == 'Teacher' %>
+            <li><%= link_to a.name, a %>, Due <%= a.due_date.strftime('%a, %d %b') %></li>
+          <% else %>
+            <li><%= a.name %></li>
+          <% end %>
         <% end %>
-      <% end %>
-    </ul>  
+      </ul>  
+    <% end %>
   <% end %>  
 </div>

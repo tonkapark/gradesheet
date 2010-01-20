@@ -15,7 +15,7 @@ class CourseTermsController < GradesheetController
   end
   
   def show
-
+    @assignment_months = @course_term.assignments.month_group
   end
   
   def new

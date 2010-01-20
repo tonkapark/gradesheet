@@ -21,8 +21,8 @@ small {font-size: 11px}
 .right { float: right; }
 .center { text-align: center; }
 
-.notice {background: #FFFBCC; border: 1px solid #E6DB55; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
-.succeed {background: #D1ECB8; border: 1px solid #81C445; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
+.warning, .notice {background: #FFFBCC; border: 1px solid #E6DB55; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
+.success {background: #D1ECB8; border: 1px solid #81C445; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
 .error {background: #FFEBE8; border: 1px solid #F0BAA2; clear: both; color: #222; line-height: 25px; margin: 0px 0px 15px; padding: 0px 10px;}
 
 

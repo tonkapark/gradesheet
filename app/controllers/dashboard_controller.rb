@@ -7,10 +7,10 @@ class DashboardController < ApplicationController
     
     unless current_user.person.class.name == 'Administrator'
       @course_terms = current_user.person.course_terms.limited(5)
-      @assignments = current_user.person.assignments.timely.limited(5) 
+      @assignments = current_user.person.assignments.limited(15).month_group
     else
       @course_terms = current_user.school.course_terms.limited(5)
-      @assignments = current_user.school.assignments.timely.limited(5)       
+      @assignments = current_user.school.assignments.limited(15).month_group
     end
     
     

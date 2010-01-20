@@ -13,7 +13,6 @@ class CreateEdu < ActiveRecord::Migration
       t.integer :school_id, :null => false
       t.integer  :assignment_id, :null => false
       t.integer  :enrollment_id, :null => false
-      t.integer  :student_id
       t.string   :points_earned
       t.timestamps
     end
@@ -103,7 +102,6 @@ class CreateEdu < ActiveRecord::Migration
     create_table :enrollments, :force => true do |t|
       t.integer  :student_id, :null => false
       t.integer   :course_term_id, :null => false
-      t.integer :course_id
       t.string   :grade
       t.datetime :graded_at
       t.float    :total_points_earned, :default => 0.0      
@@ -111,7 +109,6 @@ class CreateEdu < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :enrollments, [:course_id]
     add_index :enrollments, [:course_term_id]
     add_index :enrollments, [:student_id]
     add_index :enrollments, [:course_term_id, :student_id], :unique => true

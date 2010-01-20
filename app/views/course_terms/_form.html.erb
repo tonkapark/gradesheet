@@ -2,21 +2,27 @@
 
 <div class="box">
   <% semantic_form_for course_term do |form| %> 
-    <%= form.error_messages %>
+    <%= form.error_messages %>   
+    
     <% form.inputs do %>
+    
+      <h3>Section Information</h3>   
       <% if course_term.new_record? %>
+        <%= form.input :course, :label => 'Course', :required => true, :collection => current_user.school.courses.all.collect {|r| [ r.name + ' (' + r.code + ')', r.id]} %>
         <%= form.input :code, :label => 'Section ID', :required => true %>
       <% else %>
+        <%= form.input :course, :label => 'Course', :input_html => { :disabled => true } %>
         <%= form.input :code, :label => 'Section ID', :input_html => { :disabled => true } %>
       <% end %>       
       
-      <%= form.input :course, :label => 'Course', :required => true, :collection => current_user.school.courses.all.collect {|r| [ r.name + ' (' + r.code + ')', r.id]} %>
+      <%= form.input :catalog, :label => 'School Year', :required => true, :collection => current_user.school.catalogs.all.collect {|r| [ r.name, r.id]} %>    
       
-      
+      <h3>Gradebook Setup</h3>
       <%= form.input :grading_scale, :collection => grading_scales, :required => true %>
       
-      <%= form.input :catalog, :label => 'School Year', :required => true, :collection => current_user.school.catalogs.all.collect {|r| [ r.name, r.id]} %>
+      <h3>Classroom Information</h3>
       <%= form.input :teacher, :label => 'Teacher', :collection => current_user.school.teachers.all.collect {|r| [ r.full_name , r.id]} %>
+      
       <%= form.input :room, :label => 'Room', :collection => current_user.school.rooms.collect {|r| [ r.building.name + '/' + r.name + ' (' + r.seats.to_s + ')', r.id]} %>
       <%= form.input :seats, :label => 'Seats' %>
     <% end %>

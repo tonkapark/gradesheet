@@ -40,7 +40,7 @@
           <ul>
             <%= nav_link :root, :label => 'home', :match_path => :root %>
             <% if signed_in? %>
-              <%= nav_link :people %>
+              <%= nav_link :people, :students, :administrators, :teachers %>
               <%= nav_link :courses %>
               <%= nav_link :course_terms, :label => 'course sections' %>
               <%= nav_link :assignments, :assignment_evaluations %>
@@ -72,7 +72,9 @@
     <% unless flash.empty? %>
     <div id='flash' class="main">
       <div class='g960'>
-        <%= show_flash %>
+        <% flash.each do |name, msg| %>
+          <%= content_tag :div, msg, :class => "#{name}"  %>
+        <% end %>
       </div>
     </div>
     <% end %>

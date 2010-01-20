@@ -8,7 +8,7 @@ class Assignment < ActiveRecord::Base
   belongs_to	:course_term
   belongs_to	:assignment_category
   has_many		:assignment_evaluations
-  has_many :enrollments, :through => :assignment_evaluations
+  has_many :enrollments, :through => :course_term
   
   accepts_nested_attributes_for :assignment_evaluations, :allow_destroy => true, :reject_if => proc { |a| a['points_earned'].blank? }
   
@@ -25,7 +25,10 @@ class Assignment < ActiveRecord::Base
     self.due_date_inside(10.days.ago, Time.now + 10.days)
   end
   
-  
+  def self.month_group
+    self.by_due_date.group_by { |t| t.due_date.beginning_of_month }
+  end
+    
   #will_paginate defaults
   cattr_reader :per_page
   @@per_page = 15      
@@ -63,7 +66,6 @@ class Assignment < ActiveRecord::Base
     return {:letter => letter_grade, :score => final_score, :desc => points_desc }
   end
   
-    
   
   private
   

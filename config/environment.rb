@@ -29,5 +29,8 @@ Rails::Initializer.run do |config|
   config.gem 'pacecar'
   
   config.time_zone = 'UTC'
+  
+  
+  config.active_record.observers = :enrollment_observer, :assignment_observer
 end
 
